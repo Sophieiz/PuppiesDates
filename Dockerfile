@@ -13,3 +13,4 @@ RUN ant clean dist
 FROM payara/server-full:6.2024.6-jdk17
 
 COPY --from=build "/app/Cafeteriatalleres insert 23-06-26/dist/"*.war $DEPLOY_DIR/ROOT.war
+# trigger redeploy
