@@ -250,7 +250,7 @@ public class CorreoUtil {
         return enviar(correoUsuario, asunto, html, "confirmacion reserva - usuario");
     }
 
-   ==
+   
 
     private static String limpiar(String valor) {
         if (valor == null) {
