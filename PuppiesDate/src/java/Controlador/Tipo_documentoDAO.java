@@ -14,7 +14,7 @@ public class Tipo_documentoDAO {
         boolean insertado = false;
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
-        String sql = "INSERT INTO tipo_documento (idTipo_documento, descripcion_doc) VALUES (?, ?)";
+        String sql = "INSERT INTO Tipo_documento (idTipo_documento, descripcion_doc) VALUES (?, ?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, documento.getidTipo_documento());
             ps.setString(2, documento.getdescripcion_doc());
@@ -32,7 +32,7 @@ public class Tipo_documentoDAO {
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try {
-            String sql = "SELECT idTipo_documento, descripcion_doc, solo_numeros FROM tipo_documento WHERE idTipo_documento = ?";
+            String sql = "SELECT idTipo_documento, descripcion_doc, solo_numeros FROM Tipo_documento WHERE idTipo_documento = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, idTipo_documento);
             ResultSet rs = ps.executeQuery();
@@ -51,7 +51,7 @@ public class Tipo_documentoDAO {
 
     public boolean actualizarTipoDocumento(Tipo_documento documento) throws SQLException {
         boolean actualizado = false;
-        String sql = "UPDATE tipo_documento SET descripcion_doc = ?, solo_numeros = ? WHERE idTipo_documento = ?";
+        String sql = "UPDATE Tipo_documento SET descripcion_doc = ?, solo_numeros = ? WHERE idTipo_documento = ?";
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -70,7 +70,7 @@ public class Tipo_documentoDAO {
 
     public boolean eliminarTipoDocumento(int id) throws SQLException {
         boolean eliminado = false;
-        String sql = "UPDATE tipo_documento SET activo = 0 WHERE idTipo_documento = ?";
+        String sql = "UPDATE Tipo_documento SET activo = 0 WHERE idTipo_documento = ?";
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -90,7 +90,7 @@ public class Tipo_documentoDAO {
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try {
-            String sql = "SELECT idTipo_documento, descripcion_doc FROM tipo_documento WHERE activo = 1";
+            String sql = "SELECT idTipo_documento, descripcion_doc FROM Tipo_documento WHERE activo = 1";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -110,7 +110,7 @@ public class Tipo_documentoDAO {
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try {
-            String sql = "SELECT idTipo_documento, descripcion_doc FROM tipo_documento WHERE activo = 0";
+            String sql = "SELECT idTipo_documento, descripcion_doc FROM Tipo_documento WHERE activo = 0";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -127,7 +127,7 @@ public class Tipo_documentoDAO {
 
     public boolean reactivarTipoDocumento(int id) {
         boolean reactivado = false;
-        String sql = "UPDATE tipo_documento SET activo = 1 WHERE idTipo_documento = ?";
+        String sql = "UPDATE Tipo_documento SET activo = 1 WHERE idTipo_documento = ?";
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
