@@ -1,5 +1,5 @@
-# ---- Etapa 1: Compilar el proyecto directo con javac (sin depender del harness de NetBeans/Ant) ----
-FROM payara/server-full:6.2024.6-jdk17 AS build
+# ---- Etapa 1: Compilar el proyecto con javac ----
+FROM tomcat:10.1-jdk17 AS build
 
 USER root
 WORKDIR /app
@@ -12,12 +12,15 @@ RUN set -e; \
     cp -r web/. build/; \
     find src/java -name "*.java" > /tmp/sources.txt; \
     javac -encoding UTF-8 \
-      -cp "web/WEB-INF/lib/*:/opt/payara/appserver/glassfish/modules/*" \
+      -cp "web/WEB-INF/lib/*:/usr/local/tomcat/lib/*" \
       -d build/WEB-INF/classes \
       @/tmp/sources.txt; \
     cd build && jar -cf ../dist/ROOT.war .
 
-# ---- Etapa 2: Payara WEB PROFILE (mucho mas liviano que server-full) ----
-FROM payara/server-web:6.2024.6-jdk17
+# ---- Etapa 2: Tomcat liviano ----
+FROM tomcat:10.1-jdk17-temurin-jammy
 
-COPY --from=build /app/PuppiesDate/dist/ROOT.war $DEPLOY_DIR/ROOT.war
+COPY --from=build /app/PuppiesDate/dist/ROOT.war /usr/local/tomcat/webapps/ROOT.war
+
+EXPOSE 8080
+CMD ["catalina.sh", "run"]
