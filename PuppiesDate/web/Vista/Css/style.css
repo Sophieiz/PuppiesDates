@@ -2153,47 +2153,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 }
 
 
-footer.footer-aesthetic {
-  width: 100% !important;
-  background-color: #ffffff !important; 
-  border-top: 3px solid #d47099; 
-  padding: 20px 0;
-  box-sizing: border-box;
-  clear: both;
-}
 
-
-.footer-minimal-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 0 15px;
-}
-
-
-.footer-minimal-nombre {
-  color: #d47099;
-  font-weight: bold;
-  font-size: 1.1rem;
-  margin: 8px 0 4px 0;
-}
-
-
-.footer-minimal-copy {
-  color: #d47099; 
-  font-size: 0.85rem;
-  margin: 0;
-}
-
-
-.footer-minimal-logo img {
-  max-height: 40px;
-  height: auto;
-}
 .logo-footer img {
     width: 70px;
     height: 70px;
