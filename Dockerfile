@@ -17,7 +17,7 @@ RUN set -e; \
       @/tmp/sources.txt; \
     cd build && jar -cf ../dist/ROOT.war .
 
-# ---- Etapa 2: Payara (GlassFish) para ejecutar el .war ----
-FROM payara/server-full:6.2024.6-jdk17
+# ---- Etapa 2: Payara WEB PROFILE (mucho mas liviano que server-full) ----
+FROM payara/server-web:6.2024.6-jdk17
 
 COPY --from=build /app/PuppiesDate/dist/ROOT.war $DEPLOY_DIR/ROOT.war
