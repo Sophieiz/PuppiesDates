@@ -1,6 +1,7 @@
-# ---- Etapa 1: Compilar el proyecto con Ant ----
-FROM eclipse-temurin:17-jdk AS build
+# ---- Etapa 1: Compilar el proyecto con Ant, usando Payara como fuente de las librerías Jakarta EE ----
+FROM payara/server-full:6.2024.6-jdk17 AS build
 
+USER root
 RUN apt-get update && apt-get install -y ant && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -8,7 +9,7 @@ COPY . .
 
 WORKDIR /app/PuppiesDate
 
-RUN ant clean dist
+RUN ant -Dj2ee.server.home=/opt/payara/appserver/glassfish clean dist
 
 # ---- Etapa 2: Payara (GlassFish) para ejecutar el .war ----
 FROM payara/server-full:6.2024.6-jdk17
