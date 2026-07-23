@@ -16,7 +16,7 @@ public class Estado_solicitudDAO {
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try {
-            String sql = "SELECT idEstado_solicitud, descripcion_estado FROM Estado_solicitud";
+            String sql = "SELECT idEstado_solicitud, descripcion_estado FROM estado_solicitud";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

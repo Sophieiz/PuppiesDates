@@ -46,7 +46,7 @@ public class PagosDAO {
         Connection con = conexion.getConn();
 
         try {
-            String querySQL = "SELECT idPagos, estado_pago FROM Pagos WHERE idPagos = ? ";
+            String querySQL = "SELECT idPagos, estado_pago FROM pagos WHERE idPagos = ? ";
 
             PreparedStatement ps = con.prepareStatement(querySQL);
             ps.setInt(1, idPagos);
@@ -104,12 +104,13 @@ public class PagosDAO {
         }
         return eliminado;
     }
-        public List<Pagos> listarPagos() {
+    
+    public List<Pagos> listarPagos() {
     List<Pagos> lista = new ArrayList<>();
     Conexion conexion = new Conexion();
     Connection con = conexion.getConn();
     try {
-        String sql = "SELECT idPagos, estado_pago FROM Pagos WHERE activo = 1";
+        String sql = "SELECT idPagos, estado_pago FROM pagos WHERE activo = 1";
         PreparedStatement ps = con.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
@@ -129,7 +130,7 @@ public class PagosDAO {
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try {
-            String sql = "SELECT idPagos, estado_pago FROM Pagos WHERE activo = 0";
+            String sql = "SELECT idPagos, estado_pago FROM pagos WHERE activo = 0";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

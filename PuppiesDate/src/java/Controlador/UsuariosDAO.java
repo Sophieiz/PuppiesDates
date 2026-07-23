@@ -53,7 +53,7 @@ public class UsuariosDAO {
         Connection con = conexion.getConn();
 
         try {
-            String querySQL = "SELECT idUsuarios, nombre, apellido, documento, telefono, correo, clave, fecha_nac, fecha_cad, checkbox, Tipo_documento_idTipo_documento, Roles_idRoles FROM Usuarios WHERE documento = ? ";
+            String querySQL = "SELECT idUsuarios, nombre, apellido, documento, telefono, correo, clave, fecha_nac, fecha_cad, checkbox, Tipo_documento_idTipo_documento, Roles_idRoles FROM usuarios WHERE documento = ? ";
             PreparedStatement ps = con.prepareStatement(querySQL);
             ps.setString(1, documento);
 
@@ -135,7 +135,7 @@ public class UsuariosDAO {
         List<Usuarios> lista = new ArrayList<>();
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
-        String sql = "SELECT idUsuarios, nombre, apellido, documento, telefono, correo, clave, fecha_nac, fecha_cad, checkbox, Tipo_documento_idTipo_documento, Roles_idRoles FROM Usuarios WHERE activo = 1";  
+        String sql = "SELECT idUsuarios, nombre, apellido, documento, telefono, correo, clave, fecha_nac, fecha_cad, checkbox, Tipo_documento_idTipo_documento, Roles_idRoles FROM usuarios WHERE activo = 1";  
 
         try (PreparedStatement ps = con.prepareStatement(sql)){
             ResultSet rs = ps.executeQuery();
@@ -168,7 +168,7 @@ public class UsuariosDAO {
         List<Usuarios> lista = new ArrayList<>();
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
-        String sql = "SELECT idUsuarios, nombre, apellido, documento, telefono, correo, clave, fecha_nac, fecha_cad, checkbox, Tipo_documento_idTipo_documento, Roles_idRoles FROM Usuarios WHERE activo = 0";
+        String sql = "SELECT idUsuarios, nombre, apellido, documento, telefono, correo, clave, fecha_nac, fecha_cad, checkbox, Tipo_documento_idTipo_documento, Roles_idRoles FROM usuarios WHERE activo = 0";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
@@ -215,7 +215,7 @@ public class UsuariosDAO {
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try {
-            String sql = "SELECT documento FROM Usuarios WHERE documento = ? AND checkbox = true";
+            String sql = "SELECT documento FROM usuarios WHERE documento = ? AND checkbox = true";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, documento);
             ResultSet rs = ps.executeQuery();
@@ -230,7 +230,7 @@ public class UsuariosDAO {
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try {
-            String sql = "SELECT documento FROM Usuarios WHERE documento = ? AND checkbox = false";
+            String sql = "SELECT documento FROM usuarios WHERE documento = ? AND checkbox = false";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, documento);
             ResultSet rs = ps.executeQuery();
@@ -273,7 +273,7 @@ public class UsuariosDAO {
         try {
             String sql = "SELECT idUsuarios, nombre, apellido, documento, telefono, correo, clave, fecha_nac, "
                     + "fecha_cad, checkbox, Tipo_documento_idTipo_documento, Roles_idRoles "
-                    + "FROM Usuarios WHERE correo = ?";
+                    + "FROM usuarios WHERE correo = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, correo);
             ResultSet rs = ps.executeQuery();
@@ -303,7 +303,7 @@ public class UsuariosDAO {
         boolean actualizado = false;
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
-        String sql = "UPDATE Usuarios SET clave = ? WHERE idUsuarios = ?";
+        String sql = "UPDATE usuarios SET clave = ? WHERE idUsuarios = ?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, nuevaClave);
             ps.setInt(2, idUsuarios);

@@ -19,7 +19,7 @@ public class Opcion_formularioDAO {
         Connection con = conexion.getConn();
         try {
             String sql = "SELECT idOpcion_formulario, categoria, descripcion "
-                    + "FROM Opcion_formulario WHERE categoria = ? ORDER BY idOpcion_formulario";
+                    + "FROM opcion_formulario WHERE categoria = ? ORDER BY idOpcion_formulario";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, categoria);
             ResultSet rs = ps.executeQuery();

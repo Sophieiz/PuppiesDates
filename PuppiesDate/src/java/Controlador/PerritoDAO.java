@@ -22,7 +22,7 @@ public class PerritoDAO {
         boolean insertado = false;
         Connection con = conexion.getConn();
 
-        String sql = "INSERT INTO Perrito (nombre, especie, raza, fecha_nacimiento, sexo, microchip, "
+        String sql = "INSERT INTO perrito (nombre, especie, raza, fecha_nacimiento, sexo, microchip, "
                 + "etapa_madurez, especialidad, condiciones_especiales, titulo_historia, historia, foto, "
                 + "ciudad, Estado_perrito_idEstado_perrito) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -61,8 +61,8 @@ public class PerritoDAO {
                     + "p.microchip, p.etapa_madurez, p.especialidad, p.condiciones_especiales, "
                     + "p.titulo_historia, p.historia, p.foto, p.ciudad, p.Estado_perrito_idEstado_perrito, "
                     + "e.descripcion_estado AS descripcionEstado "
-                    + "FROM Perrito p "
-                    + "INNER JOIN Estado_perrito e ON p.Estado_perrito_idEstado_perrito = e.idEstado_perrito "
+                    + "FROM perrito p "
+                    + "INNER JOIN estado_perrito e ON p.Estado_perrito_idEstado_perrito = e.idEstado_perrito "
                     + "WHERE p.idPerrito = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, idPerrito);
@@ -79,7 +79,7 @@ public class PerritoDAO {
 
     public boolean actualizarPerrito(Perrito perrito) {
         boolean actualizado = false;
-        String sql = "UPDATE Perrito SET nombre=?, especie=?, raza=?, fecha_nacimiento=?, sexo=?, "
+        String sql = "UPDATE perrito SET nombre=?, especie=?, raza=?, fecha_nacimiento=?, sexo=?, "
                 + "microchip=?, etapa_madurez=?, especialidad=?, condiciones_especiales=?, "
                 + "titulo_historia=?, historia=?, foto=?, ciudad=?, Estado_perrito_idEstado_perrito=? "
                 + "WHERE idPerrito=?";
@@ -114,7 +114,7 @@ public class PerritoDAO {
     // Se usa cuando la solicitud es aceptada, para marcar el perrito como adoptado
     public boolean actualizarEstadoPerrito(int idPerrito, int idEstado_perrito) {
         boolean actualizado = false;
-        String sql = "UPDATE Perrito SET Estado_perrito_idEstado_perrito = ? WHERE idPerrito = ?";
+        String sql = "UPDATE perrito SET Estado_perrito_idEstado_perrito = ? WHERE idPerrito = ?";
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -132,7 +132,7 @@ public class PerritoDAO {
 
     public boolean eliminarPerrito(int idPerrito) {
         boolean eliminado = false;
-        String sql = "UPDATE Perrito SET activo = 0 WHERE idPerrito = ?";
+        String sql = "UPDATE perrito SET activo = 0 WHERE idPerrito = ?";
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -156,8 +156,8 @@ public class PerritoDAO {
                     + "p.microchip, p.etapa_madurez, p.especialidad, p.condiciones_especiales, "
                     + "p.titulo_historia, p.historia, p.foto, p.ciudad, p.Estado_perrito_idEstado_perrito, "
                     + "e.descripcion_estado AS descripcionEstado "
-                    + "FROM Perrito p "
-                    + "INNER JOIN Estado_perrito e ON p.Estado_perrito_idEstado_perrito = e.idEstado_perrito "
+                    + "FROM perrito p "
+                    + "INNER JOIN estado_perrito e ON p.Estado_perrito_idEstado_perrito = e.idEstado_perrito "
                     + "WHERE p.activo = 1";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -180,8 +180,8 @@ public class PerritoDAO {
                     + "p.microchip, p.etapa_madurez, p.especialidad, p.condiciones_especiales, "
                     + "p.titulo_historia, p.historia, p.foto, p.ciudad, p.Estado_perrito_idEstado_perrito, "
                     + "e.descripcion_estado AS descripcionEstado "
-                    + "FROM Perrito p "
-                    + "INNER JOIN Estado_perrito e ON p.Estado_perrito_idEstado_perrito = e.idEstado_perrito "
+                    + "FROM perrito p "
+                    + "INNER JOIN estado_perrito e ON p.Estado_perrito_idEstado_perrito = e.idEstado_perrito "
                     + "WHERE e.descripcion_estado = 'Disponible' AND p.activo = 1";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -204,8 +204,8 @@ public class PerritoDAO {
                     + "p.microchip, p.etapa_madurez, p.especialidad, p.condiciones_especiales, "
                     + "p.titulo_historia, p.historia, p.foto, p.ciudad, p.Estado_perrito_idEstado_perrito, "
                     + "e.descripcion_estado AS descripcionEstado "
-                    + "FROM Perrito p "
-                    + "INNER JOIN Estado_perrito e ON p.Estado_perrito_idEstado_perrito = e.idEstado_perrito "
+                    + "FROM perrito p "
+                    + "INNER JOIN estado_perrito e ON p.Estado_perrito_idEstado_perrito = e.idEstado_perrito "
                     + "WHERE e.descripcion_estado = 'Disponible' AND p.activo = 1 "
                     + "AND p.nombre LIKE ?";
             PreparedStatement ps = con.prepareStatement(sql);
@@ -225,7 +225,7 @@ public class PerritoDAO {
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try {
-            String sql = "SELECT microchip FROM Perrito WHERE microchip = ?";
+            String sql = "SELECT microchip FROM perrito WHERE microchip = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, microchip);
             ResultSet rs = ps.executeQuery();
@@ -241,7 +241,7 @@ public class PerritoDAO {
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try {
-            String sql = "SELECT microchip FROM Perrito WHERE microchip = ? AND idPerrito != ?";
+            String sql = "SELECT microchip FROM perrito WHERE microchip = ? AND idPerrito != ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, microchip);
             ps.setInt(2, idPerrito);
@@ -262,8 +262,8 @@ public class PerritoDAO {
                     + "p.microchip, p.etapa_madurez, p.especialidad, p.condiciones_especiales, "
                     + "p.titulo_historia, p.historia, p.foto, p.ciudad, p.Estado_perrito_idEstado_perrito, "
                     + "e.descripcion_estado AS descripcionEstado "
-                    + "FROM Perrito p "
-                    + "INNER JOIN Estado_perrito e ON p.Estado_perrito_idEstado_perrito = e.idEstado_perrito "
+                    + "FROM perrito p "
+                    + "INNER JOIN estado_perrito e ON p.Estado_perrito_idEstado_perrito = e.idEstado_perrito "
                     + "WHERE p.activo = 0";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -278,7 +278,7 @@ public class PerritoDAO {
 
     public boolean reactivarPerrito(int idPerrito) {
         boolean reactivado = false;
-        String sql = "UPDATE Perrito SET activo = 1 WHERE idPerrito = ?";
+        String sql = "UPDATE perrito SET activo = 1 WHERE idPerrito = ?";
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try (PreparedStatement ps = con.prepareStatement(sql)) {

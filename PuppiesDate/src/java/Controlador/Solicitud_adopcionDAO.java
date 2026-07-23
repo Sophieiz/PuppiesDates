@@ -18,7 +18,7 @@ public class Solicitud_adopcionDAO {
         int idGenerado = -1;
         Connection con = conexion.getConn();
 
-        String sql = "INSERT INTO Solicitud_adopcion (direccion, localidad, barrio, profesion, vive_en, "
+        String sql = "INSERT INTO solicitud_adopcion (direccion, localidad, barrio, profesion, vive_en, "
                 + "tipo_vivienda, nucleo_familiar, tiene_mascotas, Usuarios_idUsuarios, Perrito_idPerrito, "
                 + "Estado_solicitud_idEstado_solicitud) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -134,8 +134,8 @@ public class Solicitud_adopcionDAO {
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try {
-            String sql = "SELECT s.idSolicitud_adopcion FROM Solicitud_adopcion s "
-                    + "INNER JOIN Estado_solicitud e ON s.Estado_solicitud_idEstado_solicitud = e.idEstado_solicitud "
+            String sql = "SELECT s.idSolicitud_adopcion FROM solicitud_adopcion s "
+                    + "INNER JOIN estado_solicitud e ON s.Estado_solicitud_idEstado_solicitud = e.idEstado_solicitud "
                     + "WHERE s.Usuarios_idUsuarios = ? AND s.Perrito_idPerrito = ? "
                     + "AND e.descripcion_estado IN ('Pendiente', 'En proceso')";
             PreparedStatement ps = con.prepareStatement(sql);
@@ -152,7 +152,7 @@ public class Solicitud_adopcionDAO {
     // Cambia el estado de la solicitud Y deja registro en Historial_estado_solicitud
     public boolean actualizarEstadoSolicitud(int idSolicitud_adopcion, int idEstado_solicitud, String observacion) {
         boolean actualizado = false;
-        String sql = "UPDATE Solicitud_adopcion SET Estado_solicitud_idEstado_solicitud = ? WHERE idSolicitud_adopcion = ?";
+        String sql = "UPDATE solicitud_adopcion SET Estado_solicitud_idEstado_solicitud = ? WHERE idSolicitud_adopcion = ?";
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -177,7 +177,7 @@ public class Solicitud_adopcionDAO {
     // Borrado suave: nunca se elimina de verdad, solo se inactiva
     public boolean eliminarSolicitud_adopcion(int id) {
         boolean eliminado = false;
-        String sql = "UPDATE Solicitud_adopcion SET activo = 0 WHERE idSolicitud_adopcion = ?";
+        String sql = "UPDATE solicitud_adopcion SET activo = 0 WHERE idSolicitud_adopcion = ?";
         Connection con = conexion.getConn();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
@@ -210,7 +210,7 @@ public class Solicitud_adopcionDAO {
 
     public boolean reactivarSolicitud_adopcion(int id) {
         boolean reactivado = false;
-        String sql = "UPDATE Solicitud_adopcion SET activo = 1 WHERE idSolicitud_adopcion = ?";
+        String sql = "UPDATE solicitud_adopcion SET activo = 1 WHERE idSolicitud_adopcion = ?";
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -225,7 +225,7 @@ public class Solicitud_adopcionDAO {
     public boolean insertarHistorial_estado_solicitud(Historial_estado_solicitud historial) {
         boolean insertado = false;
         Connection con = conexion.getConn();
-        String sql = "INSERT INTO Historial_estado_solicitud (observacion, Solicitud_adopcion_idSolicitud_adopcion, "
+        String sql = "INSERT INTO historial_estado_solicitud (observacion, Solicitud_adopcion_idSolicitud_adopcion, "
                 + "Estado_solicitud_idEstado_solicitud) VALUES (?, ?, ?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, historial.getObservacion());
@@ -248,8 +248,8 @@ public class Solicitud_adopcionDAO {
             String sql = "SELECT h.idHistorial_estado_solicitud, h.fecha_cambio, h.observacion, "
                     + "h.Solicitud_adopcion_idSolicitud_adopcion, h.Estado_solicitud_idEstado_solicitud, "
                     + "e.descripcion_estado AS descripcionEstado "
-                    + "FROM Historial_estado_solicitud h "
-                    + "INNER JOIN Estado_solicitud e ON h.Estado_solicitud_idEstado_solicitud = e.idEstado_solicitud "
+                    + "FROM historial_estado_solicitud h "
+                    + "INNER JOIN estado_solicitud e ON h.Estado_solicitud_idEstado_solicitud = e.idEstado_solicitud "
                     + "WHERE h.Solicitud_adopcion_idSolicitud_adopcion = ? "
                     + "ORDER BY h.fecha_cambio ASC";
             PreparedStatement ps = con.prepareStatement(sql);
@@ -277,10 +277,10 @@ public class Solicitud_adopcionDAO {
                 + "s.Usuarios_idUsuarios, s.Perrito_idPerrito, s.Estado_solicitud_idEstado_solicitud, "
                 + "u.nombre AS nombreUsuario, u.apellido AS apellidoUsuario, u.documento AS documentoUsuario, "
                 + "u.correo AS correoUsuario, p.nombre AS nombrePerrito, e.descripcion_estado AS descripcionEstado "
-                + "FROM Solicitud_adopcion s "
-                + "INNER JOIN Usuarios u ON s.Usuarios_idUsuarios = u.idUsuarios "
-                + "INNER JOIN Perrito p ON s.Perrito_idPerrito = p.idPerrito "
-                + "INNER JOIN Estado_solicitud e ON s.Estado_solicitud_idEstado_solicitud = e.idEstado_solicitud";
+                + "FROM solicitud_adopcion s "
+                + "INNER JOIN usuarios u ON s.Usuarios_idUsuarios = u.idUsuarios "
+                + "INNER JOIN perrito p ON s.Perrito_idPerrito = p.idPerrito "
+                + "INNER JOIN estado_solicitud e ON s.Estado_solicitud_idEstado_solicitud = e.idEstado_solicitud";
     }
 
     private Solicitud_adopcion mapearSolicitud(ResultSet rs) throws SQLException {

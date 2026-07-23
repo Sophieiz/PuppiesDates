@@ -14,7 +14,7 @@ public class Recuperacion_claveDAO {
     public boolean insertarToken(Recuperacion_clave recuperacion) {
         boolean insertado = false;
         Connection con = conexion.getConn();
-        String sql = "INSERT INTO Recuperacion_clave (token, fecha_expiracion, usado, Usuarios_idUsuarios) "
+        String sql = "INSERT INTO recuperacion_clave (token, fecha_expiracion, usado, Usuarios_idUsuarios) "
                 + "VALUES (?, ?, ?, ?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, recuperacion.getToken());
@@ -36,7 +36,7 @@ public class Recuperacion_claveDAO {
         Connection con = conexion.getConn();
         String sql = "SELECT r.idRecuperacion_clave, r.token, r.fecha_creacion, r.fecha_expiracion, r.usado, "
                 + "r.Usuarios_idUsuarios, u.correo AS correoUsuario, u.nombre AS nombreUsuario "
-                + "FROM Recuperacion_clave r "
+                + "FROM recuperacion_clave r "
                 + "INNER JOIN Usuarios u ON r.Usuarios_idUsuarios = u.idUsuarios "
                 + "WHERE r.token = ? AND r.usado = 0 AND r.fecha_expiracion > ?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -63,7 +63,7 @@ public class Recuperacion_claveDAO {
     public boolean marcarTokenUsado(int idRecuperacion_clave) {
         boolean actualizado = false;
         Connection con = conexion.getConn();
-        String sql = "UPDATE Recuperacion_clave SET usado = 1 WHERE idRecuperacion_clave = ?";
+        String sql = "UPDATE recuperacion_clave SET usado = 1 WHERE idRecuperacion_clave = ?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, idRecuperacion_clave);
             if (ps.executeUpdate() > 0) {
@@ -79,7 +79,7 @@ public class Recuperacion_claveDAO {
     public boolean invalidarTokensAnteriores(int idUsuarios) {
         boolean actualizado = false;
         Connection con = conexion.getConn();
-        String sql = "UPDATE Recuperacion_clave SET usado = 1 WHERE Usuarios_idUsuarios = ? AND usado = 0";
+        String sql = "UPDATE recuperacion_clave SET usado = 1 WHERE Usuarios_idUsuarios = ? AND usado = 0";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, idUsuarios);
             ps.executeUpdate();

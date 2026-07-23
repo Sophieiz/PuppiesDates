@@ -191,9 +191,8 @@ public class CorreoUtil {
         return enviar(correoDestino, asunto, html, "recuperacion de clave");
     }
 
-    /**
-     * NUEVO: confirma al propio usuario que su solicitud de adopción fue enviada correctamente.
-     */
+   
+    
     public static boolean enviarCorreoConfirmacionSolicitudUsuario(Solicitud_adopcion solicitud, Perrito perrito) {
         String correoUsuario = solicitud.getCorreoUsuario();
         if (correoUsuario == null || correoUsuario.trim().isEmpty()) {
@@ -218,9 +217,7 @@ public class CorreoUtil {
         return enviar(correoUsuario, asunto, html, "confirmacion solicitud - usuario");
     }
 
-    /**
-     * NUEVO: envía al usuario un "ticket" de confirmación con fecha, hora y actividad reservada.
-     */
+    
     public static boolean enviarCorreoConfirmacionReservaUsuario(String nombreUsuario, String correoUsuario,
             String nombreActividad, String fecha, String hora, int numPersonas) {
         if (correoUsuario == null || correoUsuario.trim().isEmpty()) {
@@ -253,9 +250,7 @@ public class CorreoUtil {
         return enviar(correoUsuario, asunto, html, "confirmacion reserva - usuario");
     }
 
-    // ==========================================================
-    //  UTILIDADES
-    // ==========================================================
+   ==
 
     private static String limpiar(String valor) {
         if (valor == null) {
@@ -264,10 +259,7 @@ public class CorreoUtil {
         return valor.replaceAll("[\r\n]", " ").trim();
     }
 
-    /**
-     * Limpia saltos de línea (evita inyección de encabezados) y escapa caracteres HTML
-     * para que el contenido de cada campo se muestre seguro dentro de la plantilla.
-     */
+    
     private static String escapar(String valor) {
         String limpio = limpiar(valor);
         return limpio.replace("&", "&amp;")

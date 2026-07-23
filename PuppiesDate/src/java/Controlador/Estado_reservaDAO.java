@@ -24,7 +24,7 @@ public class Estado_reservaDAO {
         boolean insertado = false;
         Connection con = conexion.getConn();
        
-        String sql = "INSERT INTO Estado_reserva (idEstado_reserva, descripcion_esta) VALUES (?, ?)";
+        String sql = "INSERT INTO estado_reserva (idEstado_reserva, descripcion_esta) VALUES (?, ?)";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, estado.getidEstado_reserva());
@@ -47,7 +47,7 @@ public class Estado_reservaDAO {
         Connection con = conexion.getConn();
 
         try {
-            String querySQL = "SELECT idEstado_reserva, descripcion_esta FROM Estado_reserva WHERE idEstado_reserva = ?";
+            String querySQL = "SELECT idEstado_reserva, descripcion_esta FROM estado_reserva WHERE idEstado_reserva = ?";
             PreparedStatement ps = con.prepareStatement(querySQL);
             ps.setInt(1, idEstado_reserva);
 
@@ -69,7 +69,7 @@ public class Estado_reservaDAO {
    
     public boolean actualizarEstadoReserva(Estado_reserva estado) throws SQLException {
         boolean actualizado = false;
-        String sql = "UPDATE Estado_reserva SET descripcion_est=? WHERE idEstado_Reserva=?";
+        String sql = "UPDATE estado_reserva SET descripcion_esta=? WHERE idEstado_reserva=?";
         Connection con = conexion.getConn();
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -88,7 +88,7 @@ public class Estado_reservaDAO {
   
     public boolean eliminarEstadoReserva(int id) throws SQLException {
         boolean eliminado = false;
-        String sql = "UPDATE Estado_reserva SET activo = 0 WHERE idEstado_Reserva = ?";
+        String sql = "UPDATE estado_reserva SET activo = 0 WHERE idEstado_reserva = ?";
         Connection con = conexion.getConn();
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -106,7 +106,7 @@ public class Estado_reservaDAO {
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try {
-            String sql = "SELECT idEstado_reserva, descripcion_esta FROM Estado_reserva WHERE activo = 1";
+            String sql = "SELECT idEstado_reserva, descripcion_esta FROM estado_reserva WHERE activo = 1";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -126,7 +126,7 @@ public class Estado_reservaDAO {
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try {
-            String sql = "SELECT idEstado_reserva, descripcion_esta FROM Estado_reserva WHERE activo = 0";
+            String sql = "SELECT idEstado_reserva, descripcion_esta FROM estado_reserva WHERE activo = 0";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -143,7 +143,7 @@ public class Estado_reservaDAO {
 
     public boolean reactivarEstadoReserva(int id) {
         boolean reactivado = false;
-        String sql = "UPDATE Estado_reserva SET activo = 1 WHERE idEstado_Reserva = ?";
+        String sql = "UPDATE estado_reserva SET activo = 1 WHERE idEstado_reserva = ?";
         Connection con = conexion.getConn();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);

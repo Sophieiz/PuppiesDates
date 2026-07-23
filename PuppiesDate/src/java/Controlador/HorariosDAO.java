@@ -27,7 +27,7 @@ public class HorariosDAO {
         Connection con = conexion.getConn();
 
         
-        String sql = "INSERT INTO Horarios (idHorarios, hora_ini, hora_fin) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO horarios (idHorarios, hora_ini, hora_fin) VALUES (?, ?, ?)";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, horario.getidHorarios());
@@ -50,7 +50,7 @@ public class HorariosDAO {
         Connection con = conexion.getConn();
 
         try {
-            String querySQL = "SELECT idHorarios, hora_ini, hora_fin FROM Horarios WHERE idHorarios = ?";
+            String querySQL = "SELECT idHorarios, hora_ini, hora_fin FROM horarios WHERE idHorarios = ?";
 
             PreparedStatement ps = con.prepareStatement(querySQL);
             ps.setInt(1, idHorarios);
@@ -74,7 +74,7 @@ public class HorariosDAO {
    
     public boolean actualizarHorario(Horarios horario) throws SQLException {
         boolean actualizado = false;
-        String sql = "UPDATE Horarios SET hora_ini=?, hora_fin=? WHERE idHorarios=?";
+        String sql = "UPDATE horarios SET hora_ini=?, hora_fin=? WHERE idHorarios=?";
         Connection con = conexion.getConn();
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -95,7 +95,7 @@ public class HorariosDAO {
     
     public boolean eliminarHorario(int id) throws SQLException {
         boolean eliminado = false;
-        String sql = "UPDATE Horarios SET activo = 0 WHERE idHorarios = ?";
+        String sql = "UPDATE horarios SET activo = 0 WHERE idHorarios = ?";
         Connection con = conexion.getConn();
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -115,7 +115,7 @@ public class HorariosDAO {
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try {
-            String sql = "SELECT idHorarios, hora_ini, hora_fin FROM Horarios WHERE activo = 1";
+            String sql = "SELECT idHorarios, hora_ini, hora_fin FROM horarios WHERE activo = 1";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -136,7 +136,7 @@ public class HorariosDAO {
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try {
-            String sql = "SELECT idHorarios, hora_ini, hora_fin FROM Horarios WHERE activo = 0";
+            String sql = "SELECT idHorarios, hora_ini, hora_fin FROM horarios WHERE activo = 0";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -154,7 +154,7 @@ public class HorariosDAO {
 
     public boolean reactivarHorario(int id) {
         boolean reactivado = false;
-        String sql = "UPDATE Horarios SET activo = 1 WHERE idHorarios = ?";
+        String sql = "UPDATE horarios SET activo = 1 WHERE idHorarios = ?";
         Connection con = conexion.getConn();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);

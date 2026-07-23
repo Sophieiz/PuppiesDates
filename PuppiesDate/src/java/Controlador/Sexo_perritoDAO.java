@@ -16,7 +16,7 @@ public class Sexo_perritoDAO {
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try {
-            String sql = "SELECT idSexo_perrito, descripcion FROM Sexo_perrito ORDER BY idSexo_perrito";
+            String sql = "SELECT idSexo_perrito, descripcion FROM sexo_perrito ORDER BY idSexo_perrito";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

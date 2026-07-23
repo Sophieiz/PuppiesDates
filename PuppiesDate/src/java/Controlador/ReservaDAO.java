@@ -16,7 +16,7 @@ public class ReservaDAO {
         boolean insertado = false;
         Connection con = conexion.getConn();
 
-        String sql = "INSERT INTO Reserva (num_personas, hora, fecha, Usuarios_idUsuarios, Disponibilidad_idDisponibilidad, Estado_reserva_idEstado_reserva, Actividad_idActividad, Pagos_idPagos) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO reserva (num_personas, hora, fecha, Usuarios_idUsuarios, Disponibilidad_idDisponibilidad, Estado_reserva_idEstado_reserva, Actividad_idActividad, Pagos_idPagos) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, Mireserva.getNum_personas());
@@ -42,7 +42,7 @@ public class ReservaDAO {
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try {
-            String sql = "SELECT idReserva, num_personas, hora, fecha, Usuarios_idUsuarios, Disponibilidad_idDisponibilidad, Estado_reserva_idEstado_reserva, Actividad_idActividad, Pagos_idPagos FROM Reserva WHERE idReserva = ?";
+            String sql = "SELECT idReserva, num_personas, hora, fecha, Usuarios_idUsuarios, Disponibilidad_idDisponibilidad, Estado_reserva_idEstado_reserva, Actividad_idActividad, Pagos_idPagos FROM reserva WHERE idReserva = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, idReserva);
             ResultSet rs = ps.executeQuery();
@@ -67,7 +67,7 @@ public class ReservaDAO {
 
     public boolean actualizarReserva(Reserva reserva) throws SQLException {
         boolean actualizado = false;
-        String sql = "UPDATE Reserva SET num_personas=?, hora=?, fecha=?, Usuarios_idUsuarios=?, Disponibilidad_idDisponibilidad=?, Estado_reserva_idEstado_reserva=?, Actividad_idActividad=?, Pagos_idPagos=? WHERE idReserva=?";
+        String sql = "UPDATE reserva SET num_personas=?, hora=?, fecha=?, Usuarios_idUsuarios=?, Disponibilidad_idDisponibilidad=?, Estado_reserva_idEstado_reserva=?, Actividad_idActividad=?, Pagos_idPagos=? WHERE idReserva=?";
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -91,7 +91,7 @@ public class ReservaDAO {
 
     public boolean eliminarReserva(int id) throws SQLException {
         boolean eliminado = false;
-        String sql = "UPDATE Reserva SET activo = 0 WHERE idReserva = ?";
+        String sql = "UPDATE reserva SET activo = 0 WHERE idReserva = ?";
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -113,8 +113,8 @@ public class ReservaDAO {
             String sql = "SELECT r.idReserva, r.num_personas, r.hora, r.fecha, r.Usuarios_idUsuarios, "
                     + "r.Disponibilidad_idDisponibilidad, r.Estado_reserva_idEstado_reserva, "
                     + "r.Actividad_idActividad, r.Pagos_idPagos, a.descripcion_actividad AS nombreActividad "
-                    + "FROM Reserva r "
-                    + "INNER JOIN Actividad a ON r.Actividad_idActividad = a.idActividad "
+                    + "FROM reserva r "
+                    + "INNER JOIN actividad a ON r.Actividad_idActividad = a.idActividad "
                     + "WHERE r.activo = 1";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -127,7 +127,7 @@ public class ReservaDAO {
         return lista;
     }
 
-    // Busca reservas por nombre/apellido/documento del usuario o por fecha (formato yyyy-mm-dd)
+    
     public List<Reserva> buscarReserva(String textoBusqueda) {
         List<Reserva> lista = new ArrayList<>();
         Conexion conexion = new Conexion();
@@ -137,9 +137,9 @@ public class ReservaDAO {
                     + "r.Disponibilidad_idDisponibilidad, r.Estado_reserva_idEstado_reserva, "
                     + "r.Actividad_idActividad, r.Pagos_idPagos, a.descripcion_actividad AS nombreActividad, "
                     + "u.nombre AS nombreUsuario, u.apellido AS apellidoUsuario "
-                    + "FROM Reserva r "
-                    + "INNER JOIN Actividad a ON r.Actividad_idActividad = a.idActividad "
-                    + "INNER JOIN Usuarios u ON r.Usuarios_idUsuarios = u.idUsuarios "
+                    + "FROM reserva r "
+                    + "INNER JOIN actividad a ON r.Actividad_idActividad = a.idActividad "
+                    + "INNER JOIN usuarios u ON r.Usuarios_idUsuarios = u.idUsuarios "
                     + "WHERE r.activo = 1 AND ("
                     + "u.nombre LIKE ? OR u.apellido LIKE ? OR u.documento LIKE ? "
                     + "OR CAST(r.fecha AS CHAR) LIKE ?)";
@@ -161,8 +161,7 @@ public class ReservaDAO {
         return lista;
     }
 
-    // Para la vista "Mis Reservas" del usuario: solo las suyas, con el nombre
-    // de la actividad y la descripción del estado ya resueltos.
+   
     public List<Reserva> listarReservaPorUsuario(int idUsuarios) {
         List<Reserva> lista = new ArrayList<>();
         Conexion conexion = new Conexion();
@@ -172,9 +171,9 @@ public class ReservaDAO {
                     + "r.Disponibilidad_idDisponibilidad, r.Estado_reserva_idEstado_reserva, "
                     + "r.Actividad_idActividad, r.Pagos_idPagos, a.descripcion_actividad AS nombreActividad, "
                     + "er.descripcion_esta AS descripcionEstadoReserva "
-                    + "FROM Reserva r "
-                    + "INNER JOIN Actividad a ON r.Actividad_idActividad = a.idActividad "
-                    + "INNER JOIN Estado_reserva er ON r.Estado_reserva_idEstado_reserva = er.idEstado_reserva "
+                    + "FROM reserva r "
+                    + "INNER JOIN actividad a ON r.Actividad_idActividad = a.idActividad "
+                    + "INNER JOIN estado_reserva er ON r.Estado_reserva_idEstado_reserva = er.idEstado_reserva "
                     + "WHERE r.activo = 1 AND r.Usuarios_idUsuarios = ? "
                     + "ORDER BY r.fecha DESC, r.hora DESC";
             PreparedStatement ps = con.prepareStatement(sql);
@@ -199,8 +198,8 @@ public class ReservaDAO {
             String sql = "SELECT r.idReserva, r.num_personas, r.hora, r.fecha, r.Usuarios_idUsuarios, "
                     + "r.Disponibilidad_idDisponibilidad, r.Estado_reserva_idEstado_reserva, "
                     + "r.Actividad_idActividad, r.Pagos_idPagos, a.descripcion_actividad AS nombreActividad "
-                    + "FROM Reserva r "
-                    + "INNER JOIN Actividad a ON r.Actividad_idActividad = a.idActividad "
+                    + "FROM reserva r "
+                    + "INNER JOIN actividad a ON r.Actividad_idActividad = a.idActividad "
                     + "WHERE r.activo = 0";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -215,7 +214,7 @@ public class ReservaDAO {
 
     public boolean reactivarReserva(int id) {
         boolean reactivado = false;
-        String sql = "UPDATE Reserva SET activo = 1 WHERE idReserva = ?";
+        String sql = "UPDATE reserva SET activo = 1 WHERE idReserva = ?";
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try (PreparedStatement ps = con.prepareStatement(sql)) {

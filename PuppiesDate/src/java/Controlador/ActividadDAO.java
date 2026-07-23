@@ -52,7 +52,7 @@ public class ActividadDAO {
     Connection con = conexion.getConn();
    
     try{
-        String querySQL = "SELECT idActividad, descripcion_actividad, Tipo_Actividad_idTipo_Actividad, Lista_precios_idLista_Precios) FROM Actividad WHERE idActividad = ?";
+        String querySQL = "SELECT idActividad, descripcion_actividad, Tipo_Actividad_idTipo_Actividad, Lista_precios_idLista_Precios FROM actividad WHERE idActividad = ?";
         PreparedStatement ps = con.prepareStatement(querySQL);
         ps.setInt(1, idActividad);
        
@@ -125,7 +125,7 @@ public class ActividadDAO {
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try {
-            String sql = "SELECT idActividad, descripcion_actividad, Tipo_Actividad_idTipo_Actividad, Lista_precios_idLista_Precios FROM Actividad WHERE activo = 1";
+            String sql = "SELECT idActividad, descripcion_actividad, Tipo_Actividad_idTipo_Actividad, Lista_precios_idLista_Precios FROM actividad WHERE activo = 1";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -147,7 +147,7 @@ public class ActividadDAO {
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try {
-            String sql = "SELECT idActividad, descripcion_actividad, Tipo_Actividad_idTipo_Actividad, Lista_precios_idLista_Precios FROM Actividad WHERE activo = 0";
+            String sql = "SELECT idActividad, descripcion_actividad, Tipo_Actividad_idTipo_Actividad, Lista_precios_idLista_Precios FROM actividad WHERE activo = 0";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

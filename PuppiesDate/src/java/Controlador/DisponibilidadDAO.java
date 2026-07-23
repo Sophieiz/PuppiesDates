@@ -47,7 +47,7 @@ public class DisponibilidadDAO {
         Connection con = conexion.getConn();
 
         try {
-            String querySQL = "SELECT idDisponibilidad, fecha, cupo_total, cupo_disponible, Horarios_idHorarios FROM Disponibilidad WHERE idDisponibilidad = ? ";
+            String querySQL = "SELECT idDisponibilidad, fecha, cupo_total, cupo_disponible, Horarios_idHorarios FROM disponibilidad WHERE idDisponibilidad = ? ";
 
             PreparedStatement ps = con.prepareStatement(querySQL);
             ps.setInt(1, idDisponibilidad);
@@ -113,7 +113,7 @@ public class DisponibilidadDAO {
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try {
-            String sql = "SELECT idDisponibilidad, fecha, cupo_total, cupo_disponible, Horarios_idHorarios FROM Disponibilidad WHERE activo = 1";
+            String sql = "SELECT idDisponibilidad, fecha, cupo_total, cupo_disponible, Horarios_idHorarios FROM disponibilidad WHERE activo = 1";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -136,7 +136,7 @@ public class DisponibilidadDAO {
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try {
-            String sql = "SELECT idDisponibilidad, fecha, cupo_total, cupo_disponible, Horarios_idHorarios FROM Disponibilidad WHERE activo = 0";
+            String sql = "SELECT idDisponibilidad, fecha, cupo_total, cupo_disponible, Horarios_idHorarios FROM disponibilidad WHERE activo = 0";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
