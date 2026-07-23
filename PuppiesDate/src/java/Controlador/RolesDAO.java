@@ -32,7 +32,7 @@ public class RolesDAO {
     public Roles ConsultarRoles(int idRoles) {
         Roles roles = null;
         Connection con = conexion.getConn();
-        String sql = "SELECT idRoles, descripcion_rol FROM Roles WHERE idRoles = ?";
+        String sql = "SELECT idRoles, descripcion_rol FROM roles WHERE idRoles = ?";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, idRoles);
@@ -101,7 +101,7 @@ public class RolesDAO {
     public List<Roles> listarRoles() {
         List<Roles> lista = new ArrayList<>();
         Connection con = conexion.getConn();
-        String sql = "SELECT idRoles, descripcion_rol FROM Roles WHERE activo = 1";
+        String sql = "SELECT idRoles, descripcion_rol FROM roles WHERE activo = 1";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
@@ -120,7 +120,7 @@ public class RolesDAO {
     public List<Roles> listarInactivos() {
         List<Roles> lista = new ArrayList<>();
         Connection con = conexion.getConn();
-        String sql = "SELECT idRoles, descripcion_rol FROM Roles WHERE activo = 0";
+        String sql = "SELECT idRoles, descripcion_rol FROM roles WHERE activo = 0";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
