@@ -9,6 +9,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet(name = "ReservaAdmi", urlPatterns = {"/ReservaAdmi"})
 public class ReservaAdmi extends HttpServlet {
@@ -24,28 +25,34 @@ public class ReservaAdmi extends HttpServlet {
             if ("modificar".equalsIgnoreCase(accion)) {
                 Reserva reserva = crearReserva(request);
                 boolean resultado = reservaDao.actualizarReserva(reserva);
-                request.setAttribute("resultado", resultado ? "Reserva modificada exitosamente." : "Error al modificar la reserva.");
+                request.getSession().setAttribute("mensajeFlash", resultado ? "Reserva modificada exitosamente." : "Error al modificar la reserva.");
             } else if ("eliminar".equalsIgnoreCase(accion)) {
                 int idReserva = Integer.parseInt(request.getParameter("idReserva"));
                 boolean resultado = reservaDao.eliminarReserva(idReserva);
-                request.setAttribute("resultado", resultado ? "Reserva eliminada exitosamente." : "Error al eliminar la reserva.");
+                request.getSession().setAttribute("mensajeFlash", resultado ? "Reserva eliminada exitosamente." : "Error al eliminar la reserva.");
             } else if ("reactivar".equalsIgnoreCase(accion)) {
                 int idReserva = Integer.parseInt(request.getParameter("idReserva"));
                 boolean resultado = reservaDao.reactivarReserva(idReserva);
-                request.setAttribute("resultado", resultado ? "Reserva reactivada exitosamente." : "Error al reactivar la reserva.");
+                request.getSession().setAttribute("mensajeFlash", resultado ? "Reserva reactivada exitosamente." : "Error al reactivar la reserva.");
             }
         } catch (Exception e) {
-            request.setAttribute("resultado", "Error: " + e.getMessage());
+            request.getSession().setAttribute("mensajeFlash", "Error: " + e.getMessage());
         }
 
-        cargarLista(request, reservaDao);
-        request.getRequestDispatcher("/Vista/ReservaAdmi.jsp").forward(request, response);
+        response.sendRedirect(request.getContextPath() + "/ReservaAdmi");
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ReservaDAO reservaDao = new ReservaDAO();
+
+        HttpSession sesion = request.getSession();
+        if (sesion.getAttribute("mensajeFlash") != null) {
+            request.setAttribute("resultado", sesion.getAttribute("mensajeFlash"));
+            sesion.removeAttribute("mensajeFlash");
+        }
+
         cargarLista(request, reservaDao);
         request.getRequestDispatcher("/Vista/ReservaAdmi.jsp").forward(request, response);
     }

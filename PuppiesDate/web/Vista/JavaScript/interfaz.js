@@ -127,6 +127,20 @@ function configurarModalAdopcion() {
             "X-Requested-With": "XMLHttpRequest"
           }
         });
+
+        if (response.status === 401) {
+          content.innerHTML = `
+            <div class="adopcion-auth-required">
+              <h3>¡Espera un momento!</h3>
+              <p>Para adoptar debes iniciar sesión o registrarte primero.</p>
+              <div class="adopcion-auth-botones">
+                <a href="${window.ctxApp || ""}/Iniciar" class="btn-menu btn-verde-activo">Iniciar sesión</a>
+                <a href="${window.ctxApp || ""}/Registrarse" class="btn-menu btn-rosa-sesion">Registrarme</a>
+              </div>
+            </div>`;
+          return;
+        }
+
         const html = await response.text();
         const documentFragment = new DOMParser().parseFromString(html, "text/html");
         const adoptionWrap = documentFragment.querySelector(".adopcion-wrap");
@@ -201,18 +215,18 @@ function validarSolicitudAdopcion() {
   });
 
   return valido;
-  
+
   document.addEventListener('DOMContentLoaded', function () {
     // Redirección al Iniciar Sesión desde el Modal de Éxito
     const btnIrIniciar = document.getElementById('btnIrIniciarSesion');
-    
+
     if (btnIrIniciar) {
-        btnIrIniciar.addEventListener('click', function () {
-            const redirectUrl = this.getAttribute('data-url');
-            if (redirectUrl) {
-                window.location.href = redirectUrl;
-            }
-        });
+      btnIrIniciar.addEventListener('click', function () {
+        const redirectUrl = this.getAttribute('data-url');
+        if (redirectUrl) {
+          window.location.href = redirectUrl;
+        }
+      });
     }
-});
-}
+  });
+}ss

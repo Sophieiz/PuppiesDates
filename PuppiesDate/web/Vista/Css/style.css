@@ -3749,3 +3749,26 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     background-color: #3b683e;
 }
 
+/*SOLICITUD ADOPCIÓN SIN INICIAR SESIÓN*/
+
+.adopcion-auth-required {
+    text-align: center;
+    padding: 30px 20px;
+}
+
+.adopcion-auth-required h3 {
+    color: var(--wild-brown, #5a3e2b);
+    margin-bottom: 10px;
+}
+
+.adopcion-auth-required p {
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.adopcion-auth-botones {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}

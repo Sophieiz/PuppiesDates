@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 
 import java.io.File;
@@ -44,14 +45,14 @@ public class PerritoAdmi extends HttpServlet {
                 String microchip = request.getParameter("microchip");
 
                 if (dao.existeMicrochip(microchip)) {
-                    request.setAttribute("mensaje", "Ya existe un perrito registrado con ese microchip.");
+                    request.getSession().setAttribute("mensajeFlash", "Ya existe un perrito registrado con ese microchip.");
                 } else {
                     Perrito perrito = armarPerrito(request, 0);
                     boolean ok = dao.insertarPerrito(perrito);
                     if (ok) {
-                        request.setAttribute("mensaje", "Perrito registrado correctamente.");
+                        request.getSession().setAttribute("mensajeFlash", "Perrito registrado correctamente.");
                     } else {
-                        request.setAttribute("mensaje", "Error al registrar el perrito: " + dao.getUltimoError());
+                        request.getSession().setAttribute("mensajeFlash", "Error al registrar el perrito: " + dao.getUltimoError());
                     }
                 }
 
@@ -61,28 +62,28 @@ public class PerritoAdmi extends HttpServlet {
                 String microchip = request.getParameter("microchip");
 
                 if (dao.existeMicrochipEnOtroPerrito(microchip, id)) {
-                    request.setAttribute("mensaje", "Ese microchip ya pertenece a otro perrito.");
+                    request.getSession().setAttribute("mensajeFlash", "Ese microchip ya pertenece a otro perrito.");
                 } else {
                     Perrito perrito = armarPerrito(request, id);
                     boolean ok = dao.actualizarPerrito(perrito);
-                    request.setAttribute("mensaje", ok ? "Perrito actualizado correctamente." : "Error al actualizar el perrito.");
+                    request.getSession().setAttribute("mensajeFlash", ok ? "Perrito actualizado correctamente." : "Error al actualizar el perrito.");
                 }
 
             } else if ("eliminar".equalsIgnoreCase(accion)) {
                 int id = Integer.parseInt(request.getParameter("idPerrito"));
                 boolean ok = dao.eliminarPerrito(id);
-                request.setAttribute("mensaje", ok ? "Perrito eliminado correctamente." : "Error al eliminar el perrito.");
+                request.getSession().setAttribute("mensajeFlash", ok ? "Perrito eliminado correctamente." : "Error al eliminar el perrito.");
             } else if ("reactivar".equalsIgnoreCase(accion)) {
                 int id = Integer.parseInt(request.getParameter("idPerrito"));
                 boolean ok = dao.reactivarPerrito(id);
-                request.setAttribute("mensaje", ok ? "Perrito reactivado correctamente." : "Error al reactivar el perrito.");
+                request.getSession().setAttribute("mensajeFlash", ok ? "Perrito reactivado correctamente." : "Error al reactivar el perrito.");
             }
 
-            cargarListaYForward(request, response, dao);
+            response.sendRedirect(request.getContextPath() + "/PerritoAdmi");
 
         } catch (NumberFormatException e) {
-            request.setAttribute("mensaje", "Datos inválidos en el formulario.");
-            cargarListaYForward(request, response, dao);
+            request.getSession().setAttribute("mensajeFlash", "Datos inválidos en el formulario.");
+            response.sendRedirect(request.getContextPath() + "/PerritoAdmi");
         }
     }
 
@@ -90,6 +91,13 @@ public class PerritoAdmi extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         PerritoDAO dao = new PerritoDAO();
+
+        HttpSession sesion = request.getSession();
+        if (sesion.getAttribute("mensajeFlash") != null) {
+            request.setAttribute("mensaje", sesion.getAttribute("mensajeFlash"));
+            sesion.removeAttribute("mensajeFlash");
+        }
+
         cargarListaYForward(request, response, dao);
     }
 
@@ -142,12 +150,12 @@ public class PerritoAdmi extends HttpServlet {
 
         perrito.setFoto(rutaFotoFinal);
         perrito.setCiudad(request.getParameter("ciudad"));
-        
+
         String idEstado = request.getParameter("Estado_perrito_idEstado_perrito");
         if (idEstado != null && !idEstado.isEmpty()) {
             perrito.setEstado_perrito_idEstado_perrito(Integer.parseInt(idEstado));
         }
-        
+
         return perrito;
     }
 

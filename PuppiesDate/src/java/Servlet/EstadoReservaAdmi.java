@@ -1,5 +1,4 @@
 package Servlet;
-
 import Controlador.Estado_reservaDAO;
 import Modelo.Estado_reserva;
 import jakarta.servlet.ServletException;
@@ -7,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -16,6 +16,13 @@ public class EstadoReservaAdmi extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        HttpSession sesion = request.getSession();
+        if (sesion.getAttribute("mensajeFlash") != null) {
+            request.setAttribute("mensaje", sesion.getAttribute("mensajeFlash"));
+            sesion.removeAttribute("mensajeFlash");
+        }
+
         cargarLista(request);
         request.getRequestDispatcher("/Vista/EstadoReserva_admi.jsp").forward(request, response);
     }
@@ -26,7 +33,6 @@ public class EstadoReservaAdmi extends HttpServlet {
         Estado_reservaDAO dao = new Estado_reservaDAO();
         String accion = request.getParameter("accion");
         String msg;
-
         try {
             if ("insertar".equalsIgnoreCase(accion)) {
                 Estado_reserva estado = new Estado_reserva();
@@ -47,12 +53,13 @@ public class EstadoReservaAdmi extends HttpServlet {
                 msg = "Accion no reconocida.";
             }
         } catch (SQLException e) {
-            throw new ServletException("Error en operaciones de EstadoReserva: " + e.getMessage(), e);
+            request.getSession().setAttribute("mensajeFlash", "Error en operaciones de EstadoReserva: " + e.getMessage());
+            response.sendRedirect(request.getContextPath() + "/EstadoReservaAdmi");
+            return;
         }
 
-        request.setAttribute("mensaje", msg);
-        cargarLista(request);
-        request.getRequestDispatcher("/Vista/EstadoReserva_admi.jsp").forward(request, response);
+        request.getSession().setAttribute("mensajeFlash", msg);
+        response.sendRedirect(request.getContextPath() + "/EstadoReservaAdmi");
     }
 
     private void cargarLista(HttpServletRequest request) {

@@ -10,6 +10,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet(name = "Disponibilidaad", urlPatterns = {"/Disponibilidaad"})
 public class Disponibilidaad extends HttpServlet {
@@ -17,7 +18,7 @@ public class Disponibilidaad extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String accion = request.getParameter("accion");
         DisponibilidadDAO disponibilidadDao = new DisponibilidadDAO();
 
@@ -29,32 +30,40 @@ public class Disponibilidaad extends HttpServlet {
                 if ("actualizar".equalsIgnoreCase(accion)) {
                     disponibilidad.setidDisponibilidad(Integer.parseInt(request.getParameter("idDisponibilidad")));
                     resultado = disponibilidadDao.actualizarDisponibilidad(disponibilidad);
-                    request.setAttribute("mensaje", resultado ? "Disponibilidad actualizada correctamente." : "Error al actualizar disponibilidad.");
+                    request.getSession().setAttribute("mensajeFlash", resultado ? "Disponibilidad actualizada correctamente." : "Error al actualizar disponibilidad.");
                 } else {
                     resultado = disponibilidadDao.insertarDisponibilidad(disponibilidad);
-                    request.setAttribute("mensaje", resultado ? "Disponibilidad registrada correctamente." : "Error al registrar disponibilidad.");
+                    request.getSession().setAttribute("mensajeFlash", resultado ? "Disponibilidad registrada correctamente." : "Error al registrar disponibilidad.");
                 }
             } else if ("eliminar".equalsIgnoreCase(accion) || "inactivar".equalsIgnoreCase(accion)) {
                 int id = Integer.parseInt(request.getParameter("idDisponibilidad"));
                 boolean resultado = disponibilidadDao.eliminarDisponibilidad(id);
-                request.setAttribute("mensaje", resultado ? "Disponibilidad inactivada correctamente." : "Error al inactivar disponibilidad.");
+                request.getSession().setAttribute("mensajeFlash", resultado ? "Disponibilidad inactivada correctamente." : "Error al inactivar disponibilidad.");
             } else if ("reactivar".equalsIgnoreCase(accion)) {
                 int id = Integer.parseInt(request.getParameter("idDisponibilidad"));
                 boolean resultado = disponibilidadDao.reactivarDisponibilidad(id);
-                request.setAttribute("mensaje", resultado ? "Disponibilidad reactivada correctamente." : "Error al reactivar disponibilidad.");
+                request.getSession().setAttribute("mensajeFlash", resultado ? "Disponibilidad reactivada correctamente." : "Error al reactivar disponibilidad.");
             }
         } catch (SQLException | NumberFormatException e) {
-            request.setAttribute("mensaje", "Error: " + e.getMessage());
+            request.getSession().setAttribute("mensajeFlash", "Error: " + e.getMessage());
+            response.sendRedirect(request.getContextPath() + "/Disponibilidaad");
+            return;
         }
 
-        cargarListas(request, disponibilidadDao);
-        request.getRequestDispatcher("/Vista/Disponibilidad_admi.jsp").forward(request, response);
+        response.sendRedirect(request.getContextPath() + "/Disponibilidaad");
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         DisponibilidadDAO disponibilidadDao = new DisponibilidadDAO();
+
+        HttpSession sesion = request.getSession();
+        if (sesion.getAttribute("mensajeFlash") != null) {
+            request.setAttribute("mensaje", sesion.getAttribute("mensajeFlash"));
+            sesion.removeAttribute("mensajeFlash");
+        }
+
         cargarListas(request, disponibilidadDao);
         request.getRequestDispatcher("/Vista/Disponibilidad_admi.jsp").forward(request, response);
     }

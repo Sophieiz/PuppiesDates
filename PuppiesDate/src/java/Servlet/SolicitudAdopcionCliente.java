@@ -20,6 +20,15 @@ public class SolicitudAdopcionCliente extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        HttpSession sesion = request.getSession(false);
+        if (sesion == null || sesion.getAttribute("idUsuario") == null) {
+            response.setContentType("text/html; charset=UTF-8");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
+            response.getWriter().write("<div class=\"adopcion-auth-required\"></div>");
+            return;
+        }
+
         cargarFormularioYRedirigir(request, response);
     }
 

@@ -1,5 +1,4 @@
 package Servlet;
-
 import Controlador.RolesDAO;
 import Modelo.Roles;
 import jakarta.servlet.ServletException;
@@ -7,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -16,6 +16,13 @@ public class RolesAdmi extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        HttpSession sesion = request.getSession();
+        if (sesion.getAttribute("mensajeFlash") != null) {
+            request.setAttribute("mensaje", sesion.getAttribute("mensajeFlash"));
+            sesion.removeAttribute("mensajeFlash");
+        }
+
         cargarLista(request);
         request.getRequestDispatcher("/Vista/Roles_admi.jsp").forward(request, response);
     }
@@ -26,7 +33,6 @@ public class RolesAdmi extends HttpServlet {
         RolesDAO dao = new RolesDAO();
         String accion = request.getParameter("accion");
         String msg;
-
         try {
             if ("insertar".equalsIgnoreCase(accion)) {
                 Roles rol = new Roles();
@@ -47,12 +53,13 @@ public class RolesAdmi extends HttpServlet {
                 msg = "Accion no reconocida.";
             }
         } catch (SQLException e) {
-            throw new ServletException("Error en operaciones de Roles: " + e.getMessage(), e);
+            request.getSession().setAttribute("mensajeFlash", "Error en operaciones de Roles: " + e.getMessage());
+            response.sendRedirect(request.getContextPath() + "/RolesAdmi");
+            return;
         }
 
-        request.setAttribute("mensaje", msg);
-        cargarLista(request);
-        request.getRequestDispatcher("/Vista/Roles_admi.jsp").forward(request, response);
+        request.getSession().setAttribute("mensajeFlash", msg);
+        response.sendRedirect(request.getContextPath() + "/RolesAdmi");
     }
 
     private void cargarLista(HttpServletRequest request) {
