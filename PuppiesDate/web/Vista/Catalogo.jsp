@@ -107,6 +107,6 @@
         </div>
         <script>window.ctxApp = "${ctx}";</script>
         <script src="${ctx}/Vista/JavaScript/interfaz.js"></script>
-        <script src="${ctx}/Vista/JavaScript/interfaz.js"></script>
+        
     </body>
 </html>

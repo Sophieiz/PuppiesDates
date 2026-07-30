@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   configurarModalAdopcion();
   configurarCargaFotos();
   configurarMenuUsuario();
+  configurarRedireccionModalExito();
 });
 
 function configurarMenuUsuario() {
@@ -180,6 +181,20 @@ function configurarCargaFotos() {
   });
 }
 
+function configurarRedireccionModalExito() {
+  // Redirección al Iniciar Sesión desde el Modal de Éxito
+  const btnIrIniciar = document.getElementById('btnIrIniciarSesion');
+
+  if (btnIrIniciar) {
+    btnIrIniciar.addEventListener('click', function () {
+      const redirectUrl = this.getAttribute('data-url');
+      if (redirectUrl) {
+        window.location.href = redirectUrl;
+      }
+    });
+  }
+}
+
 function validarSolicitudAdopcion() {
   const campos = [
     ["direccion", "Ingresa tu dirección."],
@@ -215,18 +230,4 @@ function validarSolicitudAdopcion() {
   });
 
   return valido;
-
-  document.addEventListener('DOMContentLoaded', function () {
-    // Redirección al Iniciar Sesión desde el Modal de Éxito
-    const btnIrIniciar = document.getElementById('btnIrIniciarSesion');
-
-    if (btnIrIniciar) {
-      btnIrIniciar.addEventListener('click', function () {
-        const redirectUrl = this.getAttribute('data-url');
-        if (redirectUrl) {
-          window.location.href = redirectUrl;
-        }
-      });
-    }
-  });
-}ss
+}
