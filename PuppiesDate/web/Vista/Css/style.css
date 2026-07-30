@@ -610,7 +610,6 @@ body {
 
 .tarjeta-perrito {
     width: 250px;
-    height: 250px;
     flex-shrink: 0;
     background: var(--white);
     border-radius: 20px;
@@ -628,8 +627,7 @@ body {
 
 .tarjeta-perrito {
     background: var(--white);
-    border-radius: 24px; 
-    overflow: hidden;    
+    border-radius: 24px;  
     position: relative;
     display: flex;
     flex-direction: column;
