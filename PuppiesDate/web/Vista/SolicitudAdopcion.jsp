@@ -26,7 +26,8 @@
                     <div class="ficha-perrito">
                         <c:choose>
                             <c:when test="${not empty perrito.foto}">
-                                <img src="${perrito.foto}" alt="Foto de ${perrito.nombre}">
+                                <img src="${ctx}/${perrito.foto}" alt="Foto de ${perrito.nombre}"
+                                     onerror="this.onerror=null; this.src='${ctx}/Vista/Imagenes/Perrito1.jpg';">
                             </c:when>
                         </c:choose>
                         <h2>${perrito.nombre}</h2>
