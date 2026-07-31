@@ -16,7 +16,7 @@ public class ReservaDAO {
         boolean insertado = false;
         Connection con = conexion.getConn();
 
-        String sql = "INSERT INTO reserva (num_personas, hora, fecha, Usuarios_idUsuarios, Disponibilidad_idDisponibilidad, Estado_reserva_idEstado_reserva, Actividad_idActividad, Pagos_idPagos) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO reserva (num_personas, hora, fecha, Usuarios_idUsuarios, Disponibilidad_idDisponibilidad, Estado_reserva_idEstado_reserva, Actividad_idActividad) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, Mireserva.getNum_personas());
@@ -26,7 +26,6 @@ public class ReservaDAO {
             ps.setInt(5, Mireserva.getDisponibilidad_idDisponibilidad());
             ps.setInt(6, Mireserva.getEstado_reserva_idEstado_reserva());
             ps.setInt(7, Mireserva.getActividad_idActividad());
-            ps.setInt(8, Mireserva.getPagos_idPagos());
 
             ps.executeUpdate();
             insertado = true;
