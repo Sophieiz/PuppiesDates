@@ -46,10 +46,10 @@
                                     data-field-id="${perrito.idPerrito}"
                                     data-field-idPerrito="${perrito.idPerrito}"
                                     data-field-nombre="${perrito.nombre}"
-                                    data-field-especie="${perrito.especie}"
-                                    data-field-raza="${perrito.raza}"
+                                    data-field-especie="${perrito.especie_idEspecie}"
+                                    data-field-raza="${perrito.raza_idRaza}"
                                     data-field-fecha_nacimiento="${perrito.fecha_nacimiento}"
-                                    data-field-sexo="${perrito.sexo}"
+                                    data-field-sexo="${perrito.sexo_perrito_idSexo_perrito}"
                                     data-field-microchip="${perrito.microchip}"
                                     data-field-etapa_madurez="${perrito.etapa_madurez}"
                                     data-field-especialidad="${perrito.especialidad}"
@@ -57,14 +57,13 @@
                                     data-field-titulo_historia="${perrito.titulo_historia}"
                                     data-field-historia="${perrito.historia}"
                                     data-field-foto="${perrito.foto}"
-                                    data-field-ciudad="${perrito.ciudad}"
                                     data-field-Estado_perrito_idEstado_perrito="${perrito.estado_perrito_idEstado_perrito}"
                                     data-duplicate-key="${perrito.microchip}">
 
                                     <td>${perrito.idPerrito}</td>
                                     <td>${perrito.nombre}</td>
-                                    <td>${perrito.raza}</td>
-                                    <td>${perrito.sexo}</td>
+                                    <td>${perrito.descripcionRaza}</td>
+                                    <td>${perrito.descripcionSexo}</td>
                                     <td>${perrito.microchip}</td>
                                     <td>${perrito.descripcionEstado_perrito}</td>
                                 </tr>
@@ -104,13 +103,23 @@
 
                     <div class="admin-crud-field">
                         <label for="especie">Especie:</label>
-                        <input type="text" name="especie" id="especie" value="Canino" data-label="especie" data-required-message="La especie es obligatoria." required>
+                        <select name="especie" id="especie" data-label="especie" data-required-message="La especie es obligatoria." required>
+                            <option value="">Seleccione...</option>
+                            <c:forEach var="especieOpcion" items="${listaEspecies}">
+                                <option value="${especieOpcion.idEspecie}">${especieOpcion.descripcion}</option>
+                            </c:forEach>
+                        </select>
                         <span class="admin-crud-error"></span>
                     </div>
 
                     <div class="admin-crud-field">
                         <label for="raza">Raza:</label>
-                        <input type="text" name="raza" id="raza">
+                        <select name="raza" id="raza" data-label="raza" data-required-message="La raza es obligatoria." required>
+                            <option value="">Seleccione...</option>
+                            <c:forEach var="razaOpcion" items="${listaRazas}">
+                                <option value="${razaOpcion.idRaza}">${razaOpcion.nombre}</option>
+                            </c:forEach>
+                        </select>
                         <span class="admin-crud-error"></span>
                     </div>
 
@@ -125,7 +134,7 @@
                         <select name="sexo" id="sexo" data-label="sexo" data-required-message="El sexo es obligatorio." required>
                             <option value="">Seleccione...</option>
                             <c:forEach var="sexoOpcion" items="${listaSexos}">
-                                <option value="${sexoOpcion.descripcion}">${sexoOpcion.descripcion}</option>
+                                <option value="${sexoOpcion.idSexo_perrito}">${sexoOpcion.descripcion}</option>
                             </c:forEach>
                         </select>
                         <span class="admin-crud-error"></span>
@@ -155,14 +164,7 @@
                         <span class="admin-crud-error"></span>
                     </div>
 
-                    <div class="admin-crud-field">
-                        <label for="ciudad">Ciudad:</label>
-                        <input type="text" name="ciudad" id="ciudad">
-                        <span class="admin-crud-error"></span>
-                    </div>
-
-
-
+                    
                     <div class="admin-crud-field">
                         <label for="titulo_historia">Título de la historia:</label>
                         <input type="text" name="titulo_historia" id="titulo_historia" placeholder="Ej: El milagro de volver a confiar">
