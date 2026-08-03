@@ -33,7 +33,7 @@
                                 <th>Fecha</th>
                                 <th>Hora</th>
                                 <th>Personas</th>
-                                <th>Estado</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -42,10 +42,7 @@
                                     <td data-label="Actividad">${r.nombreActividad}</td>
                                     <td data-label="Fecha"><fmt:formatDate value="${r.fecha}" pattern="dd/MM/yyyy"/></td>
                                     <td data-label="Hora"><fmt:formatDate value="${r.hora}" pattern="HH:mm"/></td>
-                                    <td data-label="Personas">${r.num_personas}</td>
-                                    <td data-label="Estado">
-                                        <span class="estado-badge estado-${fn:toLowerCase(fn:replace(r.descripcionEstadoReserva, ' ', '-'))}">${r.descripcionEstadoReserva}</span>
-                                    </td>
+                                    <td data-label="Personas">${r.num_personas}</td>     
                                 </tr>
                             </c:forEach>
                         </tbody>

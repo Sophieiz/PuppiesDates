@@ -3,6 +3,7 @@ package Controlador;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Types;
 import Modelo.Solicitud_adopcion;
 import Modelo.Historial_estado_solicitud;
 import java.sql.ResultSet;
@@ -18,23 +19,37 @@ public class Solicitud_adopcionDAO {
         int idGenerado = -1;
         Connection con = conexion.getConn();
 
-        String sql = "INSERT INTO solicitud_adopcion (direccion, localidad, barrio, profesion, vive_en, "
+        String sql = "INSERT INTO solicitud_adopcion (direccion, Departamento_idDepartamento, "
+                + "Municipio_idMunicipio, Localidad_idLocalidad, barrio, profesion, vive_en, "
                 + "tipo_vivienda, nucleo_familiar, tiene_mascotas, Usuarios_idUsuarios, Perrito_idPerrito, "
-                + "Estado_solicitud_idEstado_solicitud) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "Estado_solicitud_idEstado_solicitud) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, solicitud.getDireccion());
-            ps.setString(2, solicitud.getLocalidad());
-            ps.setString(3, solicitud.getBarrio());
-            ps.setString(4, solicitud.getProfesion());
-            ps.setString(5, solicitud.getVive_en());
-            ps.setString(6, solicitud.getTipo_vivienda());
-            ps.setString(7, solicitud.getNucleo_familiar());
-            ps.setBoolean(8, solicitud.isTiene_mascotas());
-            ps.setInt(9, solicitud.getUsuarios_idUsuarios());
-            ps.setInt(10, solicitud.getPerrito_idPerrito());
+            ps.setInt(2, solicitud.getDepartamentoId());
+
+            if (solicitud.getMunicipioId() != null) {
+                ps.setInt(3, solicitud.getMunicipioId());
+            } else {
+                ps.setNull(3, Types.INTEGER);
+            }
+
+            if (solicitud.getLocalidadId() != null) {
+                ps.setInt(4, solicitud.getLocalidadId());
+            } else {
+                ps.setNull(4, Types.INTEGER);
+            }
+
+            ps.setString(5, solicitud.getBarrio());
+            ps.setString(6, solicitud.getProfesion());
+            ps.setString(7, solicitud.getVive_en());
+            ps.setString(8, solicitud.getTipo_vivienda());
+            ps.setString(9, solicitud.getNucleo_familiar());
+            ps.setBoolean(10, solicitud.isTiene_mascotas());
+            ps.setInt(11, solicitud.getUsuarios_idUsuarios());
+            ps.setInt(12, solicitud.getPerrito_idPerrito());
             // Toda solicitud nueva arranca en "En revisión" (idEstado_solicitud = 1)
-            ps.setInt(11, 1);
+            ps.setInt(13, 1);
 
             ps.executeUpdate();
 
@@ -272,22 +287,29 @@ public class Solicitud_adopcionDAO {
     }
 
     private String sqlBaseConJoins() {
-        return "SELECT s.idSolicitud_adopcion, s.direccion, s.localidad, s.barrio, s.profesion, s.vive_en, "
+        return "SELECT s.idSolicitud_adopcion, s.direccion, s.Departamento_idDepartamento, "
+                + "s.Municipio_idMunicipio, s.Localidad_idLocalidad, s.barrio, s.profesion, s.vive_en, "
                 + "s.tipo_vivienda, s.nucleo_familiar, s.tiene_mascotas, s.fecha_solicitud, "
                 + "s.Usuarios_idUsuarios, s.Perrito_idPerrito, s.Estado_solicitud_idEstado_solicitud, "
                 + "u.nombre AS nombreUsuario, u.apellido AS apellidoUsuario, u.documento AS documentoUsuario, "
-                + "u.correo AS correoUsuario, p.nombre AS nombrePerrito, e.descripcion_estado AS descripcionEstado "
+                + "u.correo AS correoUsuario, p.nombre AS nombrePerrito, e.descripcion_estado AS descripcionEstado, "
+                + "dep.nombre AS nombreDepartamento, COALESCE(mun.nombre, loc.nombre) AS nombreUbicacion "
                 + "FROM solicitud_adopcion s "
                 + "INNER JOIN usuarios u ON s.Usuarios_idUsuarios = u.idUsuarios "
                 + "INNER JOIN perrito p ON s.Perrito_idPerrito = p.idPerrito "
-                + "INNER JOIN estado_solicitud e ON s.Estado_solicitud_idEstado_solicitud = e.idEstado_solicitud";
+                + "INNER JOIN estado_solicitud e ON s.Estado_solicitud_idEstado_solicitud = e.idEstado_solicitud "
+                + "LEFT JOIN departamentos dep ON s.Departamento_idDepartamento = dep.idDepartamento "
+                + "LEFT JOIN municipios mun ON s.Municipio_idMunicipio = mun.idMunicipio "
+                + "LEFT JOIN localidades loc ON s.Localidad_idLocalidad = loc.idLocalidad";
     }
 
     private Solicitud_adopcion mapearSolicitud(ResultSet rs) throws SQLException {
         Solicitud_adopcion solicitud = new Solicitud_adopcion();
         solicitud.setIdSolicitud_adopcion(rs.getInt("idSolicitud_adopcion"));
         solicitud.setDireccion(rs.getString("direccion"));
-        solicitud.setLocalidad(rs.getString("localidad"));
+        solicitud.setDepartamentoId(rs.getInt("Departamento_idDepartamento"));
+        solicitud.setMunicipioId(rs.getObject("Municipio_idMunicipio", Integer.class));
+        solicitud.setLocalidadId(rs.getObject("Localidad_idLocalidad", Integer.class));
         solicitud.setBarrio(rs.getString("barrio"));
         solicitud.setProfesion(rs.getString("profesion"));
         solicitud.setVive_en(rs.getString("vive_en"));
@@ -305,6 +327,8 @@ public class Solicitud_adopcionDAO {
         solicitud.setCorreoUsuario(rs.getString("correoUsuario"));
         solicitud.setNombrePerrito(rs.getString("nombrePerrito"));
         solicitud.setDescripcionEstado_solicitud(rs.getString("descripcionEstado"));
+        solicitud.setNombreDepartamento(rs.getString("nombreDepartamento"));
+        solicitud.setNombreUbicacion(rs.getString("nombreUbicacion"));
         return solicitud;
     }
 }

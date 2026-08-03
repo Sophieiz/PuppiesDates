@@ -39,7 +39,7 @@
                     <table class="admin-crud-table">
                         <thead>
                             <tr>
-                                
+                                <th>#</th>
                                 <th>Perrito</th>
                                 <th>Solicitante</th>
                                 <th>Correo</th>

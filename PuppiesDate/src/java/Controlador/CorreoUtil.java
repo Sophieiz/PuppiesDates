@@ -102,7 +102,8 @@ public class CorreoUtil {
         String correoUsuario = escapar(solicitud.getCorreoUsuario());
         String nombrePerrito = escapar(perrito.getNombre());
         String direccion = escapar(solicitud.getDireccion());
-        String localidad = escapar(solicitud.getLocalidad());
+        String departamento = escapar(solicitud.getNombreDepartamento());
+        String ubicacion = escapar(solicitud.getNombreUbicacion());
         String barrio = escapar(solicitud.getBarrio());
         String profesion = escapar(solicitud.getProfesion());
         String viveEn = escapar(solicitud.getVive_en());
@@ -118,7 +119,8 @@ public class CorreoUtil {
                 + filaDato("Documento", documentoUsuario)
                 + filaDato("Correo", correoUsuario)
                 + filaDato("Dirección", direccion)
-                + filaDato("Localidad", localidad)
+                + filaDato("Departamento", departamento)
+                + filaDato("Municipio/Localidad", ubicacion)
                 + filaDato("Barrio", barrio)
                 + filaDato("Profesión", profesion)
                 + filaDato("Vive en", viveEn)

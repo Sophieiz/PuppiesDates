@@ -6,10 +6,7 @@ public class Perrito {
 
     private int idPerrito;
     private String nombre;
-    private String especie;
-    private String raza;
     private Date fecha_nacimiento;
-    private String sexo;
     private String microchip;
     private String etapa_madurez;
     private String especialidad;
@@ -17,10 +14,17 @@ public class Perrito {
     private String titulo_historia;
     private String historia;
     private String foto;
-    private String ciudad;
+
+    // FK reales de la tabla (antes eran texto libre: especie, raza, sexo)
+    private int Especie_idEspecie;
+    private int Raza_idRaza;
+    private int Sexo_perrito_idSexo_perrito;
     private int Estado_perrito_idEstado_perrito;
 
-    // Campo de apoyo (no es columna) para mostrar el nombre del estado en JSP sin hacer join manual
+    // Campos de apoyo (no son columnas) para mostrar la descripción en JSP sin hacer join manual
+    private String descripcionEspecie;
+    private String descripcionRaza;
+    private String descripcionSexo;
     private String descripcionEstado_perrito;
 
     public Perrito() {
@@ -42,36 +46,12 @@ public class Perrito {
         this.nombre = nombre;
     }
 
-    public String getEspecie() {
-        return especie;
-    }
-
-    public void setEspecie(String especie) {
-        this.especie = especie;
-    }
-
-    public String getRaza() {
-        return raza;
-    }
-
-    public void setRaza(String raza) {
-        this.raza = raza;
-    }
-
     public Date getFecha_nacimiento() {
         return fecha_nacimiento;
     }
 
     public void setFecha_nacimiento(Date fecha_nacimiento) {
         this.fecha_nacimiento = fecha_nacimiento;
-    }
-
-    public String getSexo() {
-        return sexo;
-    }
-
-    public void setSexo(String sexo) {
-        this.sexo = sexo;
     }
 
     public String getMicrochip() {
@@ -130,12 +110,28 @@ public class Perrito {
         this.foto = foto;
     }
 
-    public String getCiudad() {
-        return ciudad;
+    public int getEspecie_idEspecie() {
+        return Especie_idEspecie;
     }
 
-    public void setCiudad(String ciudad) {
-        this.ciudad = ciudad;
+    public void setEspecie_idEspecie(int Especie_idEspecie) {
+        this.Especie_idEspecie = Especie_idEspecie;
+    }
+
+    public int getRaza_idRaza() {
+        return Raza_idRaza;
+    }
+
+    public void setRaza_idRaza(int Raza_idRaza) {
+        this.Raza_idRaza = Raza_idRaza;
+    }
+
+    public int getSexo_perrito_idSexo_perrito() {
+        return Sexo_perrito_idSexo_perrito;
+    }
+
+    public void setSexo_perrito_idSexo_perrito(int Sexo_perrito_idSexo_perrito) {
+        this.Sexo_perrito_idSexo_perrito = Sexo_perrito_idSexo_perrito;
     }
 
     public int getEstado_perrito_idEstado_perrito() {
@@ -144,6 +140,30 @@ public class Perrito {
 
     public void setEstado_perrito_idEstado_perrito(int Estado_perrito_idEstado_perrito) {
         this.Estado_perrito_idEstado_perrito = Estado_perrito_idEstado_perrito;
+    }
+
+    public String getDescripcionEspecie() {
+        return descripcionEspecie;
+    }
+
+    public void setDescripcionEspecie(String descripcionEspecie) {
+        this.descripcionEspecie = descripcionEspecie;
+    }
+
+    public String getDescripcionRaza() {
+        return descripcionRaza;
+    }
+
+    public void setDescripcionRaza(String descripcionRaza) {
+        this.descripcionRaza = descripcionRaza;
+    }
+
+    public String getDescripcionSexo() {
+        return descripcionSexo;
+    }
+
+    public void setDescripcionSexo(String descripcionSexo) {
+        this.descripcionSexo = descripcionSexo;
     }
 
     public String getDescripcionEstado_perrito() {

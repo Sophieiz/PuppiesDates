@@ -64,9 +64,23 @@
                                 </div>
 
                                 <div class="campo-reserva">
-                                    <label for="localidad">Localidad</label>
-                                    <input type="text" name="localidad" id="localidad" placeholder="Ej: Suba">
-                                    <span class="error-mensaje" id="error_localidad"></span>
+                                    <label for="departamentoId">Departamento / Distrito</label>
+                                    <select name="departamentoId" id="departamentoId">
+                                        <option value="" selected disabled>Seleccione...</option>
+                                        <c:forEach var="dep" items="${departamentos}">
+                                            <option value="${dep.idDepartamento}" data-tipo="${dep.tipoDivision}">${dep.nombre}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <span class="error-mensaje" id="error_departamentoId"></span>
+                                </div>
+
+                                <div class="campo-reserva">
+                                    <label for="ubicacionId">Municipio / Localidad</label>
+                                    <select name="ubicacionId" id="ubicacionId" disabled>
+                                        <option value="" selected disabled>Selecciona primero el departamento</option>
+                                    </select>
+                                    <input type="hidden" name="tipoDivision" id="tipoDivision">
+                                    <span class="error-mensaje" id="error_ubicacionId"></span>
                                 </div>
 
                                 <div class="campo-reserva">
@@ -125,6 +139,10 @@
             </c:otherwise>
         </c:choose>
 
+        <script>
+            const contextPath = "${ctx}";
+        </script>
+        <script src="${ctx}/Vista/JavaScript/ubicacionAdopcion.js" defer></script>
         <script src="${ctx}/Vista/JavaScript/validarSolicitudAdopcion.js" defer></script>
 
         <%@ include file="Footer.jsp" %>

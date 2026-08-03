@@ -6,7 +6,9 @@ public class Solicitud_adopcion {
 
     private int idSolicitud_adopcion;
     private String direccion;
-    private String localidad;
+    private int departamentoId;
+    private Integer municipioId;
+    private Integer localidadId;
     private String barrio;
     private String profesion;
     private String vive_en;
@@ -25,6 +27,8 @@ public class Solicitud_adopcion {
     private String correoUsuario;
     private String nombrePerrito;
     private String descripcionEstado_solicitud;
+    private String nombreDepartamento;
+    private String nombreUbicacion; // nombre del municipio o de la localidad, según aplique
 
     public Solicitud_adopcion() {
     }
@@ -45,12 +49,28 @@ public class Solicitud_adopcion {
         this.direccion = direccion;
     }
 
-    public String getLocalidad() {
-        return localidad;
+    public int getDepartamentoId() {
+        return departamentoId;
     }
 
-    public void setLocalidad(String localidad) {
-        this.localidad = localidad;
+    public void setDepartamentoId(int departamentoId) {
+        this.departamentoId = departamentoId;
+    }
+
+    public Integer getMunicipioId() {
+        return municipioId;
+    }
+
+    public void setMunicipioId(Integer municipioId) {
+        this.municipioId = municipioId;
+    }
+
+    public Integer getLocalidadId() {
+        return localidadId;
+    }
+
+    public void setLocalidadId(Integer localidadId) {
+        this.localidadId = localidadId;
     }
 
     public String getBarrio() {
@@ -179,5 +199,21 @@ public class Solicitud_adopcion {
 
     public void setDescripcionEstado_solicitud(String descripcionEstado_solicitud) {
         this.descripcionEstado_solicitud = descripcionEstado_solicitud;
+    }
+
+    public String getNombreDepartamento() {
+        return nombreDepartamento;
+    }
+
+    public void setNombreDepartamento(String nombreDepartamento) {
+        this.nombreDepartamento = nombreDepartamento;
+    }
+
+    public String getNombreUbicacion() {
+        return nombreUbicacion;
+    }
+
+    public void setNombreUbicacion(String nombreUbicacion) {
+        this.nombreUbicacion = nombreUbicacion;
     }
 }

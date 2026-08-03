@@ -22,16 +22,17 @@ public class PerritoDAO {
         boolean insertado = false;
         Connection con = conexion.getConn();
 
-        String sql = "INSERT INTO perrito (nombre, especie, raza, fecha_nacimiento, sexo, microchip, "
-                + "etapa_madurez, especialidad, condiciones_especiales, titulo_historia, historia, foto, "
-                + "ciudad, Estado_perrito_idEstado_perrito) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO perrito (nombre, Especie_idEspecie, Raza_idRaza, fecha_nacimiento, "
+                + "Sexo_perrito_idSexo_perrito, microchip, etapa_madurez, especialidad, condiciones_especiales, "
+                + "titulo_historia, historia, foto, Estado_perrito_idEstado_perrito) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, perrito.getNombre());
-            ps.setString(2, perrito.getEspecie());
-            ps.setString(3, perrito.getRaza());
+            ps.setInt(2, perrito.getEspecie_idEspecie());
+            ps.setInt(3, perrito.getRaza_idRaza());
             ps.setDate(4, perrito.getFecha_nacimiento());
-            ps.setString(5, perrito.getSexo());
+            ps.setInt(5, perrito.getSexo_perrito_idSexo_perrito());
             ps.setString(6, perrito.getMicrochip());
             ps.setString(7, perrito.getEtapa_madurez());
             ps.setString(8, perrito.getEspecialidad());
@@ -39,8 +40,7 @@ public class PerritoDAO {
             ps.setString(10, perrito.getTitulo_historia());
             ps.setString(11, perrito.getHistoria());
             ps.setString(12, perrito.getFoto());
-            ps.setString(13, perrito.getCiudad());
-            ps.setInt(14, perrito.getEstado_perrito_idEstado_perrito());
+            ps.setInt(13, perrito.getEstado_perrito_idEstado_perrito());
 
             ps.executeUpdate();
             insertado = true;
@@ -57,13 +57,17 @@ public class PerritoDAO {
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try {
-            String sql = "SELECT p.idPerrito, p.nombre, p.especie, p.raza, p.fecha_nacimiento, p.sexo, "
-                    + "p.microchip, p.etapa_madurez, p.especialidad, p.condiciones_especiales, "
-                    + "p.titulo_historia, p.historia, p.foto, p.ciudad, p.Estado_perrito_idEstado_perrito, "
-                    + "e.descripcion_estado AS descripcionEstado "
+            String sql = "SELECT p.idPerrito, p.nombre, p.Especie_idEspecie, p.Raza_idRaza, p.fecha_nacimiento, "
+                    + "p.Sexo_perrito_idSexo_perrito, p.microchip, p.etapa_madurez, p.especialidad, "
+                    + "p.condiciones_especiales, p.titulo_historia, p.historia, p.foto, "
+                    + "p.Estado_perrito_idEstado_perrito, "
+                    + "esp.descripcion AS descripcionEspecie, r.nombre AS descripcionRaza, "
+                    + "sx.descripcion AS descripcionSexo, e.descripcion_estado AS descripcionEstado "
                     + "FROM perrito p "
                     + "INNER JOIN estado_perrito e ON p.Estado_perrito_idEstado_perrito = e.idEstado_perrito "
-                    + "WHERE p.idPerrito = ?";
+                    + "INNER JOIN especie esp ON p.Especie_idEspecie = esp.idEspecie "
+                    + "INNER JOIN raza r ON p.Raza_idRaza = r.idRaza "
+                    + "INNER JOIN sexo_perrito sx ON p.Sexo_perrito_idSexo_perrito = sx.idSexo_perrito ";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, idPerrito);
             ResultSet rs = ps.executeQuery();
@@ -79,18 +83,18 @@ public class PerritoDAO {
 
     public boolean actualizarPerrito(Perrito perrito) {
         boolean actualizado = false;
-        String sql = "UPDATE perrito SET nombre=?, especie=?, raza=?, fecha_nacimiento=?, sexo=?, "
-                + "microchip=?, etapa_madurez=?, especialidad=?, condiciones_especiales=?, "
-                + "titulo_historia=?, historia=?, foto=?, ciudad=?, Estado_perrito_idEstado_perrito=? "
-                + "WHERE idPerrito=?";
+        String sql = "UPDATE perrito SET nombre=?, Especie_idEspecie=?, Raza_idRaza=?, fecha_nacimiento=?, "
+                + "Sexo_perrito_idSexo_perrito=?, microchip=?, etapa_madurez=?, especialidad=?, "
+                + "condiciones_especiales=?, titulo_historia=?, historia=?, foto=?, "
+                + "Estado_perrito_idEstado_perrito=? WHERE idPerrito=?";
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, perrito.getNombre());
-            ps.setString(2, perrito.getEspecie());
-            ps.setString(3, perrito.getRaza());
+            ps.setInt(2, perrito.getEspecie_idEspecie());
+            ps.setInt(3, perrito.getRaza_idRaza());
             ps.setDate(4, perrito.getFecha_nacimiento());
-            ps.setString(5, perrito.getSexo());
+            ps.setInt(5, perrito.getSexo_perrito_idSexo_perrito());
             ps.setString(6, perrito.getMicrochip());
             ps.setString(7, perrito.getEtapa_madurez());
             ps.setString(8, perrito.getEspecialidad());
@@ -98,9 +102,8 @@ public class PerritoDAO {
             ps.setString(10, perrito.getTitulo_historia());
             ps.setString(11, perrito.getHistoria());
             ps.setString(12, perrito.getFoto());
-            ps.setString(13, perrito.getCiudad());
-            ps.setInt(14, perrito.getEstado_perrito_idEstado_perrito());
-            ps.setInt(15, perrito.getIdPerrito());
+            ps.setInt(13, perrito.getEstado_perrito_idEstado_perrito());
+            ps.setInt(14, perrito.getIdPerrito());
             if (ps.executeUpdate() > 0) {
                 actualizado = true;
                 System.out.println("Perrito actualizado con éxito.");
@@ -294,10 +297,10 @@ public class PerritoDAO {
         Perrito perrito = new Perrito();
         perrito.setIdPerrito(rs.getInt("idPerrito"));
         perrito.setNombre(rs.getString("nombre"));
-        perrito.setEspecie(rs.getString("especie"));
-        perrito.setRaza(rs.getString("raza"));
+        perrito.setEspecie_idEspecie(rs.getInt("Especie_idEspecie"));
+        perrito.setRaza_idRaza(rs.getInt("Raza_idRaza"));
         perrito.setFecha_nacimiento(rs.getDate("fecha_nacimiento"));
-        perrito.setSexo(rs.getString("sexo"));
+        perrito.setSexo_perrito_idSexo_perrito(rs.getInt("Sexo_perrito_idSexo_perrito"));
         perrito.setMicrochip(rs.getString("microchip"));
         perrito.setEtapa_madurez(rs.getString("etapa_madurez"));
         perrito.setEspecialidad(rs.getString("especialidad"));
@@ -305,9 +308,11 @@ public class PerritoDAO {
         perrito.setTitulo_historia(rs.getString("titulo_historia"));
         perrito.setHistoria(rs.getString("historia"));
         perrito.setFoto(rs.getString("foto"));
-        perrito.setCiudad(rs.getString("ciudad"));
         perrito.setEstado_perrito_idEstado_perrito(rs.getInt("Estado_perrito_idEstado_perrito"));
         perrito.setDescripcionEstado_perrito(rs.getString("descripcionEstado"));
+        perrito.setDescripcionEspecie(rs.getString("descripcionEspecie"));
+        perrito.setDescripcionRaza(rs.getString("descripcionRaza"));
+        perrito.setDescripcionSexo(rs.getString("descripcionSexo"));
         return perrito;
     }
 }

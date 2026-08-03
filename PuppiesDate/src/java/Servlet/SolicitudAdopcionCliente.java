@@ -1,6 +1,7 @@
 package Servlet;
 
 import Controlador.CorreoUtil;
+import Controlador.DepartamentoDAO;
 import Controlador.Opcion_formularioDAO;
 import Controlador.PerritoDAO;
 import Controlador.Solicitud_adopcionDAO;
@@ -41,7 +42,9 @@ public class SolicitudAdopcionCliente extends HttpServlet {
         try {
             String idPerritoStr = request.getParameter("idPerrito");
             String direccion = request.getParameter("direccion");
-            String localidad = request.getParameter("localidad");
+            String departamentoIdStr = request.getParameter("departamentoId");
+            String ubicacionIdStr = request.getParameter("ubicacionId");
+            String tipoDivision = request.getParameter("tipoDivision");
             String barrio = request.getParameter("barrio");
             String profesion = request.getParameter("profesion");
             String viveEn = request.getParameter("vive_en");
@@ -50,7 +53,9 @@ public class SolicitudAdopcionCliente extends HttpServlet {
             String tieneMascotasStr = request.getParameter("tiene_mascotas");
 
             if (idPerritoStr == null || direccion == null || direccion.trim().isEmpty()
-                    || localidad == null || localidad.trim().isEmpty()
+                    || departamentoIdStr == null || departamentoIdStr.trim().isEmpty()
+                    || ubicacionIdStr == null || ubicacionIdStr.trim().isEmpty()
+                    || tipoDivision == null || tipoDivision.trim().isEmpty()
                     || barrio == null || barrio.trim().isEmpty()
                     || profesion == null || profesion.trim().isEmpty()
                     || viveEn == null || viveEn.trim().isEmpty()
@@ -62,6 +67,9 @@ public class SolicitudAdopcionCliente extends HttpServlet {
             }
 
             int idPerrito = Integer.parseInt(idPerritoStr);
+            int departamentoId = Integer.parseInt(departamentoIdStr);
+            int ubicacionId = Integer.parseInt(ubicacionIdStr);
+
             boolean tieneMascotas = "true".equalsIgnoreCase(tieneMascotasStr)
                     || "si".equalsIgnoreCase(tieneMascotasStr)
                     || "on".equalsIgnoreCase(tieneMascotasStr);
@@ -100,7 +108,17 @@ public class SolicitudAdopcionCliente extends HttpServlet {
 
             Solicitud_adopcion solicitud = new Solicitud_adopcion();
             solicitud.setDireccion(direccion);
-            solicitud.setLocalidad(localidad);
+            solicitud.setDepartamentoId(departamentoId);
+
+            // El mismo id de <select> significa cosas distintas según tipoDivision
+            if ("LOCALIDAD".equals(tipoDivision)) {
+                solicitud.setLocalidadId(ubicacionId);
+                solicitud.setMunicipioId(null);
+            } else {
+                solicitud.setMunicipioId(ubicacionId);
+                solicitud.setLocalidadId(null);
+            }
+
             solicitud.setBarrio(barrio);
             solicitud.setProfesion(profesion);
             solicitud.setVive_en(viveEn);
@@ -151,6 +169,10 @@ public class SolicitudAdopcionCliente extends HttpServlet {
         Opcion_formularioDAO opcionDao = new Opcion_formularioDAO();
         request.setAttribute("listaViveEn", opcionDao.listarPorCategoria("vive_en"));
         request.setAttribute("listaTipoVivienda", opcionDao.listarPorCategoria("tipo_vivienda"));
+
+        DepartamentoDAO departamentoDao = new DepartamentoDAO();
+        request.setAttribute("departamentos", departamentoDao.listarActivos());
+
         request.getRequestDispatcher("/Vista/SolicitudAdopcion.jsp").forward(request, response);
     }
 }

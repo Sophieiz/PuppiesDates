@@ -25,9 +25,9 @@ import Controlador.Estado_perritoDAO;
 
 @WebServlet("/PerritoAdmi")
 @MultipartConfig(
-    fileSizeThreshold = 1024 * 1024 * 1,
-    maxFileSize = 1024 * 1024 * 10,
-    maxRequestSize = 1024 * 1024 * 15
+        fileSizeThreshold = 1024 * 1024 * 1,
+        maxFileSize = 1024 * 1024 * 10,
+        maxRequestSize = 1024 * 1024 * 15
 )
 public class PerritoAdmi extends HttpServlet {
 
@@ -107,15 +107,16 @@ public class PerritoAdmi extends HttpServlet {
             perrito.setIdPerrito(idPerrito);
         }
         perrito.setNombre(request.getParameter("nombre"));
-        perrito.setEspecie(request.getParameter("especie"));
-        perrito.setRaza(request.getParameter("raza"));
+        perrito.setNombre(request.getParameter("nombre"));
+        perrito.setEspecie_idEspecie(Integer.parseInt(request.getParameter("especie")));
+        perrito.setRaza_idRaza(Integer.parseInt(request.getParameter("raza")));
 
         String fechaNac = request.getParameter("fecha_nacimiento");
         if (fechaNac != null && !fechaNac.trim().isEmpty()) {
             perrito.setFecha_nacimiento(Date.valueOf(fechaNac));
         }
 
-        perrito.setSexo(request.getParameter("sexo"));
+        perrito.setSexo_perrito_idSexo_perrito(Integer.parseInt(request.getParameter("sexo")));
         perrito.setMicrochip(request.getParameter("microchip"));
         perrito.setEtapa_madurez(request.getParameter("etapa_madurez"));
         perrito.setEspecialidad(request.getParameter("especialidad"));
@@ -147,9 +148,7 @@ public class PerritoAdmi extends HttpServlet {
 
             rutaFotoFinal = "uploads/" + nuevoNombre;
         }
-
         perrito.setFoto(rutaFotoFinal);
-        perrito.setCiudad(request.getParameter("ciudad"));
 
         String idEstado = request.getParameter("Estado_perrito_idEstado_perrito");
         if (idEstado != null && !idEstado.isEmpty()) {
@@ -160,11 +159,11 @@ public class PerritoAdmi extends HttpServlet {
     }
 
     /**
-     * Resuelve la carpeta donde se guardan las fotos de los perritos.
-     * - En Railway: define la variable de entorno UPLOADS_DIR apuntando a la ruta
-     *   donde montaste el Volume (ej: /data/uploads), asi las fotos sobreviven a cada deploy.
-     * - En local (sin la variable definida): usa una carpeta fija en el home del usuario,
-     *   para que no se borre al recompilar.
+     * Resuelve la carpeta donde se guardan las fotos de los perritos. - En
+     * Railway: define la variable de entorno UPLOADS_DIR apuntando a la ruta
+     * donde montaste el Volume (ej: /data/uploads), asi las fotos sobreviven a
+     * cada deploy. - En local (sin la variable definida): usa una carpeta fija
+     * en el home del usuario, para que no se borre al recompilar.
      */
     private String obtenerCarpetaUploads() {
         String desdeEntorno = System.getenv("UPLOADS_DIR");
@@ -182,6 +181,8 @@ public class PerritoAdmi extends HttpServlet {
         request.setAttribute("listaPerritos", listaPerritos);
         request.setAttribute("listaEstados", listaEstados);
         request.setAttribute("listaPerritosInactivos", dao.listarInactivos());
+        request.setAttribute("listaEspecies", new Controlador.EspecieDAO().listarEspecie());
+        request.setAttribute("listaRazas", new Controlador.RazaDAO().listarRaza());
         request.setAttribute("listaSexos", new Controlador.Sexo_perritoDAO().listarSexo_perrito());
         request.getRequestDispatcher("/Vista/PerritoAdmi.jsp").forward(request, response);
     }

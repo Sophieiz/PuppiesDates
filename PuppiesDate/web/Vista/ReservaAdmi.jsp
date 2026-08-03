@@ -53,9 +53,7 @@
                             <c:forEach var="reserva" items="${listaReservas}">
                                 <tr class="admin-crud-row" 
                                     data-admin-row 
-                                    tabindex="0"
-                                    data-field-id="${reserva.idReserva}"
-                                    data-field-idReserva="${reserva.idReserva}"
+                                    tabindex="0"             
                                     data-field-num_personas="${reserva.num_personas}"
                                     data-field-hora="${reserva.hora}"
                                     data-field-fecha="${reserva.fecha}"
