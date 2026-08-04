@@ -30,6 +30,16 @@ public class Filtro implements Filter {
             chain.doFilter(request, response);
             return;
         }
+        
+        // Excluir rutas de la API mobile (Flutter) - estas no usan sesión
+        // de navegador, se validan aparte con su propio login (LoginMobileServlet)
+        if (path.startsWith("/api/")) {
+            chain.doFilter(request, response);
+            return;
+        }
+
+        
+        
         // Excluir páginas públicas y servlets de acceso
         if (path.endsWith("index.jsp")
             || path.endsWith("InicioSesion.jsp")
