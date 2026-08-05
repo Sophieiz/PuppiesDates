@@ -113,7 +113,6 @@ public class SolicitudAdopcionCliente extends HttpServlet {
             solicitud.setDireccion(direccion);
             solicitud.setDepartamentoId(departamentoId);
 
-            
             if ("LOCALIDAD".equals(tipoDivision)) {
                 solicitud.setLocalidadId(ubicacionId);
                 solicitud.setMunicipioId(null);
@@ -134,13 +133,11 @@ public class SolicitudAdopcionCliente extends HttpServlet {
             int idSolicitudGenerada = solicitudDao.insertarSolicitud_adopcion(solicitud);
 
             if (idSolicitudGenerada != -1) {
-                
+
                 Solicitud_adopcion solicitudCompleta = solicitudDao.ConsultarSolicitud_adopcion(idSolicitudGenerada);
 
-                
                 CorreoUtil.enviarCorreoNuevaSolicitud(solicitudCompleta, perrito);
 
-                
                 CorreoUtil.enviarCorreoConfirmacionSolicitudUsuario(solicitudCompleta, perrito);
 
                 request.setAttribute("resultado", "¡Solicitud de adopción enviada! "
@@ -168,6 +165,10 @@ public class SolicitudAdopcionCliente extends HttpServlet {
             } catch (NumberFormatException ignored) {
             }
         }
+
+        DepartamentoDAO departamentoDao = new DepartamentoDAO();
+        request.setAttribute("departamentos", departamentoDao.listarActivos());
+        
         Vive_enDAO viveEnDao = new Vive_enDAO();
         request.setAttribute("listaViveEn", viveEnDao.listarActivos());
 
