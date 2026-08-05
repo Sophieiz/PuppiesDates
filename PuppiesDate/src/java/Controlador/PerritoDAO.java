@@ -193,7 +193,7 @@ public class PerritoDAO {
                     + "FROM perrito p "
                     + "INNER JOIN estado_perrito e ON p.Estado_perrito_idEstado_perrito = e.idEstado_perrito "
                     + "INNER JOIN especie esp ON p.Especie_idEspecie = esp.idEspecie "
-                    + "LEFT JOIN raza r ON p.Raza_idRaza = r.idRaza"
+                    + "INNER JOIN raza r ON p.Raza_idRaza = r.idRaza "
                     + "INNER JOIN sexo_perrito sx ON p.Sexo_perrito_idSexo_perrito = sx.idSexo_perrito "
                     + "WHERE e.descripcion_estado = 'Disponible' AND p.activo = 1";
             PreparedStatement ps = con.prepareStatement(sql);
