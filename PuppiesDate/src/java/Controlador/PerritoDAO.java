@@ -24,8 +24,8 @@ public class PerritoDAO {
 
         String sql = "INSERT INTO perrito (nombre, Especie_idEspecie, Raza_idRaza, fecha_nacimiento, "
                 + "Sexo_perrito_idSexo_perrito, microchip, etapa_madurez, especialidad, condiciones_especiales, "
-                + "titulo_historia, historia, foto, Estado_perrito_idEstado_perrito) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "titulo_historia, historia, foto, Estado_perrito_idEstado_perrito, activo) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, perrito.getNombre());
@@ -173,18 +173,23 @@ public class PerritoDAO {
         return lista;
     }
 
-    // Solo los que están disponibles para adopción - para el catálogo público
+   
     public List<Perrito> listarPerritoDisponible() {
         List<Perrito> lista = new ArrayList<>();
         Conexion conexion = new Conexion();
         Connection con = conexion.getConn();
         try {
-            String sql = "SELECT p.idPerrito, p.nombre, p.especie, p.raza, p.fecha_nacimiento, p.sexo, "
-                    + "p.microchip, p.etapa_madurez, p.especialidad, p.condiciones_especiales, "
-                    + "p.titulo_historia, p.historia, p.foto, p.ciudad, p.Estado_perrito_idEstado_perrito, "
-                    + "e.descripcion_estado AS descripcionEstado "
+            String sql = "SELECT p.idPerrito, p.nombre, p.Especie_idEspecie, p.Raza_idRaza, p.fecha_nacimiento, "
+                    + "p.Sexo_perrito_idSexo_perrito, p.microchip, p.etapa_madurez, p.especialidad, "
+                    + "p.condiciones_especiales, p.titulo_historia, p.historia, p.foto, "
+                    + "p.Estado_perrito_idEstado_perrito, "
+                    + "esp.descripcion AS descripcionEspecie, r.nombre AS descripcionRaza, "
+                    + "sx.descripcion AS descripcionSexo, e.descripcion_estado AS descripcionEstado "
                     + "FROM perrito p "
                     + "INNER JOIN estado_perrito e ON p.Estado_perrito_idEstado_perrito = e.idEstado_perrito "
+                    + "INNER JOIN especie esp ON p.Especie_idEspecie = esp.idEspecie "
+                    + "INNER JOIN raza r ON p.Raza_idRaza = r.idRaza "
+                    + "INNER JOIN sexo_perrito sx ON p.Sexo_perrito_idSexo_perrito = sx.idSexo_perrito "
                     + "WHERE e.descripcion_estado = 'Disponible' AND p.activo = 1";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();

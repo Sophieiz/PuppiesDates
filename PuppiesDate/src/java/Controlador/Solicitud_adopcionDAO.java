@@ -42,13 +42,13 @@ public class Solicitud_adopcionDAO {
 
             ps.setString(5, solicitud.getBarrio());
             ps.setString(6, solicitud.getProfesion());
-            ps.setString(7, solicitud.getVive_en());
-            ps.setString(8, solicitud.getTipo_vivienda());
+            ps.setInt(7, solicitud.getViveEnId());
+            ps.setInt(8, solicitud.getTipoViviendaId());
             ps.setString(9, solicitud.getNucleo_familiar());
             ps.setBoolean(10, solicitud.isTiene_mascotas());
             ps.setInt(11, solicitud.getUsuarios_idUsuarios());
             ps.setInt(12, solicitud.getPerrito_idPerrito());
-            // Toda solicitud nueva arranca en "En revisión" (idEstado_solicitud = 1)
+            
             ps.setInt(13, 1);
 
             ps.executeUpdate();
@@ -312,8 +312,8 @@ public class Solicitud_adopcionDAO {
         solicitud.setLocalidadId(rs.getObject("Localidad_idLocalidad", Integer.class));
         solicitud.setBarrio(rs.getString("barrio"));
         solicitud.setProfesion(rs.getString("profesion"));
-        solicitud.setVive_en(rs.getString("vive_en"));
-        solicitud.setTipo_vivienda(rs.getString("tipo_vivienda"));
+        solicitud.setViveEnId(rs.getInt("vive_en_idvive_en"));
+        solicitud.setTipoViviendaId(rs.getInt("tipo_vivienda_idtipo_vivienda"));
         solicitud.setNucleo_familiar(rs.getString("nucleo_familiar"));
         solicitud.setTiene_mascotas(rs.getBoolean("tiene_mascotas"));
         Timestamp fecha = rs.getTimestamp("fecha_solicitud");

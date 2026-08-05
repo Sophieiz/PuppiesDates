@@ -47,8 +47,8 @@ public class SolicitudAdopcionCliente extends HttpServlet {
             String tipoDivision = request.getParameter("tipoDivision");
             String barrio = request.getParameter("barrio");
             String profesion = request.getParameter("profesion");
-            String viveEn = request.getParameter("vive_en");
-            String tipoVivienda = request.getParameter("tipo_vivienda");
+            String viveEnIdStr = request.getParameter("viveEnId");
+            String tipoViviendaIdStr = request.getParameter("tipoViviendaId");
             String nucleoFamiliar = request.getParameter("nucleo_familiar");
             String tieneMascotasStr = request.getParameter("tiene_mascotas");
 
@@ -58,8 +58,8 @@ public class SolicitudAdopcionCliente extends HttpServlet {
                     || tipoDivision == null || tipoDivision.trim().isEmpty()
                     || barrio == null || barrio.trim().isEmpty()
                     || profesion == null || profesion.trim().isEmpty()
-                    || viveEn == null || viveEn.trim().isEmpty()
-                    || tipoVivienda == null || tipoVivienda.trim().isEmpty()
+                    || viveEnIdStr == null || viveEnIdStr.trim().isEmpty()
+                    || tipoViviendaIdStr == null || tipoViviendaIdStr.trim().isEmpty()
                     || nucleoFamiliar == null || nucleoFamiliar.trim().isEmpty()) {
                 request.setAttribute("resultado", "Error: Todos los campos son obligatorios.");
                 cargarFormularioYRedirigir(request, response);
@@ -69,6 +69,8 @@ public class SolicitudAdopcionCliente extends HttpServlet {
             int idPerrito = Integer.parseInt(idPerritoStr);
             int departamentoId = Integer.parseInt(departamentoIdStr);
             int ubicacionId = Integer.parseInt(ubicacionIdStr);
+            int viveEnId = Integer.parseInt(viveEnIdStr);
+            int tipoViviendaId = Integer.parseInt(tipoViviendaIdStr);
 
             boolean tieneMascotas = "true".equalsIgnoreCase(tieneMascotasStr)
                     || "si".equalsIgnoreCase(tieneMascotasStr)
@@ -121,8 +123,8 @@ public class SolicitudAdopcionCliente extends HttpServlet {
 
             solicitud.setBarrio(barrio);
             solicitud.setProfesion(profesion);
-            solicitud.setVive_en(viveEn);
-            solicitud.setTipo_vivienda(tipoVivienda);
+            solicitud.setViveEnId(viveEnId);
+            solicitud.setTipoViviendaId(tipoViviendaId);
             solicitud.setNucleo_familiar(nucleoFamiliar);
             solicitud.setTiene_mascotas(tieneMascotas);
             solicitud.setUsuarios_idUsuarios(idUsuario);

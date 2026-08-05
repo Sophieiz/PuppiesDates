@@ -27,7 +27,6 @@ public class CorreoUtil {
     // ==========================================================
     //  INFRAESTRUCTURA COMÚN DE ENVÍO Y PLANTILLA HTML
     // ==========================================================
-
     private static Session crearSesion() {
         Properties propiedades = new Properties();
         propiedades.put("mail.smtp.auth", "true");
@@ -63,8 +62,8 @@ public class CorreoUtil {
     }
 
     /**
-     * Plantilla base con la identidad visual de Puppies Dates.
-     * Se reutiliza en TODOS los correos para que siempre salgan decorados igual.
+     * Plantilla base con la identidad visual de Puppies Dates. Se reutiliza en
+     * TODOS los correos para que siempre salgan decorados igual.
      */
     private static String plantilla(String colorBanda, String titulo, String cuerpoHtml) {
         return "<!DOCTYPE html>"
@@ -95,7 +94,6 @@ public class CorreoUtil {
     // ==========================================================
     //  CORREOS PARA LA FUNDACIÓN (ADMINISTRADOR)
     // ==========================================================
-
     public static boolean enviarCorreoNuevaSolicitud(Solicitud_adopcion solicitud, Perrito perrito) {
         String nombreUsuario = escapar(solicitud.getNombreUsuario() + " " + solicitud.getApellidoUsuario());
         String documentoUsuario = escapar(solicitud.getDocumentoUsuario());
@@ -106,8 +104,8 @@ public class CorreoUtil {
         String ubicacion = escapar(solicitud.getNombreUbicacion());
         String barrio = escapar(solicitud.getBarrio());
         String profesion = escapar(solicitud.getProfesion());
-        String viveEn = escapar(solicitud.getVive_en());
-        String tipoVivienda = escapar(solicitud.getTipo_vivienda());
+        String viveEn = escapar(solicitud.getDescripcionViveEn());
+        String tipoVivienda = escapar(solicitud.getDescripcionTipoVivienda());
         String nucleoFamiliar = escapar(solicitud.getNucleo_familiar());
         String tieneMascotas = solicitud.isTiene_mascotas() ? "Sí" : "No";
 
@@ -159,7 +157,6 @@ public class CorreoUtil {
     // ==========================================================
     //  CORREOS PARA EL USUARIO
     // ==========================================================
-
     public static boolean enviarCorreoCambioEstado(String correoDestino, String nombrePerrito, String nuevoEstado) {
         String perrito = escapar(nombrePerrito);
         String estado = escapar(nuevoEstado);
@@ -193,8 +190,6 @@ public class CorreoUtil {
         return enviar(correoDestino, asunto, html, "recuperacion de clave");
     }
 
-   
-    
     public static boolean enviarCorreoConfirmacionSolicitudUsuario(Solicitud_adopcion solicitud, Perrito perrito) {
         String correoUsuario = solicitud.getCorreoUsuario();
         if (correoUsuario == null || correoUsuario.trim().isEmpty()) {
@@ -219,7 +214,6 @@ public class CorreoUtil {
         return enviar(correoUsuario, asunto, html, "confirmacion solicitud - usuario");
     }
 
-    
     public static boolean enviarCorreoConfirmacionReservaUsuario(String nombreUsuario, String correoUsuario,
             String nombreActividad, String fecha, String hora, int numPersonas) {
         if (correoUsuario == null || correoUsuario.trim().isEmpty()) {
@@ -252,8 +246,6 @@ public class CorreoUtil {
         return enviar(correoUsuario, asunto, html, "confirmacion reserva - usuario");
     }
 
-   
-
     private static String limpiar(String valor) {
         if (valor == null) {
             return "";
@@ -261,7 +253,6 @@ public class CorreoUtil {
         return valor.replaceAll("[\r\n]", " ").trim();
     }
 
-    
     private static String escapar(String valor) {
         String limpio = limpiar(valor);
         return limpio.replace("&", "&amp;")

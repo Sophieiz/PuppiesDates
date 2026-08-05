@@ -11,16 +11,14 @@ public class Solicitud_adopcion {
     private Integer localidadId;
     private String barrio;
     private String profesion;
-    private String vive_en;
-    private String tipo_vivienda;
+    private Integer viveEnId;
+    private Integer tipoViviendaId;
     private String nucleo_familiar;
     private boolean tiene_mascotas;
     private Timestamp fecha_solicitud;
     private int Usuarios_idUsuarios;
     private int Perrito_idPerrito;
     private int Estado_solicitud_idEstado_solicitud;
-
-    // Campos de apoyo (no son columnas) para mostrar datos relacionados en JSP sin hacer join manual
     private String nombreUsuario;
     private String apellidoUsuario;
     private String documentoUsuario;
@@ -28,7 +26,9 @@ public class Solicitud_adopcion {
     private String nombrePerrito;
     private String descripcionEstado_solicitud;
     private String nombreDepartamento;
-    private String nombreUbicacion; // nombre del municipio o de la localidad, según aplique
+    private String nombreUbicacion;
+    private String descripcionViveEn;
+    private String descripcionTipoVivienda;
 
     public Solicitud_adopcion() {
     }
@@ -89,20 +89,20 @@ public class Solicitud_adopcion {
         this.profesion = profesion;
     }
 
-    public String getVive_en() {
-        return vive_en;
+    public Integer getViveEnId() {
+        return viveEnId;
     }
 
-    public void setVive_en(String vive_en) {
-        this.vive_en = vive_en;
+    public void setViveEnId(Integer viveEnId) {
+        this.viveEnId = viveEnId;
     }
 
-    public String getTipo_vivienda() {
-        return tipo_vivienda;
+    public Integer getTipoViviendaId() {
+        return tipoViviendaId;
     }
 
-    public void setTipo_vivienda(String tipo_vivienda) {
-        this.tipo_vivienda = tipo_vivienda;
+    public void setTipoViviendaId(Integer tipoViviendaId) {
+        this.tipoViviendaId = tipoViviendaId;
     }
 
     public String getNucleo_familiar() {
@@ -215,5 +215,21 @@ public class Solicitud_adopcion {
 
     public void setNombreUbicacion(String nombreUbicacion) {
         this.nombreUbicacion = nombreUbicacion;
+    }
+
+    public String getDescripcionViveEn() {
+        return descripcionViveEn;
+    }
+
+    public void setDescripcionViveEn(String descripcionViveEn) {
+        this.descripcionViveEn = descripcionViveEn;
+    }
+
+    public String getDescripcionTipoVivienda() {
+        return descripcionTipoVivienda;
+    }
+
+    public void setDescripcionTipoVivienda(String descripcionTipoVivienda) {
+        this.descripcionTipoVivienda = descripcionTipoVivienda;
     }
 }

@@ -19,21 +19,7 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-/**
- * Puente entre el backend web (Java/JSP) y la app mobile (Flutter).
- * Expone en JSON las solicitudes de adopción de un usuario, con su
- * historial de estados, para la pantalla "Mis solicitudes" de Flutter.
- *
- * GET /api/solicitudes?idUsuario=5
- *
- * IMPORTANTE - esto es una version simplificada para el taller:
- * el idUsuario viaja como parametro de la URL sin validar que quien
- * llama realmente sea ese usuario. Antes de subir esto a produccion
- * de verdad, hay que reemplazar el parametro idUsuario por una sesion
- * o un token (login) que identifique al usuario del lado del servidor,
- * no del lado del cliente. Por ahora sirve para conectar el diseño de
- * Flutter con datos reales.
- */
+
 @WebServlet("/api/solicitudes")
 public class SolicitudesMobileServlet extends HttpServlet {
 
@@ -46,9 +32,7 @@ public class SolicitudesMobileServlet extends HttpServlet {
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        // Permite que la app Flutter (que corre en otro origen/puerto durante
-        // desarrollo) pueda llamar este endpoint. En producción, restringe
-        // esto al dominio real de tu app si aplica.
+       
         response.setHeader("Access-Control-Allow-Origin", "*");
 
         String idUsuarioParam = request.getParameter("idUsuario");

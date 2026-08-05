@@ -132,9 +132,7 @@ public class PerritoAdmi extends HttpServlet {
             String extension = fileName.contains(".") ? fileName.substring(fileName.lastIndexOf(".")) : ".jpg";
             String nuevoNombre = "perrito_" + System.currentTimeMillis() + extension;
 
-            // Carpeta de subida: configurable por variable de entorno UPLOADS_DIR
-            // (en Railway, esta debe apuntar a la ruta donde montas el Volume, ej: /data/uploads).
-            // Si no está definida (ej. desarrollo local), usa una carpeta fija en el home del usuario.
+            
             String uploadPath = obtenerCarpetaUploads();
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
@@ -158,13 +156,7 @@ public class PerritoAdmi extends HttpServlet {
         return perrito;
     }
 
-    /**
-     * Resuelve la carpeta donde se guardan las fotos de los perritos. - En
-     * Railway: define la variable de entorno UPLOADS_DIR apuntando a la ruta
-     * donde montaste el Volume (ej: /data/uploads), asi las fotos sobreviven a
-     * cada deploy. - En local (sin la variable definida): usa una carpeta fija
-     * en el home del usuario, para que no se borre al recompilar.
-     */
+ 
     private String obtenerCarpetaUploads() {
         String desdeEntorno = System.getenv("UPLOADS_DIR");
         if (desdeEntorno != null && !desdeEntorno.trim().isEmpty()) {

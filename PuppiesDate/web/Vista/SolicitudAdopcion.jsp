@@ -94,13 +94,12 @@
                                     <input type="text" name="profesion" id="profesion">
                                     <span class="error-mensaje" id="error_profesion"></span>
                                 </div>
-
                                 <div class="campo-reserva">
                                     <label for="vive_en">Vive en</label>
-                                    <select name="vive_en" id="vive_en">
+                                    <select name="viveEnId" id="vive_en">
                                         <option value="">Seleccione...</option>
                                         <c:forEach var="opcion" items="${listaViveEn}">
-                                            <option value="${opcion.descripcion}">${opcion.descripcion}</option>
+                                            <option value="${opcion.idViveEn}">${opcion.descripcion}</option>
                                         </c:forEach>
                                     </select>
                                     <span class="error-mensaje" id="error_vive_en"></span>
@@ -108,10 +107,10 @@
 
                                 <div class="campo-reserva">
                                     <label for="tipo_vivienda">Tipo de vivienda</label>
-                                    <select name="tipo_vivienda" id="tipo_vivienda">
+                                    <select name="tipoViviendaId" id="tipo_vivienda">
                                         <option value="">Seleccione...</option>
                                         <c:forEach var="opcion" items="${listaTipoVivienda}">
-                                            <option value="${opcion.descripcion}">${opcion.descripcion}</option>
+                                            <option value="${opcion.idTipoVivienda}">${opcion.descripcion}</option>
                                         </c:forEach>
                                     </select>
                                     <span class="error-mensaje" id="error_tipo_vivienda"></span>
