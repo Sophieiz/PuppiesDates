@@ -99,7 +99,7 @@
                                     <select name="viveEnId" id="vive_en">
                                         <option value="">Seleccione...</option>
                                         <c:forEach var="opcion" items="${listaViveEn}">
-                                            <option value="${opcion.idViveEn}">${opcion.descripcion}</option>
+                                            <option value="${opcion.idVive_en}">${opcion.descripcion}</option>
                                         </c:forEach>
                                     </select>
                                     <span class="error-mensaje" id="error_vive_en"></span>
@@ -110,7 +110,7 @@
                                     <select name="tipoViviendaId" id="tipo_vivienda">
                                         <option value="">Seleccione...</option>
                                         <c:forEach var="opcion" items="${listaTipoVivienda}">
-                                            <option value="${opcion.idTipoVivienda}">${opcion.descripcion}</option>
+                                            <option value="${opcion.idTipo_vivienda}">${opcion.descripcion}</option>
                                         </c:forEach>
                                     </select>
                                     <span class="error-mensaje" id="error_tipo_vivienda"></span>

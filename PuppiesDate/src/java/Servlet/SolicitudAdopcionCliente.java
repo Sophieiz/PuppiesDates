@@ -2,7 +2,8 @@ package Servlet;
 
 import Controlador.CorreoUtil;
 import Controlador.DepartamentoDAO;
-import Controlador.Opcion_formularioDAO;
+import Controlador.Vive_enDAO;
+import Controlador.Tipo_viviendaDAO;
 import Controlador.PerritoDAO;
 import Controlador.Solicitud_adopcionDAO;
 import Modelo.Perrito;
@@ -112,7 +113,7 @@ public class SolicitudAdopcionCliente extends HttpServlet {
             solicitud.setDireccion(direccion);
             solicitud.setDepartamentoId(departamentoId);
 
-            // El mismo id de <select> significa cosas distintas según tipoDivision
+            
             if ("LOCALIDAD".equals(tipoDivision)) {
                 solicitud.setLocalidadId(ubicacionId);
                 solicitud.setMunicipioId(null);
@@ -133,14 +134,13 @@ public class SolicitudAdopcionCliente extends HttpServlet {
             int idSolicitudGenerada = solicitudDao.insertarSolicitud_adopcion(solicitud);
 
             if (idSolicitudGenerada != -1) {
-                // Se vuelve a consultar ya con los joins (nombre de usuario, correo, nombre del perrito, etc.)
-                // para armar el correo con todos los datos completos
+                
                 Solicitud_adopcion solicitudCompleta = solicitudDao.ConsultarSolicitud_adopcion(idSolicitudGenerada);
 
-                // Notificación interna a la fundación
+                
                 CorreoUtil.enviarCorreoNuevaSolicitud(solicitudCompleta, perrito);
 
-                // Confirmación al usuario de que su solicitud se envió correctamente
+                
                 CorreoUtil.enviarCorreoConfirmacionSolicitudUsuario(solicitudCompleta, perrito);
 
                 request.setAttribute("resultado", "¡Solicitud de adopción enviada! "
@@ -168,12 +168,11 @@ public class SolicitudAdopcionCliente extends HttpServlet {
             } catch (NumberFormatException ignored) {
             }
         }
-        Opcion_formularioDAO opcionDao = new Opcion_formularioDAO();
-        request.setAttribute("listaViveEn", opcionDao.listarPorCategoria("vive_en"));
-        request.setAttribute("listaTipoVivienda", opcionDao.listarPorCategoria("tipo_vivienda"));
+        Vive_enDAO viveEnDao = new Vive_enDAO();
+        request.setAttribute("listaViveEn", viveEnDao.listarActivos());
 
-        DepartamentoDAO departamentoDao = new DepartamentoDAO();
-        request.setAttribute("departamentos", departamentoDao.listarActivos());
+        Tipo_viviendaDAO tipoViviendaDao = new Tipo_viviendaDAO();
+        request.setAttribute("listaTipoVivienda", tipoViviendaDao.listarActivos());
 
         request.getRequestDispatcher("/Vista/SolicitudAdopcion.jsp").forward(request, response);
     }
