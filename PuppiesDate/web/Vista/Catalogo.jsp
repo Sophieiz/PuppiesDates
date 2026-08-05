@@ -80,7 +80,7 @@
                             <!-- 2. INFORMACIÓN Y BOTÓN DE ADOPCIÓN -->
                             <div class="info-card-body">
                                 <h3>${perrito.nombre}</h3>
-                                <p>${perrito.raza}${not empty perrito.raza ? ' · ' : ''}${perrito.sexo}</p>
+                                <p>${perrito.descripcionRaza}${not empty perrito.descripcionRaza ? ' · ' : ''}${perrito.descripcionSexo}</p>
 
                                 <!-- Asegúrate de usar el atributo ID correcto de tu clase Perrito -->
                                 <a href="${ctx}/SolicitudAdopcionCliente?idPerrito=${perrito.idPerrito}" 

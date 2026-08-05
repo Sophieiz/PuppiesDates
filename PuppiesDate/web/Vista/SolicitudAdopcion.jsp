@@ -31,10 +31,10 @@
                             </c:when>
                         </c:choose>
                         <h2>${perrito.nombre}</h2>
-                        <div class="ficha-dato"><span>Especie</span><span>${perrito.especie}</span></div>
-                        <div class="ficha-dato"><span>Raza</span><span>${perrito.raza}</span></div>
+                        <div class="ficha-dato"><span>Especie</span><span>${perrito.descripcionEspecie}</span></div>
+                        <div class="ficha-dato"><span>Raza</span><span>${perrito.descripcionRaza}</span></div>
                         <div class="ficha-dato"><span>Fecha nacimiento</span><span>${perrito.fecha_nacimiento}</span></div>
-                        <div class="ficha-dato"><span>Sexo</span><span>${perrito.sexo}</span></div>
+                        <div class="ficha-dato"><span>Sexo</span><span>${perrito.descripcionSexo}</span></div>
                         <div class="ficha-dato"><span>Microchip</span><span>${perrito.microchip}</span></div>
                         <div class="ficha-dato"><span>Etapa de madurez</span><span>${perrito.etapa_madurez}</span></div>
                         <div class="ficha-dato"><span>Especialidad</span><span>${perrito.especialidad}</span></div>
