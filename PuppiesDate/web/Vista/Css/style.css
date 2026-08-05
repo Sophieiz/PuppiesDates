@@ -593,8 +593,9 @@ body {
 .subtitulo-seccion {
     text-align: center;
     font-size: 1.1rem;
-    margin-top: -25px;
+    margin-top: 4px;
     margin-bottom: 40px;
+    line-height: 1.5;
 }
 
 /*TARJETAS PERRITOS*/
@@ -3453,7 +3454,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 .titulo-seccion {
     text-align: center;
     color: var(--coffee-brown);
-    margin: 0 auto 10px;
+    margin: 0 auto 16px;
 }
 
 .panel-admin-welcome h3 {

@@ -98,7 +98,7 @@
             <div class="modal-exito-shell is-open" id="modalExito">
                 <div class="modal-exito-backdrop"></div>
                 <section class="modal-exito-box">
-                    <h3 class="modal-exito-titulo">¡Registro Exitoso! 🐾</h3>
+                    <h3 class="modal-exito-titulo">¡Registro Exitoso!</h3>
                     <p class="modal-exito-texto">${mensajeExito}</p>
                     <button type="button" 
                             id="btnIrIniciarSesion" 
