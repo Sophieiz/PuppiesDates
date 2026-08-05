@@ -80,7 +80,7 @@
                                         <div class="tag-edad ${colorTag}">${perrito.etapa_madurez}</div>
                                     </c:if>
                                     <h3>${perrito.nombre}</h3>
-                                    <p>${perrito.raza}${not empty perrito.raza ? " · " : ""}${perrito.sexo}</p>
+                                    <p>${perrito.descripcionRaza}${not empty perrito.descripcionRaza ? " · " : ""}${perrito.descripcionSexo}</p>
                                     <a href="${ctx}/SolicitudAdopcionCliente?idPerrito=${perrito.idPerrito}"
                                        class="estado-adopcion js-adoption-modal-link"
                                        data-id="${perrito.idPerrito}">
