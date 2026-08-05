@@ -1,10 +1,4 @@
-/* 
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/JavaScript.js to edit this template
- */
-
-
-document.addEventListener("DOMContentLoaded", function () {
+function inicializarUbicacionAdopcion() {
     const selectDepartamento = document.getElementById("departamentoId");
     const selectUbicacion = document.getElementById("ubicacionId");
     const inputTipoDivision = document.getElementById("tipoDivision");
@@ -17,7 +11,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const idDepartamento = selectDepartamento.value;
         const tipoDivision = opcionSeleccionada.getAttribute("data-tipo");
 
-        // Reinicia el select mientras carga
         selectUbicacion.disabled = true;
         selectUbicacion.innerHTML = '<option value="" selected disabled>Cargando...</option>';
         inputTipoDivision.value = tipoDivision || "";
@@ -31,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        const url = contextPath + "/ObtenerUbicaciones?departamentoId=" + encodeURIComponent(idDepartamento)
+        const url = (window.contextPath || window.ctxApp || "") + "/ObtenerUbicaciones?departamentoId=" + encodeURIComponent(idDepartamento)
                   + "&tipoDivision=" + encodeURIComponent(tipoDivision);
 
         fetch(url)
@@ -51,4 +44,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 selectUbicacion.innerHTML = '<option value="" selected disabled>Error al cargar</option>';
             });
     });
-});
+}
+
+document.addEventListener("DOMContentLoaded", inicializarUbicacionAdopcion);
