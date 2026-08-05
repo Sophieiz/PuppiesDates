@@ -66,7 +66,7 @@ public class PerritoDAO {
                     + "FROM perrito p "
                     + "INNER JOIN estado_perrito e ON p.Estado_perrito_idEstado_perrito = e.idEstado_perrito "
                     + "INNER JOIN especie esp ON p.Especie_idEspecie = esp.idEspecie "
-                    + "INNER JOIN raza r ON p.Raza_idRaza = r.idRaza "
+                    +"LEFT JOIN raza r ON p.Raza_idRaza = r.idRaza"
                     + "INNER JOIN sexo_perrito sx ON p.Sexo_perrito_idSexo_perrito = sx.idSexo_perrito ";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, idPerrito);
