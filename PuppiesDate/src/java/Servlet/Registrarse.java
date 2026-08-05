@@ -56,14 +56,18 @@ public class Registrarse extends HttpServlet {
         } else if (usuariosDao.existeUsuarioInactivo(documento)) {
             try {
                 usuariosDao.reactivarUsuario(usuario);
-                request.setAttribute("resultado", "Cuenta reactivada exitosamente.");
+                request.setAttribute("mensajeExito", "Cuenta reactivada exitosamente.");
             } catch (Exception e) {
                 request.setAttribute("resultado", "Error al reactivar: " + e.getMessage());
             }
         } else {
             try {
-                boolean resultado = usuariosDao.insertarUsuarios(usuario);
-                request.setAttribute("resultado", resultado ? "Usuario registrado exitosamente." : "Error al registrar usuario.");
+                boolean resultadoInsercion = usuariosDao.insertarUsuarios(usuario);
+                if (resultadoInsercion) {
+                    request.setAttribute("mensajeExito", "Usuario registrado exitosamente.");
+                } else {
+                    request.setAttribute("resultado", "Error al registrar usuario.");
+                }
             } catch (Exception e) {
                 request.setAttribute("resultado", "Error: " + e.getMessage());
             }
