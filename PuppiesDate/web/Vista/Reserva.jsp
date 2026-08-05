@@ -26,6 +26,10 @@
                 <a href="${ctx}/index.jsp" class="btn-volver-inicio">&larr;</a>
             </c:otherwise>
         </c:choose>
+                
+        <c:if test="${empty sessionScope.nombreUsuario}">
+            <c:redirect url="/Iniciar"/>
+        </c:if>
 
         <form action="${ctx}/ReservaCliente" method="post" id="formReserva" novalidate>
             <div class="Formulario">

@@ -1,11 +1,4 @@
-<%-- 
-    Header.jsp - Encabezado reutilizable (3 niveles) Spring Aesthetic
-    Requiere (opcional) el atributo de request "activePage" para resaltar el link activo.
-    Uso:
-        <c:set var="activePage" value="inicio" scope="request"/>
-        <%@ include file="Header.jsp" %>          (si el archivo está dentro de /Vista/)
-        <%@ include file="Vista/Header.jsp" %>    (si el archivo está en la raíz de /web/)
---%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
@@ -32,7 +25,19 @@
             <ul>
                 <li><a href="${urlInicio}" class="btn-menu ${activePage == 'inicio' ? 'btn-verde-activo' : ''}">Inicio</a></li>
                 <li><a href="${ctx}/Vista/Actividad.jsp" class="btn-menu ${activePage == 'actividades' ? 'btn-verde-activo' : ''}">Actividades</a></li>
-                <li><a href="${not empty sessionScope.nombreUsuario ? ctx.concat('/ReservaCliente') : ctx.concat('/Vista/Reserva.jsp')}" class="btn-menu ${activePage == 'reservas' ? 'btn-verde-activo' : ''}">Reservas</a></li>
+                <li>
+                    <c:choose>
+                        <c:when test="${not empty sessionScope.nombreUsuario}">
+                            <a href="${ctx}/ReservaCliente" class="btn-menu ${activePage == 'reservas' ? 'btn-verde-activo' : ''}">Reservas</a>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="${ctx}/Vista/Reserva.jsp"
+                               id="btnReservasInvitado"
+                               data-login-url="${ctx}/Iniciar"
+                               class="btn-menu ${activePage == 'reservas' ? 'btn-verde-activo' : ''}">Reservas</a>
+                        </c:otherwise>
+                    </c:choose>
+                </li>
                 <li><a href="${ctx}/CatalogoPerritos" class="btn-menu ${activePage == 'adopta' ? 'btn-verde-activo' : ''}">Adopta</a></li>
             </ul>
 

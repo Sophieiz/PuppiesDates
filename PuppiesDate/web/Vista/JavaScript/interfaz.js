@@ -147,8 +147,8 @@ function configurarModalAdopcion() {
                 const adoptionWrap = documentFragment.querySelector(".adopcion-wrap");
 
                 content.innerHTML = adoptionWrap
-                    ? adoptionWrap.outerHTML
-                    : '<p class="sin-perritos">No pudimos cargar el formulario. Intenta de nuevo.</p>';
+                        ? adoptionWrap.outerHTML
+                        : '<p class="sin-perritos">No pudimos cargar el formulario. Intenta de nuevo.</p>';
 
                 if (adoptionWrap && typeof inicializarUbicacionAdopcion === "function") {
                     inicializarUbicacionAdopcion();
@@ -230,8 +230,20 @@ function validarSolicitudAdopcion() {
 
         if (vacio) {
             valido = false;
-        }
+    }
     });
 
     return valido;
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const btnReservasInvitado = document.getElementById('btnReservasInvitado');
+
+        if (btnReservasInvitado) {
+            btnReservasInvitado.addEventListener('click', function (e) {
+                e.preventDefault();
+                alert('Debes iniciar sesión primero. Si no tienes cuenta, regístrate.');
+                window.location.href = btnReservasInvitado.dataset.loginUrl;
+            });
+        }
+    });
 }
