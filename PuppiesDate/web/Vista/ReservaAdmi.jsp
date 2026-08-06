@@ -39,6 +39,7 @@
                         <thead>
                             <tr>
                                 
+                                <th> # </th>
                                 <th>Personas</th>
                                 <th>Hora</th>
                                 <th>Fecha</th>

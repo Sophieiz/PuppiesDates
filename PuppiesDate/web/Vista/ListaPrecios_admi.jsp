@@ -30,6 +30,7 @@
                     <table class="admin-crud-table">
                         <thead>
                             <tr>
+                                <th> # </th>
                                 <th>Valor</th>
                             </tr>
                         </thead>

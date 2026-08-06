@@ -30,7 +30,7 @@
                     <table class="admin-crud-table">
                         <thead>
                             <tr>
-                                
+                                <th> # </th>
                                 <th>Estado del pago</th>
                             </tr>
                         </thead>

@@ -29,6 +29,7 @@
                     <table class="tabla-lista-admin" id="tablaDisponibilidad">
                         <thead>
                             <tr>
+                                <th> # </th>
                                 <th>Fecha</th>
                                 <th>Cupo total</th>
                                 <th>Cupo disponible</th>

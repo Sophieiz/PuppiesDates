@@ -29,6 +29,7 @@
                     <table class="mis-registros-table">
                         <thead>
                             <tr>
+                               
                                 <th>Actividad</th>
                                 <th>Fecha</th>
                                 <th>Hora</th>

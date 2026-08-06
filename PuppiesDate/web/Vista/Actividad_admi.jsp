@@ -32,7 +32,7 @@
                     <table class="admin-crud-table">
                         <thead>
                             <tr>
-                                
+                                <th> # </th>
                                 <th>Descripción</th>
                                 <th>Tipo</th>
                                 <th>Precio</th>
