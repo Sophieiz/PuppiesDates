@@ -17,11 +17,13 @@ public class EspecieDAO {
 
     public List<Especie> listarEspecie() {
         List<Especie> lista = new ArrayList<>();
-        Connection con = conexion.getConn();
-        try {
-            String sql = "SELECT idEspecie, descripcion FROM especie WHERE activo = 1";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+        String sql = "SELECT idEspecie, descripcion FROM especie WHERE activo = 1";
+
+
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
                 Especie especie = new Especie();
                 especie.setIdEspecie(rs.getInt("idEspecie"));

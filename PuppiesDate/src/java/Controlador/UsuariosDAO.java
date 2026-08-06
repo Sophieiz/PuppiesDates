@@ -2,12 +2,11 @@ package Controlador;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import Modelo.Usuarios;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.Date;
+import Modelo.Usuarios;
 
 /**
  *
@@ -17,13 +16,14 @@ public class UsuariosDAO {
 
     Conexion conexion = new Conexion();
 
-    public boolean insertarUsuarios(Usuarios usuarios) throws SQLException {
+    public boolean insertarUsuarios(Usuarios usuarios) {
         boolean insertado = false;
-        Connection con = conexion.getConn();
+        String sql = "INSERT INTO usuarios (idUsuarios, nombre, apellido, documento, telefono, correo, clave, fecha_nac, fecha_cad, checkbox, Tipo_documento_idTipo_documento, Roles_idRoles, activo) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
 
-        String sql = "INSERT INTO usuarios (idUsuarios, nombre, apellido, documento, telefono, correo, clave, fecha_nac, fecha_cad, checkbox, Tipo_documento_idTipo_documento, Roles_idRoles) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
 
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, usuarios.getidUsuarios());
             ps.setString(2, usuarios.getnombre());
             ps.setString(3, usuarios.getapellido());
@@ -39,56 +39,54 @@ public class UsuariosDAO {
 
             ps.executeUpdate();
             insertado = true;
-
             System.out.println("Usuario insertado con éxito.");
         } catch (SQLException e) {
-            System.out.println("Error al insertar usuario." + e.getMessage());
+            System.out.println("Error al insertar usuario: " + e.getMessage());
         }
+
         return insertado;
     }
 
     public Usuarios ConsultaUsuarios(String documento) {
         Usuarios usuario = null;
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
+        String sql = "SELECT idUsuarios, nombre, apellido, documento, telefono, correo, clave, fecha_nac, fecha_cad, checkbox, Tipo_documento_idTipo_documento, Roles_idRoles FROM usuarios WHERE documento = ?";
 
-        try {
-            String querySQL = "SELECT idUsuarios, nombre, apellido, documento, telefono, correo, clave, fecha_nac, fecha_cad, checkbox, Tipo_documento_idTipo_documento, Roles_idRoles FROM usuarios WHERE documento = ? ";
-            PreparedStatement ps = con.prepareStatement(querySQL);
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setString(1, documento);
 
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                usuario = new Usuarios();
-                usuario.setidUsuarios(rs.getInt(1)); 
-                usuario.setnombre(rs.getString(2));
-                usuario.setapellido(rs.getString(3));
-                usuario.setdocumento(rs.getString(4));
-                usuario.settelefono(rs.getString(5));
-                usuario.setcorreo(rs.getString(6));
-                usuario.setclave(rs.getString(7));
-                usuario.setfecha_nac(rs.getDate(8));
-                usuario.setfecha_cad(rs.getDate(9));
-                usuario.setcheckbox(rs.getBoolean(10));
-                usuario.setTipo_documento_idTipo_documento(rs.getInt(11));
-                usuario.setRoles_idRoles(rs.getInt(12));
-
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    usuario = new Usuarios();
+                    usuario.setidUsuarios(rs.getInt("idUsuarios"));
+                    usuario.setnombre(rs.getString("nombre"));
+                    usuario.setapellido(rs.getString("apellido"));
+                    usuario.setdocumento(rs.getString("documento"));
+                    usuario.settelefono(rs.getString("telefono"));
+                    usuario.setcorreo(rs.getString("correo"));
+                    usuario.setclave(rs.getString("clave"));
+                    usuario.setfecha_nac(rs.getDate("fecha_nac"));
+                    usuario.setfecha_cad(rs.getDate("fecha_cad"));
+                    usuario.setcheckbox(rs.getBoolean("checkbox"));
+                    usuario.setTipo_documento_idTipo_documento(rs.getInt("Tipo_documento_idTipo_documento"));
+                    usuario.setRoles_idRoles(rs.getInt("Roles_idRoles"));
+                }
             }
-
-            return usuario;
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-            return usuario;
+        } catch (SQLException ex) {
+            System.out.println("Error al consultar usuario por documento: " + ex.getMessage());
         }
+
+        return usuario;
     }
 
-    public boolean actualizarUsuario(Usuarios usuarios) throws SQLException {
+    public boolean actualizarUsuario(Usuarios usuarios) {
         boolean actualizado = false;
-        String sql = "UPDATE usuarios SET nombre=?, apellido=?, documento=?, telefono=?, correo=?, clave=?, fecha_nac=?, fecha_cad=?, checkbox=?, Tipo_documento_idTipo_documento=?, Roles_idRoles=? WHERE idUsuarios=?";        Conexion conexion = new Conexion();
-        Connection con = (Connection) conexion.getConn();
+        String sql = "UPDATE usuarios SET nombre=?, apellido=?, documento=?, telefono=?, correo=?, clave=?, fecha_nac=?, fecha_cad=?, checkbox=?, Tipo_documento_idTipo_documento=?, Roles_idRoles=? WHERE idUsuarios=?";
 
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setString(1, usuarios.getnombre());
             ps.setString(2, usuarios.getapellido());
             ps.setString(3, usuarios.getdocumento());
@@ -108,16 +106,17 @@ public class UsuariosDAO {
         } catch (SQLException e) {
             System.out.println("Error al actualizar el usuario: " + e.getMessage());
         }
+
         return actualizado;
     }
 
-    public boolean eliminarUsuario(int id) throws SQLException {
+    public boolean eliminarUsuario(int id) {
         boolean eliminado = false;
         String sql = "UPDATE usuarios SET activo = 0 WHERE idUsuarios = ?";
-        Conexion conexion = new Conexion();
-        Connection con = (Connection) conexion.getConn();
 
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setInt(1, id);
             if (ps.executeUpdate() > 0) {
                 eliminado = true;
@@ -125,188 +124,206 @@ public class UsuariosDAO {
         } catch (SQLException e) {
             System.out.println("Error al eliminar el usuario: " + e.getMessage());
         }
+
         return eliminado;
     }
 
-  
-             
-
     public List<Usuarios> listarUsuarios() {
         List<Usuarios> lista = new ArrayList<>();
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        String sql = "SELECT idUsuarios, nombre, apellido, documento, telefono, correo, clave, fecha_nac, fecha_cad, checkbox, Tipo_documento_idTipo_documento, Roles_idRoles FROM usuarios WHERE activo = 1";  
+        String sql = "SELECT idUsuarios, nombre, apellido, documento, telefono, correo, clave, fecha_nac, fecha_cad, checkbox, Tipo_documento_idTipo_documento, Roles_idRoles FROM usuarios WHERE checkbox = true";
 
-        try (PreparedStatement ps = con.prepareStatement(sql)){
-            ResultSet rs = ps.executeQuery();
-            
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
-                Usuarios usuario = new Usuarios();
-                usuario.setidUsuarios(rs.getInt(1));
-                usuario.setnombre(rs.getString(2));
-                usuario.setapellido(rs.getString(3));
-                usuario.setdocumento(rs.getString(4));
-                usuario.settelefono(rs.getString(5));
-                usuario.setcorreo(rs.getString(6));
-                usuario.setclave(rs.getString(7));
-                usuario.setfecha_nac(rs.getDate(8));
-                usuario.setfecha_cad(rs.getDate(9));
-                usuario.setcheckbox(rs.getBoolean(10));
-                usuario.setTipo_documento_idTipo_documento(rs.getInt(11));
-                usuario.setRoles_idRoles(rs.getInt(12));
-                
+                Usuarios usuarios = new Usuarios();
+                usuarios.setidUsuarios(rs.getInt("idUsuarios"));
+                usuarios.setnombre(rs.getString("nombre"));
+                usuarios.setapellido(rs.getString("apellido"));
+                usuarios.setdocumento(rs.getString("documento"));
+                usuarios.settelefono(rs.getString("telefono"));
+                usuarios.setcorreo(rs.getString("correo"));
+                usuarios.setclave(rs.getString("clave"));
+                usuarios.setfecha_nac(rs.getDate("fecha_nac"));
+                usuarios.setfecha_cad(rs.getDate("fecha_cad"));
+                usuarios.setcheckbox(rs.getBoolean("checkbox"));
+                usuarios.setTipo_documento_idTipo_documento(rs.getInt("Tipo_documento_idTipo_documento"));
+                usuarios.setRoles_idRoles(rs.getInt("Roles_idRoles"));
 
-                lista.add(usuario);
+                lista.add(usuarios);
             }
-        } catch (Exception e) {
+
+        } catch (SQLException e) {
             System.out.println("Error al listar usuarios: " + e.getMessage());
         }
+
         return lista;
     }
-    
+
     public List<Usuarios> listarInactivos() {
         List<Usuarios> lista = new ArrayList<>();
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        String sql = "SELECT idUsuarios, nombre, apellido, documento, telefono, correo, clave, fecha_nac, fecha_cad, checkbox, Tipo_documento_idTipo_documento, Roles_idRoles FROM usuarios WHERE activo = 0";
+        String sql = "SELECT idUsuarios, nombre, apellido, documento, telefono, correo, clave, fecha_nac, fecha_cad, checkbox, Tipo_documento_idTipo_documento, Roles_idRoles FROM usuarios WHERE checkbox = false";
 
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ResultSet rs = ps.executeQuery();
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                Usuarios usuario = new Usuarios();
-                usuario.setidUsuarios(rs.getInt(1));
-                usuario.setnombre(rs.getString(2));
-                usuario.setapellido(rs.getString(3));
-                usuario.setdocumento(rs.getString(4));
-                usuario.settelefono(rs.getString(5));
-                usuario.setcorreo(rs.getString(6));
-                usuario.setclave(rs.getString(7));
-                usuario.setfecha_nac(rs.getDate(8));
-                usuario.setfecha_cad(rs.getDate(9));
-                usuario.setcheckbox(rs.getBoolean(10));
-                usuario.setTipo_documento_idTipo_documento(rs.getInt(11));
-                usuario.setRoles_idRoles(rs.getInt(12));
+                Usuarios usuarios = new Usuarios();
+                usuarios.setidUsuarios(rs.getInt("idUsuarios"));
+                usuarios.setnombre(rs.getString("nombre"));
+                usuarios.setapellido(rs.getString("apellido"));
+                usuarios.setdocumento(rs.getString("documento"));
+                usuarios.settelefono(rs.getString("telefono"));
+                usuarios.setcorreo(rs.getString("correo"));
+                usuarios.setclave(rs.getString("clave"));
+                usuarios.setfecha_nac(rs.getDate("fecha_nac"));
+                usuarios.setfecha_cad(rs.getDate("fecha_cad"));
+                usuarios.setcheckbox(rs.getBoolean("checkbox"));
+                usuarios.setTipo_documento_idTipo_documento(rs.getInt("Tipo_documento_idTipo_documento"));
+                usuarios.setRoles_idRoles(rs.getInt("Roles_idRoles"));
 
-                lista.add(usuario);
+                lista.add(usuarios);
             }
-        } catch (Exception e) {
+
+        } catch (SQLException e) {
             System.out.println("Error al listar usuarios inactivos: " + e.getMessage());
         }
+
         return lista;
     }
 
-    // Reactivación desde la Papelería del admin (por id, sin reescribir el resto de los datos)
     public boolean reactivarUsuario(int id) {
         boolean reactivado = false;
-        String sql = "UPDATE usuarios SET activo = 1 WHERE idUsuarios = ?";
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+        String sql = "UPDATE usuarios SET checkbox = true WHERE idUsuarios = ?";
+
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setInt(1, id);
-            reactivado = ps.executeUpdate() > 0;
+            if (ps.executeUpdate() > 0) {
+                reactivado = true;
+            }
         } catch (SQLException e) {
-            System.out.println("Error al reactivar el usuario: " + e.getMessage());
+            System.out.println("Error al reactivar el usuario por ID: " + e.getMessage());
         }
+
+        return reactivado;
+    }
+
+    public boolean reactivarUsuario(Usuarios usuarios) {
+        boolean reactivado = false;
+        String sql = "UPDATE usuarios SET nombre=?, apellido=?, telefono=?, correo=?, clave=?, fecha_nac=?, fecha_cad=?, checkbox = true WHERE documento=?";
+
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, usuarios.getnombre());
+            ps.setString(2, usuarios.getapellido());
+            ps.setString(3, usuarios.gettelefono());
+            ps.setString(4, usuarios.getcorreo());
+            ps.setString(5, usuarios.getclave());
+            ps.setDate(6, new java.sql.Date(usuarios.getfecha_nac().getTime()));
+            ps.setDate(7, new java.sql.Date(usuarios.getfecha_cad().getTime()));
+            ps.setString(8, usuarios.getdocumento());
+
+            if (ps.executeUpdate() > 0) {
+                reactivado = true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al reactivar usuario con datos: " + e.getMessage());
+        }
+
         return reactivado;
     }
 
     public boolean existeUsuario(String documento) {
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try {
-            String sql = "SELECT documento FROM usuarios WHERE documento = ? AND checkbox = true";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, documento);
-            ResultSet rs = ps.executeQuery();
-            return rs.next();
-        } catch (Exception e) {
-            System.out.println("Error al verificar usuario: " + e.getMessage());
-            return false;
-        }
-    }
-    
-    public boolean existeUsuarioInactivo(String documento) {
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try {
-            String sql = "SELECT documento FROM usuarios WHERE documento = ? AND checkbox = false";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, documento);
-            ResultSet rs = ps.executeQuery();
-            return rs.next();
-        } catch (Exception e) {
-            System.out.println("Error al verificar usuario inactivo: " + e.getMessage());
-            return false;
-        }
-    }
-    
-    public boolean reactivarUsuario(Usuarios usuarios) {
-    Conexion conexion = new Conexion();
-    Connection con = conexion.getConn();
-    String sql = "UPDATE usuarios SET nombre=?, apellido=?, telefono=?, correo=?, clave=?, fecha_nac=?, fecha_cad=?, checkbox=true WHERE documento=?";
+        boolean existe = false;
+        String sql = "SELECT documento FROM usuarios WHERE documento = ? AND checkbox = true";
 
-    try (PreparedStatement ps = con.prepareStatement(sql)) {
-        ps.setString(1, usuarios.getnombre());
-        ps.setString(2, usuarios.getapellido());
-        ps.setString(3, usuarios.gettelefono());
-        ps.setString(4, usuarios.getcorreo());
-        ps.setString(5, usuarios.getclave());
-        ps.setDate(6, new java.sql.Date(usuarios.getfecha_nac().getTime()));
-        ps.setDate(7, new java.sql.Date(usuarios.getfecha_cad().getTime()));
-        ps.setString(8, usuarios.getdocumento());
-        return ps.executeUpdate() > 0;
-    } catch (SQLException e) {
-        System.out.println("Error al reactivar usuario: " + e.getMessage());
-        return false;
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, documento);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    existe = true;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al verificar usuario: " + e.getMessage());
+        }
+
+        return existe;
     }
-}
+
+    public boolean existeUsuarioInactivo(String documento) {
+        boolean existe = false;
+        String sql = "SELECT documento FROM usuarios WHERE documento = ? AND checkbox = false";
+
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, documento);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    existe = true;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al verificar usuario inactivo: " + e.getMessage());
+        }
+
+        return existe;
+    }
 
     // ======================================================================
-    // MÉTODOS NUEVOS PARA "¿OLVIDASTE TU CONTRASEÑA?"
+    // MÉTODOS AGREGADOS PARA LA RECUPERACIÓN DE CONTRASEÑA
     // ======================================================================
 
     public Usuarios ConsultarUsuarioPorCorreo(String correo) {
         Usuarios usuario = null;
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try {
-            String sql = "SELECT idUsuarios, nombre, apellido, documento, telefono, correo, clave, fecha_nac, "
-                    + "fecha_cad, checkbox, Tipo_documento_idTipo_documento, Roles_idRoles "
-                    + "FROM usuarios WHERE correo = ?";
-            PreparedStatement ps = con.prepareStatement(sql);
+        String sql = "SELECT idUsuarios, nombre, apellido, documento, telefono, correo, clave, fecha_nac, fecha_cad, checkbox, Tipo_documento_idTipo_documento, Roles_idRoles FROM usuarios WHERE correo = ?";
+
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setString(1, correo);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                usuario = new Usuarios();
-                usuario.setidUsuarios(rs.getInt(1));
-                usuario.setnombre(rs.getString(2));
-                usuario.setapellido(rs.getString(3));
-                usuario.setdocumento(rs.getString(4));
-                usuario.settelefono(rs.getString(5));
-                usuario.setcorreo(rs.getString(6));
-                usuario.setclave(rs.getString(7));
-                usuario.setfecha_nac(rs.getDate(8));
-                usuario.setfecha_cad(rs.getDate(9));
-                usuario.setcheckbox(rs.getBoolean(10));
-                usuario.setTipo_documento_idTipo_documento(rs.getInt(11));
-                usuario.setRoles_idRoles(rs.getInt(12));
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    usuario = new Usuarios();
+                    usuario.setidUsuarios(rs.getInt("idUsuarios"));
+                    usuario.setnombre(rs.getString("nombre"));
+                    usuario.setapellido(rs.getString("apellido"));
+                    usuario.setdocumento(rs.getString("documento"));
+                    usuario.settelefono(rs.getString("telefono"));
+                    usuario.setcorreo(rs.getString("correo"));
+                    usuario.setclave(rs.getString("clave"));
+                    usuario.setfecha_nac(rs.getDate("fecha_nac"));
+                    usuario.setfecha_cad(rs.getDate("fecha_cad"));
+                    usuario.setcheckbox(rs.getBoolean("checkbox"));
+                    usuario.setTipo_documento_idTipo_documento(rs.getInt("Tipo_documento_idTipo_documento"));
+                    usuario.setRoles_idRoles(rs.getInt("Roles_idRoles"));
+                }
             }
-            return usuario;
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             System.out.println("Error al consultar usuario por correo: " + ex.getMessage());
-            return usuario;
         }
+
+        return usuario;
     }
 
     public boolean actualizarClave(int idUsuarios, String nuevaClave) {
         boolean actualizado = false;
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
         String sql = "UPDATE usuarios SET clave = ? WHERE idUsuarios = ?";
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setString(1, nuevaClave);
             ps.setInt(2, idUsuarios);
+
             if (ps.executeUpdate() > 0) {
                 actualizado = true;
                 System.out.println("Clave actualizada con éxito.");
@@ -314,6 +331,7 @@ public class UsuariosDAO {
         } catch (SQLException e) {
             System.out.println("Error al actualizar clave: " + e.getMessage());
         }
+
         return actualizado;
     }
 }

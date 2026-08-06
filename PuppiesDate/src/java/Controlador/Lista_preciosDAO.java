@@ -5,7 +5,6 @@
 package Controlador;
 
 import Modelo.Lista_precios;
-import Modelo.Roles;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,11 +25,11 @@ public class Lista_preciosDAO {
 
     public boolean insertarLista_precios(Lista_precios precio) throws SQLException {
         boolean insertado = false;
-        Connection con = conexion.getConn();
-
         String sql = "INSERT INTO lista_precios (descrip_precio) VALUES (?)";
 
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setString(1, precio.getdescrip_precio());
 
             if (ps.executeUpdate() > 0) {
@@ -45,37 +44,32 @@ public class Lista_preciosDAO {
 
     public Lista_precios ConsultarLista_precios(int idLista_precios) throws SQLException {
         Lista_precios precios = null;
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
+        String querySQL = "SELECT idLista_precios, descrip_precio FROM lista_precios WHERE idLista_precios = ?";
 
-        try {
-            String querySQL = "SELECT idLista_precios, descrip_precio FROM lista_precios WHERE idLista_precios = ?";
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(querySQL)) {
 
-            PreparedStatement ps = con.prepareStatement(querySQL);
             ps.setInt(1, idLista_precios);
-
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                precios = new Lista_precios();
-
-                precios.setidLista_Precios(rs.getInt(1));
-                precios.setdescrip_precio(rs.getString(2));
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    precios = new Lista_precios();
+                    precios.setidLista_Precios(rs.getInt(1));
+                    precios.setdescrip_precio(rs.getString(2));
+                }
             }
-
-            return precios;
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-            return precios;
+            System.out.println("Error al consultar lista de precios: " + ex.getMessage());
         }
+        return precios;
     }
 
     public boolean actualizarListaPrecios(Lista_precios precio) throws SQLException {
         boolean actualizado = false;
         String sql = "UPDATE lista_precios SET descrip_precio=? WHERE idLista_Precios=?";
-        Connection con = conexion.getConn();
 
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setString(1, precio.getdescrip_precio());
             ps.setInt(2, precio.getidLista_Precio());
 
@@ -92,9 +86,10 @@ public class Lista_preciosDAO {
     public boolean eliminarListaPrecios(int id) throws SQLException {
         boolean eliminado = false;
         String sql = "UPDATE lista_precios SET activo = 0 WHERE idLista_Precios = ?";
-        Connection con = conexion.getConn();
 
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setInt(1, id);
             if (ps.executeUpdate() > 0) {
                 eliminado = true;
@@ -108,12 +103,12 @@ public class Lista_preciosDAO {
 
     public List<Lista_precios> listarLista_precios() {
         List<Lista_precios> lista = new ArrayList<>();
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try {
-            String sql = "SELECT idLista_precios, descrip_precio FROM lista_precios WHERE activo = 1";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+        String sql = "SELECT idLista_precios, descrip_precio FROM lista_precios WHERE activo = 1";
+
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
                 Lista_precios precio = new Lista_precios();
                 precio.setidLista_Precios(rs.getInt(1));
@@ -121,19 +116,19 @@ public class Lista_preciosDAO {
                 lista.add(precio);
             }
         } catch (Exception e) {
-            System.out.println("Error al listar roles: " + e.getMessage());
+            System.out.println("Error al listar lista de precios: " + e.getMessage());
         }
         return lista;
     }
 
     public List<Lista_precios> listarInactivas() {
         List<Lista_precios> lista = new ArrayList<>();
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try {
-            String sql = "SELECT idLista_precios, descrip_precio FROM lista_precios WHERE activo = 0";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+        String sql = "SELECT idLista_precios, descrip_precio FROM lista_precios WHERE activo = 0";
+
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
                 Lista_precios precio = new Lista_precios();
                 precio.setidLista_Precios(rs.getInt(1));
@@ -149,9 +144,10 @@ public class Lista_preciosDAO {
     public boolean reactivarListaPrecios(int id) {
         boolean reactivado = false;
         String sql = "UPDATE lista_precios SET activo = 1 WHERE idLista_Precios = ?";
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setInt(1, id);
             reactivado = ps.executeUpdate() > 0;
         } catch (SQLException e) {

@@ -20,14 +20,14 @@ public class PerritoDAO {
 
     public boolean insertarPerrito(Perrito perrito) {
         boolean insertado = false;
-        Connection con = conexion.getConn();
-
         String sql = "INSERT INTO perrito (nombre, Especie_idEspecie, Raza_idRaza, fecha_nacimiento, "
                 + "Sexo_perrito_idSexo_perrito, microchip, etapa_madurez, especialidad, condiciones_especiales, "
                 + "titulo_historia, historia, foto, Estado_perrito_idEstado_perrito, activo) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
 
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setString(1, perrito.getNombre());
             ps.setInt(2, perrito.getEspecie_idEspecie());
             ps.setInt(3, perrito.getRaza_idRaza());
@@ -54,32 +54,32 @@ public class PerritoDAO {
 
     public Perrito ConsultarPerrito(int idPerrito) {
         Perrito perrito = null;
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try {
-            String sql = "SELECT p.idPerrito, p.nombre, p.Especie_idEspecie, p.Raza_idRaza, p.fecha_nacimiento, "
-                    + "p.Sexo_perrito_idSexo_perrito, p.microchip, p.etapa_madurez, p.especialidad, "
-                    + "p.condiciones_especiales, p.titulo_historia, p.historia, p.foto, "
-                    + "p.Estado_perrito_idEstado_perrito, "
-                    + "esp.descripcion AS descripcionEspecie, r.nombre AS descripcionRaza, "
-                    + "sx.descripcion AS descripcionSexo, e.descripcion_estado AS descripcionEstado "
-                    + "FROM perrito p "
-                    + "INNER JOIN estado_perrito e ON p.Estado_perrito_idEstado_perrito = e.idEstado_perrito "
-                    + "INNER JOIN especie esp ON p.Especie_idEspecie = esp.idEspecie "
-                    + "LEFT JOIN raza r ON p.Raza_idRaza = r.idRaza "
-                    + "INNER JOIN sexo_perrito sx ON p.Sexo_perrito_idSexo_perrito = sx.idSexo_perrito "
-                    + "WHERE p.idPerrito = ?";
-            PreparedStatement ps = con.prepareStatement(sql);
+        String sql = "SELECT p.idPerrito, p.nombre, p.Especie_idEspecie, p.Raza_idRaza, p.fecha_nacimiento, "
+                + "p.Sexo_perrito_idSexo_perrito, p.microchip, p.etapa_madurez, p.especialidad, "
+                + "p.condiciones_especiales, p.titulo_historia, p.historia, p.foto, "
+                + "p.Estado_perrito_idEstado_perrito, "
+                + "esp.descripcion AS descripcionEspecie, r.nombre AS descripcionRaza, "
+                + "sx.descripcion AS descripcionSexo, e.descripcion_estado AS descripcionEstado "
+                + "FROM perrito p "
+                + "INNER JOIN estado_perrito e ON p.Estado_perrito_idEstado_perrito = e.idEstado_perrito "
+                + "INNER JOIN especie esp ON p.Especie_idEspecie = esp.idEspecie "
+                + "LEFT JOIN raza r ON p.Raza_idRaza = r.idRaza "
+                + "INNER JOIN sexo_perrito sx ON p.Sexo_perrito_idSexo_perrito = sx.idSexo_perrito "
+                + "WHERE p.idPerrito = ?";
+
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setInt(1, idPerrito);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                perrito = mapearPerrito(rs);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    perrito = mapearPerrito(rs);
+                }
             }
-            return perrito;
         } catch (Exception ex) {
             System.out.println("Error al consultar Perrito: " + ex.getMessage());
-            return perrito;
         }
+        return perrito;
     }
 
     public boolean actualizarPerrito(Perrito perrito) {
@@ -88,9 +88,10 @@ public class PerritoDAO {
                 + "Sexo_perrito_idSexo_perrito=?, microchip=?, etapa_madurez=?, especialidad=?, "
                 + "condiciones_especiales=?, titulo_historia=?, historia=?, foto=?, "
                 + "Estado_perrito_idEstado_perrito=? WHERE idPerrito=?";
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setString(1, perrito.getNombre());
             ps.setInt(2, perrito.getEspecie_idEspecie());
             ps.setInt(3, perrito.getRaza_idRaza());
@@ -105,6 +106,7 @@ public class PerritoDAO {
             ps.setString(12, perrito.getFoto());
             ps.setInt(13, perrito.getEstado_perrito_idEstado_perrito());
             ps.setInt(14, perrito.getIdPerrito());
+
             if (ps.executeUpdate() > 0) {
                 actualizado = true;
                 System.out.println("Perrito actualizado con éxito.");
@@ -119,11 +121,13 @@ public class PerritoDAO {
     public boolean actualizarEstadoPerrito(int idPerrito, int idEstado_perrito) {
         boolean actualizado = false;
         String sql = "UPDATE perrito SET Estado_perrito_idEstado_perrito = ? WHERE idPerrito = ?";
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setInt(1, idEstado_perrito);
             ps.setInt(2, idPerrito);
+
             if (ps.executeUpdate() > 0) {
                 actualizado = true;
                 System.out.println("Estado del perrito actualizado con éxito.");
@@ -137,10 +141,12 @@ public class PerritoDAO {
     public boolean eliminarPerrito(int idPerrito) {
         boolean eliminado = false;
         String sql = "UPDATE perrito SET activo = 0 WHERE idPerrito = ?";
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setInt(1, idPerrito);
+
             if (ps.executeUpdate() > 0) {
                 eliminado = true;
                 System.out.println("Perrito eliminado.");
@@ -153,23 +159,23 @@ public class PerritoDAO {
 
     public List<Perrito> listarPerrito() {
         List<Perrito> lista = new ArrayList<>();
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try {
-            String sql = "SELECT p.idPerrito, p.nombre, p.Especie_idEspecie, p.Raza_idRaza, p.fecha_nacimiento, "
-                    + "p.Sexo_perrito_idSexo_perrito, p.microchip, p.etapa_madurez, p.especialidad, "
-                    + "p.condiciones_especiales, p.titulo_historia, p.historia, p.foto, "
-                    + "p.Estado_perrito_idEstado_perrito, "
-                    + "esp.descripcion AS descripcionEspecie, r.nombre AS descripcionRaza, "
-                    + "sx.descripcion AS descripcionSexo, e.descripcion_estado AS descripcionEstado "
-                    + "FROM perrito p "
-                    + "INNER JOIN estado_perrito e ON p.Estado_perrito_idEstado_perrito = e.idEstado_perrito "
-                    + "INNER JOIN especie esp ON p.Especie_idEspecie = esp.idEspecie "
-                    + "LEFT JOIN raza r ON p.Raza_idRaza = r.idRaza "
-                    + "INNER JOIN sexo_perrito sx ON p.Sexo_perrito_idSexo_perrito = sx.idSexo_perrito "
-                    + "WHERE p.activo = 1";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+        String sql = "SELECT p.idPerrito, p.nombre, p.Especie_idEspecie, p.Raza_idRaza, p.fecha_nacimiento, "
+                + "p.Sexo_perrito_idSexo_perrito, p.microchip, p.etapa_madurez, p.especialidad, "
+                + "p.condiciones_especiales, p.titulo_historia, p.historia, p.foto, "
+                + "p.Estado_perrito_idEstado_perrito, "
+                + "esp.descripcion AS descripcionEspecie, r.nombre AS descripcionRaza, "
+                + "sx.descripcion AS descripcionSexo, e.descripcion_estado AS descripcionEstado "
+                + "FROM perrito p "
+                + "INNER JOIN estado_perrito e ON p.Estado_perrito_idEstado_perrito = e.idEstado_perrito "
+                + "INNER JOIN especie esp ON p.Especie_idEspecie = esp.idEspecie "
+                + "LEFT JOIN raza r ON p.Raza_idRaza = r.idRaza "
+                + "INNER JOIN sexo_perrito sx ON p.Sexo_perrito_idSexo_perrito = sx.idSexo_perrito "
+                + "WHERE p.activo = 1";
+
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
                 lista.add(mapearPerrito(rs));
             }
@@ -181,23 +187,23 @@ public class PerritoDAO {
 
     public List<Perrito> listarPerritoDisponible() {
         List<Perrito> lista = new ArrayList<>();
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try {
-            String sql = "SELECT p.idPerrito, p.nombre, p.Especie_idEspecie, p.Raza_idRaza, p.fecha_nacimiento, "
-                    + "p.Sexo_perrito_idSexo_perrito, p.microchip, p.etapa_madurez, p.especialidad, "
-                    + "p.condiciones_especiales, p.titulo_historia, p.historia, p.foto, "
-                    + "p.Estado_perrito_idEstado_perrito, "
-                    + "esp.descripcion AS descripcionEspecie, r.nombre AS descripcionRaza, "
-                    + "sx.descripcion AS descripcionSexo, e.descripcion_estado AS descripcionEstado "
-                    + "FROM perrito p "
-                    + "INNER JOIN estado_perrito e ON p.Estado_perrito_idEstado_perrito = e.idEstado_perrito "
-                    + "INNER JOIN especie esp ON p.Especie_idEspecie = esp.idEspecie "
-                    + "INNER JOIN raza r ON p.Raza_idRaza = r.idRaza "
-                    + "INNER JOIN sexo_perrito sx ON p.Sexo_perrito_idSexo_perrito = sx.idSexo_perrito "
-                    + "WHERE e.descripcion_estado = 'Disponible' AND p.activo = 1";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+        String sql = "SELECT p.idPerrito, p.nombre, p.Especie_idEspecie, p.Raza_idRaza, p.fecha_nacimiento, "
+                + "p.Sexo_perrito_idSexo_perrito, p.microchip, p.etapa_madurez, p.especialidad, "
+                + "p.condiciones_especiales, p.titulo_historia, p.historia, p.foto, "
+                + "p.Estado_perrito_idEstado_perrito, "
+                + "esp.descripcion AS descripcionEspecie, r.nombre AS descripcionRaza, "
+                + "sx.descripcion AS descripcionSexo, e.descripcion_estado AS descripcionEstado "
+                + "FROM perrito p "
+                + "INNER JOIN estado_perrito e ON p.Estado_perrito_idEstado_perrito = e.idEstado_perrito "
+                + "INNER JOIN especie esp ON p.Especie_idEspecie = esp.idEspecie "
+                + "LEFT JOIN raza r ON p.Raza_idRaza = r.idRaza "
+                + "INNER JOIN sexo_perrito sx ON p.Sexo_perrito_idSexo_perrito = sx.idSexo_perrito "
+                + "WHERE e.descripcion_estado = 'Disponible' AND p.activo = 1";
+
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
                 lista.add(mapearPerrito(rs));
             }
@@ -209,27 +215,29 @@ public class PerritoDAO {
 
     public List<Perrito> buscarPerritoDisponible(String textoBusqueda) {
         List<Perrito> lista = new ArrayList<>();
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try {
-            String sql = "SELECT p.idPerrito, p.nombre, p.Especie_idEspecie, p.Raza_idRaza, p.fecha_nacimiento, "
-                    + "p.Sexo_perrito_idSexo_perrito, p.microchip, p.etapa_madurez, p.especialidad, "
-                    + "p.condiciones_especiales, p.titulo_historia, p.historia, p.foto, "
-                    + "p.Estado_perrito_idEstado_perrito, "
-                    + "esp.descripcion AS descripcionEspecie, r.nombre AS descripcionRaza, "
-                    + "sx.descripcion AS descripcionSexo, e.descripcion_estado AS descripcionEstado "
-                    + "FROM perrito p "
-                    + "INNER JOIN estado_perrito e ON p.Estado_perrito_idEstado_perrito = e.idEstado_perrito "
-                    + "INNER JOIN especie esp ON p.Especie_idEspecie = esp.idEspecie "
-                    + "LEFT JOIN raza r ON p.Raza_idRaza = r.idRaza "
-                    + "INNER JOIN sexo_perrito sx ON p.Sexo_perrito_idSexo_perrito = sx.idSexo_perrito "
-                    + "WHERE e.descripcion_estado = 'Disponible' AND p.activo = 1 "
-                    + "AND p.nombre LIKE ?";
-            PreparedStatement ps = con.prepareStatement(sql);
+        String sql = "SELECT p.idPerrito, p.nombre, p.Especie_idEspecie, p.Raza_idRaza, p.fecha_nacimiento, "
+                + "p.Sexo_perrito_idSexo_perrito, p.microchip, p.etapa_madurez, p.especialidad, "
+                + "p.condiciones_especiales, p.titulo_historia, p.historia, p.foto, "
+                + "p.Estado_perrito_idEstado_perrito, "
+                + "esp.descripcion AS descripcionEspecie, r.nombre AS descripcionRaza, "
+                + "sx.descripcion AS descripcionSexo, e.descripcion_estado AS descripcionEstado "
+                + "FROM perrito p "
+                + "INNER JOIN estado_perrito e ON p.Estado_perrito_idEstado_perrito = e.idEstado_perrito "
+                + "INNER JOIN especie esp ON p.Especie_idEspecie = esp.idEspecie "
+                + "LEFT JOIN raza r ON p.Raza_idRaza = r.idRaza "
+                + "INNER JOIN sexo_perrito sx ON p.Sexo_perrito_idSexo_perrito = sx.idSexo_perrito "
+                + "WHERE e.descripcion_estado = 'Disponible' AND p.activo = 1 "
+                + "AND p.nombre LIKE ?";
+
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setString(1, "%" + textoBusqueda + "%");
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                lista.add(mapearPerrito(rs));
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearPerrito(rs));
+                }
             }
         } catch (Exception e) {
             System.out.println("Error al buscar Perritos disponibles: " + e.getMessage());
@@ -239,14 +247,16 @@ public class PerritoDAO {
 
     // Valida que el microchip no esté repetido antes de insertar
     public boolean existeMicrochip(String microchip) {
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try {
-            String sql = "SELECT microchip FROM perrito WHERE microchip = ?";
-            PreparedStatement ps = con.prepareStatement(sql);
+        String sql = "SELECT microchip FROM perrito WHERE microchip = ?";
+
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setString(1, microchip);
-            ResultSet rs = ps.executeQuery();
-            return rs.next();
+
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
         } catch (Exception e) {
             System.out.println("Error al verificar microchip: " + e.getMessage());
             return false;
@@ -255,15 +265,17 @@ public class PerritoDAO {
 
     // Igual que existeMicrochip pero excluyendo el propio registro (para cuando se edita un perrito)
     public boolean existeMicrochipEnOtroPerrito(String microchip, int idPerrito) {
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try {
-            String sql = "SELECT microchip FROM perrito WHERE microchip = ? AND idPerrito != ?";
-            PreparedStatement ps = con.prepareStatement(sql);
+        String sql = "SELECT microchip FROM perrito WHERE microchip = ? AND idPerrito != ?";
+
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setString(1, microchip);
             ps.setInt(2, idPerrito);
-            ResultSet rs = ps.executeQuery();
-            return rs.next();
+
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
         } catch (Exception e) {
             System.out.println("Error al verificar microchip: " + e.getMessage());
             return false;
@@ -272,23 +284,23 @@ public class PerritoDAO {
 
     public List<Perrito> listarInactivos() {
         List<Perrito> lista = new ArrayList<>();
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try {
-            String sql = "SELECT p.idPerrito, p.nombre, p.Especie_idEspecie, p.Raza_idRaza, p.fecha_nacimiento, "
-                    + "p.Sexo_perrito_idSexo_perrito, p.microchip, p.etapa_madurez, p.especialidad, "
-                    + "p.condiciones_especiales, p.titulo_historia, p.historia, p.foto, "
-                    + "p.Estado_perrito_idEstado_perrito, "
-                    + "esp.descripcion AS descripcionEspecie, r.nombre AS descripcionRaza, "
-                    + "sx.descripcion AS descripcionSexo, e.descripcion_estado AS descripcionEstado "
-                    + "FROM perrito p "
-                    + "INNER JOIN estado_perrito e ON p.Estado_perrito_idEstado_perrito = e.idEstado_perrito "
-                    + "INNER JOIN especie esp ON p.Especie_idEspecie = esp.idEspecie "
-                    + "LEFT JOIN raza r ON p.Raza_idRaza = r.idRaza "
-                    + "INNER JOIN sexo_perrito sx ON p.Sexo_perrito_idSexo_perrito = sx.idSexo_perrito "
-                    + "WHERE p.activo = 0";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+        String sql = "SELECT p.idPerrito, p.nombre, p.Especie_idEspecie, p.Raza_idRaza, p.fecha_nacimiento, "
+                + "p.Sexo_perrito_idSexo_perrito, p.microchip, p.etapa_madurez, p.especialidad, "
+                + "p.condiciones_especiales, p.titulo_historia, p.historia, p.foto, "
+                + "p.Estado_perrito_idEstado_perrito, "
+                + "esp.descripcion AS descripcionEspecie, r.nombre AS descripcionRaza, "
+                + "sx.descripcion AS descripcionSexo, e.descripcion_estado AS descripcionEstado "
+                + "FROM perrito p "
+                + "INNER JOIN estado_perrito e ON p.Estado_perrito_idEstado_perrito = e.idEstado_perrito "
+                + "INNER JOIN especie esp ON p.Especie_idEspecie = esp.idEspecie "
+                + "LEFT JOIN raza r ON p.Raza_idRaza = r.idRaza "
+                + "INNER JOIN sexo_perrito sx ON p.Sexo_perrito_idSexo_perrito = sx.idSexo_perrito "
+                + "WHERE p.activo = 0";
+
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
                 lista.add(mapearPerrito(rs));
             }
@@ -301,9 +313,10 @@ public class PerritoDAO {
     public boolean reactivarPerrito(int idPerrito) {
         boolean reactivado = false;
         String sql = "UPDATE perrito SET activo = 1 WHERE idPerrito = ?";
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setInt(1, idPerrito);
             reactivado = ps.executeUpdate() > 0;
         } catch (SQLException e) {

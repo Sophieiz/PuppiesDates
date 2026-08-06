@@ -13,12 +13,12 @@ public class Estado_perritoDAO {
 
     public List<Estado_perrito> listarEstado_perrito() {
         List<Estado_perrito> lista = new ArrayList<>();
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try {
-            String sql = "SELECT idEstado_perrito, descripcion_estado FROM estado_perrito";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+        String sql = "SELECT idEstado_perrito, descripcion_estado FROM estado_perrito";
+
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
                 Estado_perrito estado = new Estado_perrito();
                 estado.setIdEstado_perrito(rs.getInt("idEstado_perrito"));

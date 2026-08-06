@@ -3,33 +3,30 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Controlador;
+
 import Modelo.Horarios;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.ResultSet;
-
 
 /**
  *
  * @author USER
  */
-
 public class HorariosDAO {
 
     Conexion conexion = new Conexion();
 
-   
     public boolean insertarHorarios(Horarios horario) throws SQLException {
         boolean insertado = false;
-        Connection con = conexion.getConn();
-
-        
         String sql = "INSERT INTO horarios (idHorarios, hora_ini, hora_fin) VALUES (?, ?, ?)";
 
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setInt(1, horario.getidHorarios());
             ps.setTime(2, horario.gethora_ini());
             ps.setTime(3, horario.gethora_fin());
@@ -46,38 +43,33 @@ public class HorariosDAO {
 
     public Horarios ConsultarHorarios(int idHorarios) {
         Horarios horarios = null;
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
+        String querySQL = "SELECT idHorarios, hora_ini, hora_fin FROM horarios WHERE idHorarios = ?";
 
-        try {
-            String querySQL = "SELECT idHorarios, hora_ini, hora_fin FROM horarios WHERE idHorarios = ?";
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(querySQL)) {
 
-            PreparedStatement ps = con.prepareStatement(querySQL);
             ps.setInt(1, idHorarios);
-
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                horarios = new Horarios();
-                horarios.setidHorarios(rs.getInt(1));
-                horarios.sethora_ini(rs.getTime(2));
-                horarios.sethora_fin(rs.getTime(3));
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    horarios = new Horarios();
+                    horarios.setidHorarios(rs.getInt(1));
+                    horarios.sethora_ini(rs.getTime(2));
+                    horarios.sethora_fin(rs.getTime(3));
+                }
             }
-            return horarios;
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-            return horarios;
+            System.out.println("Error al consultar horario: " + ex.getMessage());
         }
+        return horarios;
     }
 
-
-   
     public boolean actualizarHorario(Horarios horario) throws SQLException {
         boolean actualizado = false;
         String sql = "UPDATE horarios SET hora_ini=?, hora_fin=? WHERE idHorarios=?";
-        Connection con = conexion.getConn();
 
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setTime(1, horario.gethora_ini());
             ps.setTime(2, horario.gethora_fin());
             ps.setInt(3, horario.getidHorarios());
@@ -92,13 +84,13 @@ public class HorariosDAO {
         return actualizado;
     }
 
-    
     public boolean eliminarHorario(int id) throws SQLException {
         boolean eliminado = false;
         String sql = "UPDATE horarios SET activo = 0 WHERE idHorarios = ?";
-        Connection con = conexion.getConn();
 
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setInt(1, id);
             if (ps.executeUpdate() > 0) {
                 eliminado = true;
@@ -109,15 +101,15 @@ public class HorariosDAO {
         }
         return eliminado;
     }
-    
+
     public List<Horarios> listarHorarios() {
         List<Horarios> lista = new ArrayList<>();
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try {
-            String sql = "SELECT idHorarios, hora_ini, hora_fin FROM horarios WHERE activo = 1";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+        String sql = "SELECT idHorarios, hora_ini, hora_fin FROM horarios WHERE activo = 1";
+
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
                 Horarios horario = new Horarios();
                 horario.setidHorarios(rs.getInt(1));
@@ -133,12 +125,12 @@ public class HorariosDAO {
 
     public List<Horarios> listarInactivos() {
         List<Horarios> lista = new ArrayList<>();
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try {
-            String sql = "SELECT idHorarios, hora_ini, hora_fin FROM horarios WHERE activo = 0";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+        String sql = "SELECT idHorarios, hora_ini, hora_fin FROM horarios WHERE activo = 0";
+
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
                 Horarios horario = new Horarios();
                 horario.setidHorarios(rs.getInt(1));
@@ -155,8 +147,10 @@ public class HorariosDAO {
     public boolean reactivarHorario(int id) {
         boolean reactivado = false;
         String sql = "UPDATE horarios SET activo = 1 WHERE idHorarios = ?";
-        Connection con = conexion.getConn();
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setInt(1, id);
             reactivado = ps.executeUpdate() > 0;
         } catch (SQLException e) {

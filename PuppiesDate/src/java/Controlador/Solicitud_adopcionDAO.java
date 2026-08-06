@@ -13,18 +13,17 @@ import java.util.List;
 
 public class Solicitud_adopcionDAO {
 
-    Conexion conexion = new Conexion();
-
     public int insertarSolicitud_adopcion(Solicitud_adopcion solicitud) {
         int idGenerado = -1;
-        Connection con = conexion.getConn();
-
         String sql = "INSERT INTO solicitud_adopcion (direccion, Departamento_idDepartamento, "
                 + "Municipio_idMunicipio, Localidad_idLocalidad, barrio, profesion, vive_en, "
                 + "tipo_vivienda, nucleo_familiar, tiene_mascotas, Usuarios_idUsuarios, Perrito_idPerrito, "
                 + "Estado_solicitud_idEstado_solicitud) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+        Conexion conexion = new Conexion();
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+
             ps.setString(1, solicitud.getDireccion());
             ps.setInt(2, solicitud.getDepartamentoId());
 
@@ -48,14 +47,14 @@ public class Solicitud_adopcionDAO {
             ps.setBoolean(10, solicitud.isTiene_mascotas());
             ps.setInt(11, solicitud.getUsuarios_idUsuarios());
             ps.setInt(12, solicitud.getPerrito_idPerrito());
-            
             ps.setInt(13, 1);
 
             ps.executeUpdate();
 
-            ResultSet generadas = ps.getGeneratedKeys();
-            if (generadas.next()) {
-                idGenerado = generadas.getInt(1);
+            try (ResultSet generadas = ps.getGeneratedKeys()) {
+                if (generadas.next()) {
+                    idGenerado = generadas.getInt(1);
+                }
             }
             System.out.println("Solicitud de adopción insertada con éxito.");
         } catch (SQLException e) {
@@ -66,15 +65,17 @@ public class Solicitud_adopcionDAO {
 
     public Solicitud_adopcion ConsultarSolicitud_adopcion(int idSolicitud_adopcion) {
         Solicitud_adopcion solicitud = null;
+        String sql = sqlBaseConJoins() + " WHERE s.idSolicitud_adopcion = ?";
+
         Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try {
-            String sql = sqlBaseConJoins() + " WHERE s.idSolicitud_adopcion = ?";
-            PreparedStatement ps = con.prepareStatement(sql);
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setInt(1, idSolicitud_adopcion);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                solicitud = mapearSolicitud(rs);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    solicitud = mapearSolicitud(rs);
+                }
             }
             return solicitud;
         } catch (Exception ex) {
@@ -85,12 +86,13 @@ public class Solicitud_adopcionDAO {
 
     public List<Solicitud_adopcion> listarSolicitud_adopcion() {
         List<Solicitud_adopcion> lista = new ArrayList<>();
+        String sql = sqlBaseConJoins() + " WHERE s.activo = 1 ORDER BY s.fecha_solicitud DESC";
+
         Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try {
-            String sql = sqlBaseConJoins() + " WHERE s.activo = 1 ORDER BY s.fecha_solicitud DESC";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
                 lista.add(mapearSolicitud(rs));
             }
@@ -103,21 +105,24 @@ public class Solicitud_adopcionDAO {
     // Busca por nombre del perrito o nombre/apellido/documento del solicitante
     public List<Solicitud_adopcion> buscarSolicitud_adopcion(String textoBusqueda) {
         List<Solicitud_adopcion> lista = new ArrayList<>();
+        String sql = sqlBaseConJoins()
+                + " WHERE s.activo = 1 AND (p.nombre LIKE ? OR u.nombre LIKE ? OR u.apellido LIKE ? OR u.documento LIKE ?) "
+                + " ORDER BY s.fecha_solicitud DESC";
+
         Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try {
-            String sql = sqlBaseConJoins()
-                    + " WHERE s.activo = 1 AND (p.nombre LIKE ? OR u.nombre LIKE ? OR u.apellido LIKE ? OR u.documento LIKE ?) "
-                    + " ORDER BY s.fecha_solicitud DESC";
-            PreparedStatement ps = con.prepareStatement(sql);
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             String comodin = "%" + textoBusqueda + "%";
             ps.setString(1, comodin);
             ps.setString(2, comodin);
             ps.setString(3, comodin);
             ps.setString(4, comodin);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                lista.add(mapearSolicitud(rs));
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearSolicitud(rs));
+                }
             }
         } catch (Exception e) {
             System.out.println("Error al buscar Solicitud_adopcion: " + e.getMessage());
@@ -128,15 +133,17 @@ public class Solicitud_adopcionDAO {
     // Para que el usuario consulte el estado de sus propias solicitudes
     public List<Solicitud_adopcion> listarSolicitud_adopcionPorUsuario(int idUsuarios) {
         List<Solicitud_adopcion> lista = new ArrayList<>();
+        String sql = sqlBaseConJoins() + " WHERE s.activo = 1 AND s.Usuarios_idUsuarios = ? ORDER BY s.fecha_solicitud DESC";
+
         Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try {
-            String sql = sqlBaseConJoins() + " WHERE s.activo = 1 AND s.Usuarios_idUsuarios = ? ORDER BY s.fecha_solicitud DESC";
-            PreparedStatement ps = con.prepareStatement(sql);
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setInt(1, idUsuarios);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                lista.add(mapearSolicitud(rs));
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearSolicitud(rs));
+                }
             }
         } catch (Exception e) {
             System.out.println("Error al listar solicitudes del usuario: " + e.getMessage());
@@ -146,18 +153,20 @@ public class Solicitud_adopcionDAO {
 
     // Valida que el usuario no tenga ya una solicitud activa (En revisión o En entrevista) para ese mismo perrito
     public boolean existeSolicitudActiva(int idUsuarios, int idPerrito) {
+        String sql = "SELECT s.idSolicitud_adopcion FROM solicitud_adopcion s "
+                + "INNER JOIN estado_solicitud e ON s.Estado_solicitud_idEstado_solicitud = e.idEstado_solicitud "
+                + "WHERE s.Usuarios_idUsuarios = ? AND s.Perrito_idPerrito = ? "
+                + "AND e.descripcion_estado IN ('Pendiente', 'En proceso')";
+
         Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try {
-            String sql = "SELECT s.idSolicitud_adopcion FROM solicitud_adopcion s "
-                    + "INNER JOIN estado_solicitud e ON s.Estado_solicitud_idEstado_solicitud = e.idEstado_solicitud "
-                    + "WHERE s.Usuarios_idUsuarios = ? AND s.Perrito_idPerrito = ? "
-                    + "AND e.descripcion_estado IN ('Pendiente', 'En proceso')";
-            PreparedStatement ps = con.prepareStatement(sql);
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setInt(1, idUsuarios);
             ps.setInt(2, idPerrito);
-            ResultSet rs = ps.executeQuery();
-            return rs.next();
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
         } catch (Exception e) {
             System.out.println("Error al verificar solicitud activa: " + e.getMessage());
             return false;
@@ -168,9 +177,11 @@ public class Solicitud_adopcionDAO {
     public boolean actualizarEstadoSolicitud(int idSolicitud_adopcion, int idEstado_solicitud, String observacion) {
         boolean actualizado = false;
         String sql = "UPDATE solicitud_adopcion SET Estado_solicitud_idEstado_solicitud = ? WHERE idSolicitud_adopcion = ?";
+
         Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setInt(1, idEstado_solicitud);
             ps.setInt(2, idSolicitud_adopcion);
             if (ps.executeUpdate() > 0) {
@@ -193,8 +204,11 @@ public class Solicitud_adopcionDAO {
     public boolean eliminarSolicitud_adopcion(int id) {
         boolean eliminado = false;
         String sql = "UPDATE solicitud_adopcion SET activo = 0 WHERE idSolicitud_adopcion = ?";
-        Connection con = conexion.getConn();
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+
+        Conexion conexion = new Conexion();
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setInt(1, id);
             if (ps.executeUpdate() > 0) {
                 eliminado = true;
@@ -208,12 +222,13 @@ public class Solicitud_adopcionDAO {
 
     public List<Solicitud_adopcion> listarInactivas() {
         List<Solicitud_adopcion> lista = new ArrayList<>();
+        String sql = sqlBaseConJoins() + " WHERE s.activo = 0 ORDER BY s.fecha_solicitud DESC";
+
         Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try {
-            String sql = sqlBaseConJoins() + " WHERE s.activo = 0 ORDER BY s.fecha_solicitud DESC";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
                 lista.add(mapearSolicitud(rs));
             }
@@ -226,9 +241,11 @@ public class Solicitud_adopcionDAO {
     public boolean reactivarSolicitud_adopcion(int id) {
         boolean reactivado = false;
         String sql = "UPDATE solicitud_adopcion SET activo = 1 WHERE idSolicitud_adopcion = ?";
+
         Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setInt(1, id);
             reactivado = ps.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -239,10 +256,13 @@ public class Solicitud_adopcionDAO {
 
     public boolean insertarHistorial_estado_solicitud(Historial_estado_solicitud historial) {
         boolean insertado = false;
-        Connection con = conexion.getConn();
         String sql = "INSERT INTO historial_estado_solicitud (observacion, Solicitud_adopcion_idSolicitud_adopcion, "
                 + "Estado_solicitud_idEstado_solicitud) VALUES (?, ?, ?)";
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+
+        Conexion conexion = new Conexion();
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setString(1, historial.getObservacion());
             ps.setInt(2, historial.getSolicitud_adopcion_idSolicitud_adopcion());
             ps.setInt(3, historial.getEstado_solicitud_idEstado_solicitud());
@@ -257,28 +277,30 @@ public class Solicitud_adopcionDAO {
 
     public List<Historial_estado_solicitud> listarHistorialPorSolicitud(int idSolicitud_adopcion) {
         List<Historial_estado_solicitud> lista = new ArrayList<>();
+        String sql = "SELECT h.idHistorial_estado_solicitud, h.fecha_cambio, h.observacion, "
+                + "h.Solicitud_adopcion_idSolicitud_adopcion, h.Estado_solicitud_idEstado_solicitud, "
+                + "e.descripcion_estado AS descripcionEstado "
+                + "FROM historial_estado_solicitud h "
+                + "INNER JOIN estado_solicitud e ON h.Estado_solicitud_idEstado_solicitud = e.idEstado_solicitud "
+                + "WHERE h.Solicitud_adopcion_idSolicitud_adopcion = ? "
+                + "ORDER BY h.fecha_cambio ASC";
+
         Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try {
-            String sql = "SELECT h.idHistorial_estado_solicitud, h.fecha_cambio, h.observacion, "
-                    + "h.Solicitud_adopcion_idSolicitud_adopcion, h.Estado_solicitud_idEstado_solicitud, "
-                    + "e.descripcion_estado AS descripcionEstado "
-                    + "FROM historial_estado_solicitud h "
-                    + "INNER JOIN estado_solicitud e ON h.Estado_solicitud_idEstado_solicitud = e.idEstado_solicitud "
-                    + "WHERE h.Solicitud_adopcion_idSolicitud_adopcion = ? "
-                    + "ORDER BY h.fecha_cambio ASC";
-            PreparedStatement ps = con.prepareStatement(sql);
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setInt(1, idSolicitud_adopcion);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Historial_estado_solicitud historial = new Historial_estado_solicitud();
-                historial.setIdHistorial_estado_solicitud(rs.getInt("idHistorial_estado_solicitud"));
-                historial.setFecha_cambio(rs.getTimestamp("fecha_cambio"));
-                historial.setObservacion(rs.getString("observacion"));
-                historial.setSolicitud_adopcion_idSolicitud_adopcion(rs.getInt("Solicitud_adopcion_idSolicitud_adopcion"));
-                historial.setEstado_solicitud_idEstado_solicitud(rs.getInt("Estado_solicitud_idEstado_solicitud"));
-                historial.setDescripcionEstado_solicitud(rs.getString("descripcionEstado"));
-                lista.add(historial);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Historial_estado_solicitud historial = new Historial_estado_solicitud();
+                    historial.setIdHistorial_estado_solicitud(rs.getInt("idHistorial_estado_solicitud"));
+                    historial.setFecha_cambio(rs.getTimestamp("fecha_cambio"));
+                    historial.setObservacion(rs.getString("observacion"));
+                    historial.setSolicitud_adopcion_idSolicitud_adopcion(rs.getInt("Solicitud_adopcion_idSolicitud_adopcion"));
+                    historial.setEstado_solicitud_idEstado_solicitud(rs.getInt("Estado_solicitud_idEstado_solicitud"));
+                    historial.setDescripcionEstado_solicitud(rs.getString("descripcionEstado"));
+                    lista.add(historial);
+                }
             }
         } catch (Exception e) {
             System.out.println("Error al listar historial: " + e.getMessage());

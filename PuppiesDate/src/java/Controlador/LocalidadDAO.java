@@ -17,20 +17,23 @@ public class LocalidadDAO {
     // Para llenar el <select> de Localidad en el formulario de solicitud de adopción
     public List<Localidad> listarPorDepartamento(int idDepartamento) {
         List<Localidad> lista = new ArrayList<>();
-        Connection con = conexion.getConn();
-        try {
-            String sql = "SELECT idlocalidad, nombre FROM localidades "
-                       + "WHERE departamento_iddepartamento = ? AND activo = 1 ORDER BY nombre";
-            PreparedStatement ps = con.prepareStatement(sql);
+        String sql = "SELECT idlocalidad, nombre FROM localidades "
+                   + "WHERE departamento_iddepartamento = ? AND activo = 1 ORDER BY nombre";
+
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setInt(1, idDepartamento);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Localidad l = new Localidad();
-                l.setIdLocalidad(rs.getInt("idlocalidad"));
-                l.setNombre(rs.getString("nombre"));
-                l.setDepartamento_idDepartamento(idDepartamento);
-                l.setActivo(true);
-                lista.add(l);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Localidad l = new Localidad();
+                    l.setIdLocalidad(rs.getInt("idlocalidad"));
+                    l.setNombre(rs.getString("nombre"));
+                    l.setDepartamento_idDepartamento(idDepartamento);
+                    l.setActivo(true);
+                    lista.add(l);
+                }
             }
         } catch (Exception e) {
             System.out.println("Error al listar Localidades: " + e.getMessage());

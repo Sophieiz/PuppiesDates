@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Controlador;
 
 import Modelo.Departamento;
@@ -15,12 +11,12 @@ public class DepartamentoDAO {
 
     public List<Departamento> listarActivos() {
         List<Departamento> lista = new ArrayList<>();
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
         String sql = "SELECT idDepartamento, nombre, tipo_division FROM departamentos "
                 + "WHERE activo = 1 ORDER BY nombre";
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ResultSet rs = ps.executeQuery();
+
+        try (Connection con = new Conexion().getConn();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Departamento d = new Departamento();
                 d.setIdDepartamento(rs.getInt("idDepartamento"));

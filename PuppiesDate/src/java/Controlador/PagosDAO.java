@@ -1,11 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Controlador;
 
 import Modelo.Pagos;
-import Modelo.Roles;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,22 +8,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-/**
- *
- * @author Paula Gisedt
- */
 public class PagosDAO {
-    
-    
-    public boolean insertarPago (Pagos pago) throws SQLException {
-        boolean insertado = false;
-        Conexion conexion = new Conexion();
-        Connection con = (Connection) conexion.getConn();
 
+    public boolean insertarPago(Pagos pago) throws SQLException {
+        boolean insertado = false;
         String sql = "INSERT INTO pagos (idPagos, estado_pago) VALUES (?, ?)";
 
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = new Conexion().getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, pago.getidPagos());
             ps.setString(2, pago.getestado_pago());
             ps.executeUpdate();
@@ -42,37 +29,31 @@ public class PagosDAO {
 
     public Pagos consultarPagos(int idPagos) {
         Pagos pagos = null;
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
+        String querySQL = "SELECT idPagos, estado_pago FROM pagos WHERE idPagos = ?";
 
-        try {
-            String querySQL = "SELECT idPagos, estado_pago FROM pagos WHERE idPagos = ? ";
-
-            PreparedStatement ps = con.prepareStatement(querySQL);
+        try (Connection con = new Conexion().getConn();
+             PreparedStatement ps = con.prepareStatement(querySQL)) {
             ps.setInt(1, idPagos);
 
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-
-                pagos = new Pagos();
-                pagos.setidPagos(rs.getInt(1));
-                pagos.setestado_pago(rs.getString(2));
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    pagos = new Pagos();
+                    pagos.setidPagos(rs.getInt(1));
+                    pagos.setestado_pago(rs.getString(2));
+                }
             }
-            return pagos;
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
-            return pagos;
         }
+        return pagos;
     }
 
     public boolean actualizarPagos(Pagos pago) throws SQLException {
         boolean actualizado = false;
         String sql = "UPDATE pagos SET estado_pago = ? WHERE idPagos = ?";
-        Conexion conexion = new Conexion();
-        Connection con = (Connection) conexion.getConn();
 
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = new Conexion().getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, pago.getestado_pago());
             ps.setInt(2, pago.getidPagos());
 
@@ -86,14 +67,12 @@ public class PagosDAO {
         return actualizado;
     }
 
-
     public boolean eliminarPagos(int id) throws SQLException {
         boolean eliminado = false;
         String sql = "UPDATE pagos SET activo = 0 WHERE idPagos = ?";
-        Conexion conexion = new Conexion();
-        Connection con = (Connection) conexion.getConn();
 
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = new Conexion().getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             if (ps.executeUpdate() > 0) {
                 eliminado = true;
@@ -104,35 +83,33 @@ public class PagosDAO {
         }
         return eliminado;
     }
-    
+
     public List<Pagos> listarPagos() {
-    List<Pagos> lista = new ArrayList<>();
-    Conexion conexion = new Conexion();
-    Connection con = conexion.getConn();
-    try {
+        List<Pagos> lista = new ArrayList<>();
         String sql = "SELECT idPagos, estado_pago FROM pagos WHERE activo = 1";
-        PreparedStatement ps = con.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            Pagos pago = new Pagos();
-            pago.setidPagos(rs.getInt(1));
-            pago.setestado_pago(rs.getString(2));
-            lista.add(pago);
+
+        try (Connection con = new Conexion().getConn();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Pagos pago = new Pagos();
+                pago.setidPagos(rs.getInt(1));
+                pago.setestado_pago(rs.getString(2));
+                lista.add(pago);
+            }
+        } catch (Exception e) {
+            System.out.println("Error al listar pagos: " + e.getMessage());
         }
-    } catch (Exception e) {
-        System.out.println("Error al listar roles: " + e.getMessage());
+        return lista;
     }
-    return lista;
-}
 
     public List<Pagos> listarInactivos() {
         List<Pagos> lista = new ArrayList<>();
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try {
-            String sql = "SELECT idPagos, estado_pago FROM pagos WHERE activo = 0";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+        String sql = "SELECT idPagos, estado_pago FROM pagos WHERE activo = 0";
+
+        try (Connection con = new Conexion().getConn();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Pagos pago = new Pagos();
                 pago.setidPagos(rs.getInt(1));
@@ -148,9 +125,9 @@ public class PagosDAO {
     public boolean reactivarPago(int id) {
         boolean reactivado = false;
         String sql = "UPDATE pagos SET activo = 1 WHERE idPagos = ?";
-        Conexion conexion = new Conexion();
-        Connection con = (Connection) conexion.getConn();
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+
+        try (Connection con = new Conexion().getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             reactivado = ps.executeUpdate() > 0;
         } catch (SQLException e) {

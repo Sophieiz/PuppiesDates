@@ -10,15 +10,12 @@ import java.util.List;
 
 public class ReservaDAO {
 
-    Conexion conexion = new Conexion();
-
     public boolean insertarReserva(Reserva Mireserva) {
         boolean insertado = false;
-        Connection con = conexion.getConn();
-
         String sql = "INSERT INTO reserva (num_personas, hora, fecha, Usuarios_idUsuarios, Disponibilidad_idDisponibilidad, Estado_reserva_idEstado_reserva, Actividad_idActividad) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = new Conexion().getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, Mireserva.getNum_personas());
             ps.setTime(2, Mireserva.getHora());
             ps.setDate(3, Mireserva.getFecha());
@@ -38,38 +35,37 @@ public class ReservaDAO {
 
     public Reserva ConsultarReserva(int idReserva) throws SQLException {
         Reserva reserva = null;
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try {
-            String sql = "SELECT idReserva, num_personas, hora, fecha, Usuarios_idUsuarios, Disponibilidad_idDisponibilidad, Estado_reserva_idEstado_reserva, Actividad_idActividad, Pagos_idPagos FROM reserva WHERE idReserva = ?";
-            PreparedStatement ps = con.prepareStatement(sql);
+        String sql = "SELECT idReserva, num_personas, hora, fecha, Usuarios_idUsuarios, Disponibilidad_idDisponibilidad, Estado_reserva_idEstado_reserva, Actividad_idActividad, Pagos_idPagos FROM reserva WHERE idReserva = ?";
+
+        try (Connection con = new Conexion().getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, idReserva);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                reserva = new Reserva();
-                reserva.setidReserva(rs.getInt(1));
-                reserva.setNum_personas(rs.getInt(2));
-                reserva.setHora(rs.getTime(3));
-                reserva.setFecha(rs.getDate(4));
-                reserva.setUsuarios_idUsuarios(rs.getInt(5));
-                reserva.setDisponibilidad_idDisponibilidad(rs.getInt(6));
-                reserva.setEstado_reserva_idEstado_reserva(rs.getInt(7));
-                reserva.setActividad_idActividad(rs.getInt(8));
-                reserva.setPagos_idPagos(rs.getInt(9));
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    reserva = new Reserva();
+                    reserva.setidReserva(rs.getInt(1));
+                    reserva.setNum_personas(rs.getInt(2));
+                    reserva.setHora(rs.getTime(3));
+                    reserva.setFecha(rs.getDate(4));
+                    reserva.setUsuarios_idUsuarios(rs.getInt(5));
+                    reserva.setDisponibilidad_idDisponibilidad(rs.getInt(6));
+                    reserva.setEstado_reserva_idEstado_reserva(rs.getInt(7));
+                    reserva.setActividad_idActividad(rs.getInt(8));
+                    reserva.setPagos_idPagos(rs.getInt(9));
+                }
             }
-            return reserva;
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
-            return reserva;
         }
+        return reserva;
     }
 
     public boolean actualizarReserva(Reserva reserva) throws SQLException {
         boolean actualizado = false;
         String sql = "UPDATE reserva SET num_personas=?, hora=?, fecha=?, Usuarios_idUsuarios=?, Disponibilidad_idDisponibilidad=?, Estado_reserva_idEstado_reserva=?, Actividad_idActividad=?, Pagos_idPagos=? WHERE idReserva=?";
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+
+        try (Connection con = new Conexion().getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, reserva.getNum_personas());
             ps.setTime(2, reserva.getHora());
             ps.setDate(3, reserva.getFecha());
@@ -91,9 +87,9 @@ public class ReservaDAO {
     public boolean eliminarReserva(int id) throws SQLException {
         boolean eliminado = false;
         String sql = "UPDATE reserva SET activo = 0 WHERE idReserva = ?";
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+
+        try (Connection con = new Conexion().getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             if (ps.executeUpdate() > 0) {
                 eliminado = true;
@@ -106,17 +102,16 @@ public class ReservaDAO {
 
     public List<Reserva> listarReserva() {
         List<Reserva> lista = new ArrayList<>();
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try {
-            String sql = "SELECT r.idReserva, r.num_personas, r.hora, r.fecha, r.Usuarios_idUsuarios, "
-                    + "r.Disponibilidad_idDisponibilidad, r.Estado_reserva_idEstado_reserva, "
-                    + "r.Actividad_idActividad, r.Pagos_idPagos, a.descripcion_actividad AS nombreActividad "
-                    + "FROM reserva r "
-                    + "INNER JOIN actividad a ON r.Actividad_idActividad = a.idActividad "
-                    + "WHERE r.activo = 1";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+        String sql = "SELECT r.idReserva, r.num_personas, r.hora, r.fecha, r.Usuarios_idUsuarios, "
+                + "r.Disponibilidad_idDisponibilidad, r.Estado_reserva_idEstado_reserva, "
+                + "r.Actividad_idActividad, r.Pagos_idPagos, a.descripcion_actividad AS nombreActividad "
+                + "FROM reserva r "
+                + "INNER JOIN actividad a ON r.Actividad_idActividad = a.idActividad "
+                + "WHERE r.activo = 1";
+
+        try (Connection con = new Conexion().getConn();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 lista.add(mapearReserva(rs));
             }
@@ -126,33 +121,32 @@ public class ReservaDAO {
         return lista;
     }
 
-    
     public List<Reserva> buscarReserva(String textoBusqueda) {
         List<Reserva> lista = new ArrayList<>();
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try {
-            String sql = "SELECT r.idReserva, r.num_personas, r.hora, r.fecha, r.Usuarios_idUsuarios, "
-                    + "r.Disponibilidad_idDisponibilidad, r.Estado_reserva_idEstado_reserva, "
-                    + "r.Actividad_idActividad, r.Pagos_idPagos, a.descripcion_actividad AS nombreActividad, "
-                    + "u.nombre AS nombreUsuario, u.apellido AS apellidoUsuario "
-                    + "FROM reserva r "
-                    + "INNER JOIN actividad a ON r.Actividad_idActividad = a.idActividad "
-                    + "INNER JOIN usuarios u ON r.Usuarios_idUsuarios = u.idUsuarios "
-                    + "WHERE r.activo = 1 AND ("
-                    + "u.nombre LIKE ? OR u.apellido LIKE ? OR u.documento LIKE ? "
-                    + "OR CAST(r.fecha AS CHAR) LIKE ?)";
-            PreparedStatement ps = con.prepareStatement(sql);
+        String sql = "SELECT r.idReserva, r.num_personas, r.hora, r.fecha, r.Usuarios_idUsuarios, "
+                + "r.Disponibilidad_idDisponibilidad, r.Estado_reserva_idEstado_reserva, "
+                + "r.Actividad_idActividad, r.Pagos_idPagos, a.descripcion_actividad AS nombreActividad, "
+                + "u.nombre AS nombreUsuario, u.apellido AS apellidoUsuario "
+                + "FROM reserva r "
+                + "INNER JOIN actividad a ON r.Actividad_idActividad = a.idActividad "
+                + "INNER JOIN usuarios u ON r.Usuarios_idUsuarios = u.idUsuarios "
+                + "WHERE r.activo = 1 AND ("
+                + "u.nombre LIKE ? OR u.apellido LIKE ? OR u.documento LIKE ? "
+                + "OR CAST(r.fecha AS CHAR) LIKE ?)";
+
+        try (Connection con = new Conexion().getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
             String comodin = "%" + textoBusqueda + "%";
             ps.setString(1, comodin);
             ps.setString(2, comodin);
             ps.setString(3, comodin);
             ps.setString(4, comodin);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Reserva reserva = mapearReserva(rs);
-                reserva.setNombreUsuario(rs.getString("nombreUsuario") + " " + rs.getString("apellidoUsuario"));
-                lista.add(reserva);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Reserva reserva = mapearReserva(rs);
+                    reserva.setNombreUsuario(rs.getString("nombreUsuario") + " " + rs.getString("apellidoUsuario"));
+                    lista.add(reserva);
+                }
             }
         } catch (Exception e) {
             System.out.println("Error al buscar reservas: " + e.getMessage());
@@ -160,28 +154,27 @@ public class ReservaDAO {
         return lista;
     }
 
-   
     public List<Reserva> listarReservaPorUsuario(int idUsuarios) {
         List<Reserva> lista = new ArrayList<>();
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try {
-            String sql = "SELECT r.idReserva, r.num_personas, r.hora, r.fecha, r.Usuarios_idUsuarios, "
-                    + "r.Disponibilidad_idDisponibilidad, r.Estado_reserva_idEstado_reserva, "
-                    + "r.Actividad_idActividad, r.Pagos_idPagos, a.descripcion_actividad AS nombreActividad, "
-                    + "er.descripcion_esta AS descripcionEstadoReserva "
-                    + "FROM reserva r "
-                    + "INNER JOIN actividad a ON r.Actividad_idActividad = a.idActividad "
-                    + "INNER JOIN estado_reserva er ON r.Estado_reserva_idEstado_reserva = er.idEstado_reserva "
-                    + "WHERE r.activo = 1 AND r.Usuarios_idUsuarios = ? "
-                    + "ORDER BY r.fecha DESC, r.hora DESC";
-            PreparedStatement ps = con.prepareStatement(sql);
+        String sql = "SELECT r.idReserva, r.num_personas, r.hora, r.fecha, r.Usuarios_idUsuarios, "
+                + "r.Disponibilidad_idDisponibilidad, r.Estado_reserva_idEstado_reserva, "
+                + "r.Actividad_idActividad, r.Pagos_idPagos, a.descripcion_actividad AS nombreActividad, "
+                + "er.descripcion_esta AS descripcionEstadoReserva "
+                + "FROM reserva r "
+                + "INNER JOIN actividad a ON r.Actividad_idActividad = a.idActividad "
+                + "INNER JOIN estado_reserva er ON r.Estado_reserva_idEstado_reserva = er.idEstado_reserva "
+                + "WHERE r.activo = 1 AND r.Usuarios_idUsuarios = ? "
+                + "ORDER BY r.fecha DESC, r.hora DESC";
+
+        try (Connection con = new Conexion().getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, idUsuarios);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Reserva reserva = mapearReserva(rs);
-                reserva.setDescripcionEstadoReserva(rs.getString("descripcionEstadoReserva"));
-                lista.add(reserva);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Reserva reserva = mapearReserva(rs);
+                    reserva.setDescripcionEstadoReserva(rs.getString("descripcionEstadoReserva"));
+                    lista.add(reserva);
+                }
             }
         } catch (Exception e) {
             System.out.println("Error al listar reservas del usuario: " + e.getMessage());
@@ -191,17 +184,16 @@ public class ReservaDAO {
 
     public List<Reserva> listarInactivas() {
         List<Reserva> lista = new ArrayList<>();
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try {
-            String sql = "SELECT r.idReserva, r.num_personas, r.hora, r.fecha, r.Usuarios_idUsuarios, "
-                    + "r.Disponibilidad_idDisponibilidad, r.Estado_reserva_idEstado_reserva, "
-                    + "r.Actividad_idActividad, r.Pagos_idPagos, a.descripcion_actividad AS nombreActividad "
-                    + "FROM reserva r "
-                    + "INNER JOIN actividad a ON r.Actividad_idActividad = a.idActividad "
-                    + "WHERE r.activo = 0";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+        String sql = "SELECT r.idReserva, r.num_personas, r.hora, r.fecha, r.Usuarios_idUsuarios, "
+                + "r.Disponibilidad_idDisponibilidad, r.Estado_reserva_idEstado_reserva, "
+                + "r.Actividad_idActividad, r.Pagos_idPagos, a.descripcion_actividad AS nombreActividad "
+                + "FROM reserva r "
+                + "INNER JOIN actividad a ON r.Actividad_idActividad = a.idActividad "
+                + "WHERE r.activo = 0";
+
+        try (Connection con = new Conexion().getConn();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 lista.add(mapearReserva(rs));
             }
@@ -214,9 +206,9 @@ public class ReservaDAO {
     public boolean reactivarReserva(int id) {
         boolean reactivado = false;
         String sql = "UPDATE reserva SET activo = 1 WHERE idReserva = ?";
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+
+        try (Connection con = new Conexion().getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             reactivado = ps.executeUpdate() > 0;
         } catch (SQLException e) {
