@@ -1,4 +1,5 @@
 package Servlet;
+
 import Modelo.Tipo_documento;
 import Controlador.Tipo_documentoDAO;
 import jakarta.servlet.ServletException;
@@ -8,7 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet(name = "Tipodocumento", urlPatterns = {"/Tipodocumento"})
@@ -54,7 +54,7 @@ public class Tipodoc extends HttpServlet {
 
             response.sendRedirect(request.getContextPath() + "/Tipodocumento");
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             request.getSession().setAttribute("mensajeFlash", "Error en operaciones de TipoDocumento: " + e.getMessage());
             response.sendRedirect(request.getContextPath() + "/Tipodocumento");
         }

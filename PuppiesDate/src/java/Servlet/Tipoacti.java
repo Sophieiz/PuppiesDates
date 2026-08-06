@@ -1,4 +1,5 @@
 package Servlet;
+
 import Modelo.Tipo_Actividad;
 import Controlador.Tipo_ActividadDAO;
 import jakarta.servlet.ServletException;
@@ -8,7 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet(name = "Tipoactividad", urlPatterns = {"/Tipoactividad"})
@@ -54,7 +54,7 @@ public class Tipoacti extends HttpServlet {
 
             response.sendRedirect(request.getContextPath() + "/Tipoactividad");
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             request.getSession().setAttribute("mensajeFlash", "Error en operaciones de TipoActividad: " + e.getMessage());
             response.sendRedirect(request.getContextPath() + "/Tipoactividad");
         }
