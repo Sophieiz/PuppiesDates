@@ -14,8 +14,7 @@ public class DisponibilidadDAO {
         boolean insertado = false;
         String sql = "INSERT INTO disponibilidad (fecha, cupo_total, cupo_disponible, Horarios_idHorarios) VALUES (?, ?, ?, ?)";
 
-        try (Connection con = new Conexion().getConn();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = new Conexion().getConn(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setDate(1, new java.sql.Date(disp.getFecha().getTime()));
             ps.setInt(2, disp.getCupo_total());
             ps.setInt(3, disp.getCupo_disponible());
@@ -32,8 +31,7 @@ public class DisponibilidadDAO {
         Disponibilidad dispo = null;
         String querySQL = "SELECT idDisponibilidad, fecha, cupo_total, cupo_disponible, Horarios_idHorarios FROM disponibilidad WHERE idDisponibilidad = ? ";
 
-        try (Connection con = new Conexion().getConn();
-             PreparedStatement ps = con.prepareStatement(querySQL)) {
+        try (Connection con = new Conexion().getConn(); PreparedStatement ps = con.prepareStatement(querySQL)) {
             ps.setInt(1, idDisponibilidad);
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -56,8 +54,7 @@ public class DisponibilidadDAO {
         boolean actualizado = false;
         String sql = "UPDATE disponibilidad SET fecha=?, cupo_total=?, cupo_disponible=?, Horarios_idHorarios=? WHERE idDisponibilidad=?";
 
-        try (Connection con = new Conexion().getConn();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = new Conexion().getConn(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setDate(1, new java.sql.Date(disp.getFecha().getTime()));
             ps.setInt(2, disp.getCupo_total());
             ps.setInt(3, disp.getCupo_disponible());
@@ -75,8 +72,7 @@ public class DisponibilidadDAO {
         boolean eliminado = false;
         String sql = "UPDATE disponibilidad SET activo = 0 WHERE idDisponibilidad = ?";
 
-        try (Connection con = new Conexion().getConn();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = new Conexion().getConn(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             if (ps.executeUpdate() > 0) {
                 eliminado = true;
@@ -89,9 +85,7 @@ public class DisponibilidadDAO {
         List<Disponibilidad> lista = new ArrayList<>();
         String sql = "SELECT idDisponibilidad, fecha, cupo_total, cupo_disponible, Horarios_idHorarios FROM disponibilidad WHERE activo = 1";
 
-        try (Connection con = new Conexion().getConn();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection con = new Conexion().getConn(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Disponibilidad dispo = new Disponibilidad();
                 dispo.setidDisponibilidad(rs.getInt(1));
@@ -111,9 +105,7 @@ public class DisponibilidadDAO {
         List<Disponibilidad> lista = new ArrayList<>();
         String sql = "SELECT idDisponibilidad, fecha, cupo_total, cupo_disponible, Horarios_idHorarios FROM disponibilidad WHERE activo = 0";
 
-        try (Connection con = new Conexion().getConn();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection con = new Conexion().getConn(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Disponibilidad dispo = new Disponibilidad();
                 dispo.setidDisponibilidad(rs.getInt(1));
@@ -133,8 +125,7 @@ public class DisponibilidadDAO {
         boolean reactivado = false;
         String sql = "UPDATE disponibilidad SET activo = 1 WHERE idDisponibilidad = ?";
 
-        try (Connection con = new Conexion().getConn();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = new Conexion().getConn(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             reactivado = ps.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -150,8 +141,7 @@ public class DisponibilidadDAO {
                 + "INNER JOIN horarios h ON d.Horarios_idHorarios = h.idHorarios "
                 + "WHERE d.fecha = ? AND ? BETWEEN h.hora_ini AND h.hora_fin";
 
-        try (Connection con = new Conexion().getConn();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = new Conexion().getConn(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setDate(1, fecha);
             ps.setTime(2, hora);
             try (ResultSet rs = ps.executeQuery()) {
@@ -169,8 +159,7 @@ public class DisponibilidadDAO {
         Disponibilidad dispo = null;
         String sql = "SELECT d.idDisponibilidad, d.fecha, d.cupo_total, d.cupo_disponible, d.Horarios_idHorarios FROM disponibilidad d INNER JOIN horarios h ON d.Horarios_idHorarios = h.idHorarios WHERE d.fecha = ? AND ? BETWEEN h.hora_ini AND h.hora_fin AND d.cupo_disponible > 0";
 
-        try (Connection con = new Conexion().getConn();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = new Conexion().getConn(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setDate(1, fecha);
             ps.setTime(2, hora);
             try (ResultSet rs = ps.executeQuery()) {
@@ -187,5 +176,21 @@ public class DisponibilidadDAO {
             System.out.println("Error al buscar disponibilidad: " + e.getMessage());
         }
         return dispo;
+    }
+
+    public boolean descontarCupo(int idDisponibilidad) {
+        boolean actualizado = false;
+        String sql = "UPDATE disponibilidad SET cupo_disponible = cupo_disponible - 1 "
+                + "WHERE idDisponibilidad = ? AND cupo_disponible > 0";
+
+        try (Connection con = new Conexion().getConn(); PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, idDisponibilidad);
+            actualizado = ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("Error al descontar cupo: " + e.getMessage());
+        }
+
+        return actualizado;
     }
 }

@@ -14,8 +14,7 @@ public class PagosDAO {
         boolean insertado = false;
         String sql = "INSERT INTO pagos (idPagos, estado_pago) VALUES (?, ?)";
 
-        try (Connection con = new Conexion().getConn();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = new Conexion().getConn(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, pago.getidPagos());
             ps.setString(2, pago.getestado_pago());
             ps.executeUpdate();
@@ -31,8 +30,7 @@ public class PagosDAO {
         Pagos pagos = null;
         String querySQL = "SELECT idPagos, estado_pago FROM pagos WHERE idPagos = ?";
 
-        try (Connection con = new Conexion().getConn();
-             PreparedStatement ps = con.prepareStatement(querySQL)) {
+        try (Connection con = new Conexion().getConn(); PreparedStatement ps = con.prepareStatement(querySQL)) {
             ps.setInt(1, idPagos);
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -52,8 +50,7 @@ public class PagosDAO {
         boolean actualizado = false;
         String sql = "UPDATE pagos SET estado_pago = ? WHERE idPagos = ?";
 
-        try (Connection con = new Conexion().getConn();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = new Conexion().getConn(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, pago.getestado_pago());
             ps.setInt(2, pago.getidPagos());
 
@@ -71,8 +68,7 @@ public class PagosDAO {
         boolean eliminado = false;
         String sql = "UPDATE pagos SET activo = 0 WHERE idPagos = ?";
 
-        try (Connection con = new Conexion().getConn();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = new Conexion().getConn(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             if (ps.executeUpdate() > 0) {
                 eliminado = true;
@@ -88,9 +84,7 @@ public class PagosDAO {
         List<Pagos> lista = new ArrayList<>();
         String sql = "SELECT idPagos, estado_pago FROM pagos WHERE activo = 1";
 
-        try (Connection con = new Conexion().getConn();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection con = new Conexion().getConn(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Pagos pago = new Pagos();
                 pago.setidPagos(rs.getInt(1));
@@ -107,9 +101,7 @@ public class PagosDAO {
         List<Pagos> lista = new ArrayList<>();
         String sql = "SELECT idPagos, estado_pago FROM pagos WHERE activo = 0";
 
-        try (Connection con = new Conexion().getConn();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection con = new Conexion().getConn(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Pagos pago = new Pagos();
                 pago.setidPagos(rs.getInt(1));
@@ -126,13 +118,33 @@ public class PagosDAO {
         boolean reactivado = false;
         String sql = "UPDATE pagos SET activo = 1 WHERE idPagos = ?";
 
-        try (Connection con = new Conexion().getConn();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = new Conexion().getConn(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             reactivado = ps.executeUpdate() > 0;
         } catch (SQLException e) {
             System.out.println("Error al reactivar el pago: " + e.getMessage());
         }
         return reactivado;
+    }
+
+    // Agregar dentro de tu PagosDAO existente, junto a los demás métodos
+    public int insertarPagoPendiente() {
+        int idGenerado = -1;
+        String sql = "INSERT INTO pagos (estado_pago) VALUES ('Pendiente')";
+
+        try (Connection con = new Conexion().getConn(); PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+
+            ps.executeUpdate();
+
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    idGenerado = rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al insertar pago pendiente: " + e.getMessage());
+        }
+
+        return idGenerado;
     }
 }

@@ -62,6 +62,7 @@ public class InicioSesion extends HttpServlet {
             sesion.setAttribute("nombreUsuario", usuarioBD.getnombre());
             sesion.setAttribute("perfil", usuarioBD.getRoles_idRoles());
             sesion.setAttribute("idUsuario", usuarioBD.getidUsuarios()); 
+            sesion.setAttribute("correoUsuario", usuarioBD.getcorreo());
 
 
             if (usuarioBD.getRoles_idRoles() == 1) {

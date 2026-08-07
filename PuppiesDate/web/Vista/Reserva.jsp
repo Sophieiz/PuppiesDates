@@ -31,7 +31,8 @@
             <c:redirect url="/Iniciar"/>
         </c:if>
 
-        <form action="${ctx}/ReservaCliente" method="post" id="formReserva" novalidate>
+        <!-- Ahora apunta al Servlet que verifica disponibilidad, no directo a ReservaCliente -->
+        <form action="${ctx}/VerificarDisponibilidad" method="post" id="formReserva" novalidate>
             <div class="Formulario">
 
                 <c:if test="${not empty resultado}">
@@ -48,11 +49,7 @@
                 <h2 class="titulo-form">Reserva tu actividad</h2>
                 <hr>
 
-                <div class="campo-reserva">
-                    <label for="documento">Número de documento</label>
-                    <input type="text" name="documentoa" id="documento" placeholder="Ej: 1023456789" maxlength="12">
-                    <span class="error-mensaje" id="error_documento"></span>
-                </div>
+                <!-- Campo "documento" eliminado: el usuario ya está identificado por la sesión -->
 
                 <div class="campo-reserva">
                     <label for="num_personas">Número de personas</label>
@@ -84,19 +81,10 @@
                     <span class="error-mensaje" id="error_actividad"></span>
                 </div>
 
-                <button type="button" id="btnAbrirConfirmarReserva">Confirmar reserva</button>
+                <!-- Ya no abre el modal directamente: ahora es un submit normal del form -->
+                <button type="submit">Verificar disponibilidad</button>
             </div>
         </form>
-
-        <div class="modal-overlay" id="modal-confirmar-reserva" aria-hidden="true">
-            <div class="admin-crud-modal-box admin-crud-confirm">
-                <h2 class="admin-crud-title">¿Deseas confirmar esta reserva?</h2>
-                <div class="admin-crud-actions">
-                    <button type="button" class="admin-crud-btn-secondary" id="btnCancelarReserva">No</button>
-                    <button type="button" class="admin-crud-btn-primary" id="btnConfirmarReserva">Sí</button>
-                </div>
-            </div>
-        </div>
 
         <%@ include file="Footer.jsp" %>
         <script src="${ctx}/Vista/JavaScript/interfaz.js"></script>
