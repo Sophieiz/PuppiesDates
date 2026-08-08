@@ -32,6 +32,11 @@ public class ConfirmarReserva extends HttpServlet {
 
         HttpSession sesion = request.getSession(false);
 
+        if (sesion == null) {
+            response.sendRedirect(request.getContextPath() + "/ReservaCliente");
+            return;
+        }
+
         try {
             Integer idActividad = (Integer) sesion.getAttribute("resActividad");
             Integer idDisponibilidad = (Integer) sesion.getAttribute("resDisponibilidad");
@@ -42,11 +47,11 @@ public class ConfirmarReserva extends HttpServlet {
             String nombreUsuario = (String) sesion.getAttribute("nombreUsuario");
             String correoUsuario = (String) sesion.getAttribute("correoUsuario");
 
-            if (idActividad == null || idDisponibilidad == null || idUsuario == null) {
+            if (idActividad == null || idDisponibilidad == null || idUsuario == null
+                    || fechaStr == null || horaStr == null) {
                 response.sendRedirect(request.getContextPath() + "/ReservaCliente");
                 return;
             }
-
             String horaCompleta = horaStr.length() == 5 ? horaStr + ":00" : horaStr;
 
             PagosDAO pagosDao = new PagosDAO();

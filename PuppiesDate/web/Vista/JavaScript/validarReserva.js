@@ -1,10 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     const campos = {
-        documento: {
-            input: document.getElementById('documento'),
-            error: document.getElementById('error_documento')
-        },
         num_personas: {
             input: document.getElementById('num_personas'),
             error: document.getElementById('error_num_personas')
@@ -35,24 +31,6 @@ document.addEventListener('DOMContentLoaded', function () {
         campo.error.classList.remove('visible');
         campo.input.classList.remove('input-error');
         campo.input.classList.add('input-ok');
-    }
-
-    function validarDocumento() {
-        const valor = campos.documento.input.value.trim();
-        if (valor === '') {
-            mostrarError(campos.documento, 'El número de documento es obligatorio.');
-            return false;
-        }
-        if (!/^\d+$/.test(valor)) {
-            mostrarError(campos.documento, 'Solo se permiten números.');
-            return false;
-        }
-        if (valor.length < 6 || valor.length > 12) {
-            mostrarError(campos.documento, 'El documento debe tener entre 6 y 12 dígitos.');
-            return false;
-        }
-        limpiarError(campos.documento);
-        return true;
     }
 
     function validarNumPersonas() {
@@ -119,19 +97,13 @@ document.addEventListener('DOMContentLoaded', function () {
         return true;
     }
 
-    campos.documento.input.addEventListener('blur', validarDocumento);
     campos.num_personas.input.addEventListener('blur', validarNumPersonas);
     campos.fecha.input.addEventListener('change', validarFecha);
     campos.hora.input.addEventListener('change', validarHora);
     campos.actividad.input.addEventListener('change', validarActividad);
 
-    campos.documento.input.addEventListener('input', function () {
-        if (campos.documento.input.classList.contains('input-error')) validarDocumento();
-    });
-
-    window.validarFormularioReserva = function () {
+    function validarFormularioReserva() {
         const resultados = [
-            validarDocumento(),
             validarNumPersonas(),
             validarFecha(),
             validarHora(),
@@ -146,31 +118,16 @@ document.addEventListener('DOMContentLoaded', function () {
             return false;
         }
         return true;
-    };
+    }
 
-    // Modal de confirmación antes de enviar la reserva
+    // El form hace submit normal a VerificarDisponibilidad.
+    // Interceptamos el submit para validar antes de enviar.
     const formReserva = document.getElementById('formReserva');
-    const modalConfirmar = document.getElementById('modal-confirmar-reserva');
-    const btnAbrir = document.getElementById('btnAbrirConfirmarReserva');
-    const btnSi = document.getElementById('btnConfirmarReserva');
-    const btnNo = document.getElementById('btnCancelarReserva');
-
-    if (btnAbrir && modalConfirmar) {
-        btnAbrir.addEventListener('click', function () {
-            if (!window.validarFormularioReserva()) {
-                return;
+    if (formReserva) {
+        formReserva.addEventListener('submit', function (event) {
+            if (!validarFormularioReserva()) {
+                event.preventDefault();
             }
-            modalConfirmar.classList.add('activo');
-            modalConfirmar.setAttribute('aria-hidden', 'false');
-        });
-
-        btnNo.addEventListener('click', function () {
-            modalConfirmar.classList.remove('activo');
-            modalConfirmar.setAttribute('aria-hidden', 'true');
-        });
-
-        btnSi.addEventListener('click', function () {
-            formReserva.submit();
         });
     }
 });

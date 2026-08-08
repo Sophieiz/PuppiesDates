@@ -31,9 +31,10 @@ public class VerificarDisponibilidad extends HttpServlet {
             String fechaStr = request.getParameter("fechar");
             String horaStr = request.getParameter("horar");
             String idActividadStr = request.getParameter("actividada");
-
-            if (numPersonasStr == null || fechaStr == null
-                    || horaStr == null || idActividadStr == null) {
+            if (numPersonasStr == null || numPersonasStr.trim().isEmpty()
+                    || fechaStr == null || fechaStr.trim().isEmpty()
+                    || horaStr == null || horaStr.trim().isEmpty()
+                    || idActividadStr == null || idActividadStr.trim().isEmpty()) {
                 request.setAttribute("resultado", "Error: Todos los campos son obligatorios.");
                 cargarCombosYRedirigir(request, response);
                 return;
