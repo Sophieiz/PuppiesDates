@@ -12,7 +12,7 @@ public class ReservaDAO {
 
     public boolean insertarReserva(Reserva Mireserva) {
         boolean insertado = false;
-        String sql = "INSERT INTO reserva (num_personas, hora, fecha, Usuarios_idUsuarios, Disponibilidad_idDisponibilidad, Estado_reserva_idEstado_reserva, Actividad_idActividad) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO reserva (num_personas, hora, fecha, Usuarios_idUsuarios, Disponibilidad_idDisponibilidad, Estado_reserva_idEstado_reserva, Actividad_idActividad, Pagos_idPagos) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection con = new Conexion().getConn();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -23,6 +23,7 @@ public class ReservaDAO {
             ps.setInt(5, Mireserva.getDisponibilidad_idDisponibilidad());
             ps.setInt(6, Mireserva.getEstado_reserva_idEstado_reserva());
             ps.setInt(7, Mireserva.getActividad_idActividad());
+            ps.setInt(8, Mireserva.getPagos_idPagos());
 
             ps.executeUpdate();
             insertado = true;
