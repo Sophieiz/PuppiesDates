@@ -5,6 +5,13 @@ import java.sql.DriverManager;
 
 public class Conexion {
 
+    static {
+        // Fuerza que TODO el JVM (contenedor de Railway) piense en hora de Bogotá,
+        // así no hay desfase entre la zona del contenedor (normalmente UTC) y la
+        // zona que el driver de MySQL usa para convertir fechas/horas.
+        java.util.TimeZone.setDefault(java.util.TimeZone.getTimeZone("America/Bogota"));
+    }
+
     private String driver = "com.mysql.cj.jdbc.Driver";
     private String user = System.getenv("DB_USER") != null ? System.getenv("DB_USER").trim() : null;
     private String password = System.getenv("DB_PASSWORD") != null ? System.getenv("DB_PASSWORD").trim() : null;
@@ -15,11 +22,11 @@ public class Conexion {
     private String url = "jdbc:mysql://" + host + ":" + port + "/" + baseDatos
             + "?serverTimezone=America/Bogota&useSSL=false&allowPublicKeyRetrieval=true";
 
-
+    // Ya no abrimos conexión aquí, solo dejamos todo listo para cuando la pidan
     public Conexion() {
     }
 
-    
+    // Cada llamada a getConn() crea y devuelve una conexión NUEVA
     public Connection getConn() {
         Connection conn = null;
         try {
