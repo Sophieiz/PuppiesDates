@@ -125,7 +125,11 @@
 
                     <div class="admin-crud-field">
                         <label for="telefono">Teléfono:</label>
-                        <input type="text" name="telefono" id="telefono" data-label="teléfono" data-required-message="El teléfono es obligatorio." data-pattern="^[0-9]+$" data-pattern-message="El teléfono solo puede contener números." required>
+                        <input type="text" name="telefono" id="telefono" data-label="teléfono" 
+                               data-required-message="El teléfono es obligatorio." 
+                               data-pattern="^[0-9]{10}$" 
+                               data-pattern-message="El teléfono debe tener exactamente 10 dígitos numéricos." 
+                               maxlength="10" inputmode="numeric" required>
                         <span class="admin-crud-error"></span>
                     </div>
 
@@ -183,7 +187,7 @@
                 <form action="${ctx}/UsuarioAdmi" method="POST">
                     <input type="hidden" name="accion" value="eliminar">
                     <input type="hidden" name="idUsuarios">
-                    
+
                     <div class="admin-crud-actions">
                         <button type="button" class="admin-crud-btn-secondary" data-cerrar="modal-confirmar-eliminar">No</button>
                         <button type="submit" class="admin-crud-btn-danger">Sí</button>
