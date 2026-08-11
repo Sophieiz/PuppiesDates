@@ -193,4 +193,23 @@ public class DisponibilidadDAO {
 
         return actualizado;
     }
+
+    /**
+     * Verifica si ya existe una disponibilidad activa para esa fecha + horario exactos.
+     * Se usa en la generación masiva para no crear duplicados.
+     */
+    public boolean existeDisponibilidad(java.sql.Date fecha, int horarioId) {
+        String sql = "SELECT 1 FROM disponibilidad WHERE fecha = ? AND Horarios_idHorarios = ? AND activo = 1";
+
+        try (Connection con = new Conexion().getConn(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setDate(1, fecha);
+            ps.setInt(2, horarioId);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al verificar existencia de disponibilidad: " + e.getMessage());
+            return false;
+        }
+    }
 }

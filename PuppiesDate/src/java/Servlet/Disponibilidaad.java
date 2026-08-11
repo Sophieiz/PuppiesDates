@@ -44,8 +44,8 @@ public class Disponibilidaad extends HttpServlet {
                 boolean resultado = disponibilidadDao.reactivarDisponibilidad(id);
                 request.getSession().setAttribute("mensajeFlash", resultado ? "Disponibilidad reactivada correctamente." : "Error al reactivar disponibilidad.");
             }
-        } catch (SQLException | NumberFormatException e) {
-            request.getSession().setAttribute("mensajeFlash", "Error: " + e.getMessage());
+        } catch (SQLException | IllegalArgumentException e) {
+            request.getSession().setAttribute("mensajeFlash", "Error: revisa los datos ingresados.");
             response.sendRedirect(request.getContextPath() + "/Disponibilidaad");
             return;
         }
@@ -69,11 +69,23 @@ public class Disponibilidaad extends HttpServlet {
     }
 
     private Disponibilidad crearDisponibilidad(HttpServletRequest request) {
+        String fechaStr = request.getParameter("fechaDisp");
+        String cupoTotalStr = request.getParameter("cupoTotalDisp");
+        String cupoDisponibleStr = request.getParameter("cupoDisponibleDisp");
+        String horarioIdStr = request.getParameter("horarioIdDisp");
+
+        if (fechaStr == null || fechaStr.trim().isEmpty()
+                || cupoTotalStr == null || cupoTotalStr.trim().isEmpty()
+                || cupoDisponibleStr == null || cupoDisponibleStr.trim().isEmpty()
+                || horarioIdStr == null || horarioIdStr.trim().isEmpty()) {
+            throw new IllegalArgumentException("Todos los campos son obligatorios.");
+        }
+
         Disponibilidad disponibilidad = new Disponibilidad();
-        disponibilidad.setfecha(java.sql.Date.valueOf(request.getParameter("fechaDisp")));
-        disponibilidad.setcupo_total(Integer.parseInt(request.getParameter("cupoTotalDisp")));
-        disponibilidad.setcupo_disponible(Integer.parseInt(request.getParameter("cupoDisponibleDisp")));
-        disponibilidad.setHorarios_idHorarios(Integer.parseInt(request.getParameter("horarioIdDisp")));
+        disponibilidad.setfecha(java.sql.Date.valueOf(fechaStr));
+        disponibilidad.setcupo_total(Integer.parseInt(cupoTotalStr));
+        disponibilidad.setcupo_disponible(Integer.parseInt(cupoDisponibleStr));
+        disponibilidad.setHorarios_idHorarios(Integer.parseInt(horarioIdStr));
         return disponibilidad;
     }
 

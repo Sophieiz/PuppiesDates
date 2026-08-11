@@ -1,4 +1,5 @@
 package Servlet;
+
 import Modelo.Horarios;
 import Controlador.HorariosDAO;
 import jakarta.servlet.ServletException;
@@ -26,41 +27,33 @@ public class Horariosser extends HttpServlet {
             if ("insertar".equalsIgnoreCase(accion)) {
                 Time horaIni = parseTime(request.getParameter("hora_ini"));
                 Time horaFin = parseTime(request.getParameter("hora_fin"));
-
                 Horarios horario = new Horarios();
                 horario.sethora_ini(horaIni);
                 horario.sethora_fin(horaFin);
-
                 boolean ok = dao.insertarHorarios(horario);
                 request.getSession().setAttribute("mensajeFlash", ok ? "Horario insertado correctamente." : "Error al insertar horario.");
-
             } else if ("actualizar".equalsIgnoreCase(accion)) {
-                int id = Integer.parseInt(request.getParameter("idHorarios"));
+                int id = parseId(request.getParameter("idHorarios"));
                 Time horaIni = parseTime(request.getParameter("hora_ini"));
                 Time horaFin = parseTime(request.getParameter("hora_fin"));
-
                 Horarios horario = new Horarios();
                 horario.setidHorarios(id);
                 horario.sethora_ini(horaIni);
                 horario.sethora_fin(horaFin);
-
                 boolean ok = dao.actualizarHorario(horario);
                 request.getSession().setAttribute("mensajeFlash", ok ? "Horario actualizado correctamente." : "Error al actualizar horario.");
-
             } else if ("eliminar".equalsIgnoreCase(accion)) {
-                int id = Integer.parseInt(request.getParameter("idHorarios"));
+                int id = parseId(request.getParameter("idHorarios"));
                 boolean ok = dao.eliminarHorario(id);
                 request.getSession().setAttribute("mensajeFlash", ok ? "Horario inactivado correctamente." : "Error al inactivar horario.");
             } else if ("reactivar".equalsIgnoreCase(accion)) {
-                int id = Integer.parseInt(request.getParameter("idHorarios"));
+                int id = parseId(request.getParameter("idHorarios"));
                 boolean ok = dao.reactivarHorario(id);
                 request.getSession().setAttribute("mensajeFlash", ok ? "Horario reactivado correctamente." : "Error al reactivar horario.");
             }
-
             response.sendRedirect(request.getContextPath() + "/Horarios");
-
-        } catch (SQLException e) {
-            request.getSession().setAttribute("mensajeFlash", "Error en operaciones de Horarios: " + e.getMessage());
+        } catch (SQLException | IllegalArgumentException e) {
+            request.getSession().setAttribute("mensajeFlash", "Error: revisa los datos ingresados.");
             response.sendRedirect(request.getContextPath() + "/Horarios");
         }
     }
@@ -69,13 +62,11 @@ public class Horariosser extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HorariosDAO dao = new HorariosDAO();
-
         HttpSession sesion = request.getSession();
         if (sesion.getAttribute("mensajeFlash") != null) {
             request.setAttribute("mensaje", sesion.getAttribute("mensajeFlash"));
             sesion.removeAttribute("mensajeFlash");
         }
-
         List<Horarios> lista = dao.listarHorarios();
         request.setAttribute("listaHorarios", lista);
         request.setAttribute("listaHorariosInactivos", dao.listarInactivos());
@@ -83,6 +74,16 @@ public class Horariosser extends HttpServlet {
     }
 
     private Time parseTime(String value) {
+        if (value == null || value.trim().isEmpty()) {
+            throw new IllegalArgumentException("La hora no puede estar vacía.");
+        }
         return Time.valueOf(value.length() == 5 ? value + ":00" : value);
+    }
+
+    private int parseId(String value) {
+        if (value == null || value.trim().isEmpty()) {
+            throw new IllegalArgumentException("El identificador del horario es obligatorio.");
+        }
+        return Integer.parseInt(value);
     }
 }

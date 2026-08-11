@@ -95,8 +95,12 @@ public class ConfirmarReserva extends HttpServlet {
                 request.setAttribute("resultado", "Error al guardar la reserva.");
             }
 
+        } catch (IllegalArgumentException e) {
+            // Fecha u hora guardadas en sesion con formato invalido
+            request.setAttribute("resultado", "Error: los datos de la reserva no son válidos. Intenta hacer la reserva de nuevo.");
         } catch (Exception e) {
-            request.setAttribute("resultado", "Error inesperado: " + e.getMessage());
+            // Cualquier otro error inesperado (ej. fallo de conexion a la base de datos, correo)
+            request.setAttribute("resultado", "Ocurrió un error inesperado al confirmar tu reserva. Intenta de nuevo en unos minutos.");
         }
 
         request.getRequestDispatcher("/Vista/ConfirmarReserva.jsp").forward(request, response);

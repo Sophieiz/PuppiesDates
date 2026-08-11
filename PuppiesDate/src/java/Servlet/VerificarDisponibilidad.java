@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Servlet;
 
 import Controlador.ActividadDAO;
@@ -23,14 +19,13 @@ public class VerificarDisponibilidad extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         request.setCharacterEncoding("UTF-8");
-
         try {
             String numPersonasStr = request.getParameter("num_personasp");
             String fechaStr = request.getParameter("fechar");
             String horaStr = request.getParameter("horar");
             String idActividadStr = request.getParameter("actividada");
+
             if (numPersonasStr == null || numPersonasStr.trim().isEmpty()
                     || fechaStr == null || fechaStr.trim().isEmpty()
                     || horaStr == null || horaStr.trim().isEmpty()
@@ -42,7 +37,6 @@ public class VerificarDisponibilidad extends HttpServlet {
 
             int numPersonas = Integer.parseInt(numPersonasStr);
             int idActividad = Integer.parseInt(idActividadStr);
-
             String horaCompleta = horaStr.length() == 5 ? horaStr + ":00" : horaStr;
             Date fechaSql = Date.valueOf(fechaStr);
             Time horaSql = Time.valueOf(horaCompleta);
@@ -64,18 +58,21 @@ public class VerificarDisponibilidad extends HttpServlet {
             }
 
             Disponibilidad disponibilidad = disponibilidadDao.buscarDisponibilidad(fechaSql, horaSql);
-
             HttpSession sesion = request.getSession();
             sesion.setAttribute("resActividad", idActividad);
             sesion.setAttribute("resDisponibilidad", disponibilidad.getIdDisponibilidad());
             sesion.setAttribute("resNumPersonas", numPersonas);
             sesion.setAttribute("resFecha", fechaStr);
             sesion.setAttribute("resHora", horaStr);
-
             response.sendRedirect(request.getContextPath() + "/ConfirmarReserva");
 
+        } catch (IllegalArgumentException e) {
+            // Cubre: numeros invalidos, fecha/hora con formato incorrecto (Date.valueOf, Time.valueOf)
+            request.setAttribute("resultado", "Revisa los datos ingresados: verifica el número de personas, la fecha y la hora.");
+            cargarCombosYRedirigir(request, response);
         } catch (Exception e) {
-            request.setAttribute("resultado", "Revisa los datos ingresados: " + e.getMessage());
+            // Cualquier otro error inesperado (ej. fallo de conexión a la base de datos)
+            request.setAttribute("resultado", "Ocurrió un error inesperado. Intenta de nuevo en unos minutos.");
             cargarCombosYRedirigir(request, response);
         }
     }
