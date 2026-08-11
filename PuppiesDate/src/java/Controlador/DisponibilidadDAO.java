@@ -141,12 +141,17 @@ public class DisponibilidadDAO {
                 + "INNER JOIN horarios h ON d.Horarios_idHorarios = h.idHorarios "
                 + "WHERE d.fecha = ? AND ? BETWEEN h.hora_ini AND h.hora_fin";
 
+        System.out.println("DEBUG verificarEstadoDisponibilidad - fecha recibida: " + fecha + " | hora recibida: " + hora);
+
         try (Connection con = new Conexion().getConn(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setDate(1, fecha);
             ps.setTime(2, hora);
+            System.out.println("DEBUG SQL final aproximado: " + ps.toString());
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     estado = rs.getInt("cupo_disponible") > 0 ? "DISPONIBLE" : "SIN_CUPO";
+                } else {
+                    System.out.println("DEBUG: la consulta no devolvió ninguna fila.");
                 }
             }
         } catch (Exception e) {
@@ -194,10 +199,7 @@ public class DisponibilidadDAO {
         return actualizado;
     }
 
-    /**
-     * Verifica si ya existe una disponibilidad activa para esa fecha + horario exactos.
-     * Se usa en la generación masiva para no crear duplicados.
-     */
+
     public boolean existeDisponibilidad(java.sql.Date fecha, int horarioId) {
         String sql = "SELECT 1 FROM disponibilidad WHERE fecha = ? AND Horarios_idHorarios = ? AND activo = 1";
 
