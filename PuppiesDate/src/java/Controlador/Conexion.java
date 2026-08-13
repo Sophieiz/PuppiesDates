@@ -28,18 +28,15 @@ public class Conexion {
             // Construir la URL con parámetros SSL compatibles con Aiven
             String url = "jdbc:mysql://" + host + ":" + port + "/" + baseDatos
                     + "?serverTimezone=America/Bogota"
-                    + "&useSSL=true"
-                    + "&requireSSL=true"
-                    + "&trustServerCertificate=true"
+                    + "&sslMode=REQUIRED"
                     + "&allowPublicKeyRetrieval=true";
-
             // Imprimir la URL en la consola de Render para verificar que no tenga partes nulas
             System.out.println("Intentando conectar a: " + "jdbc:mysql://" + host + ":" + port + "/" + baseDatos);
 
             Class.forName(driver);
             conn = DriverManager.getConnection(url, user, password);
             System.out.println("Conexión Establecida con éxito a la BD de Aiven.");
-            
+
         } catch (Exception ex) {
             System.err.println("Error al establecer la conexión con la base de datos:");
             ex.printStackTrace();
