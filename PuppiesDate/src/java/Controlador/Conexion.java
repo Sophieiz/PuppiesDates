@@ -19,8 +19,11 @@ public class Conexion {
     private String host = System.getenv("DB_HOST") != null ? System.getenv("DB_HOST").trim() : null;
     private String port = System.getenv("DB_PORT") != null ? System.getenv("DB_PORT").trim() : null;
 
+    // Aiven exige conexión SSL/TLS obligatoria (a diferencia de Railway).
+    // useSSL=true + requireSSL=true cifra la conexión; es el par correcto para
+    // mysql-connector-java 8.0.12 (el parámetro "sslMode" solo existe desde 8.0.13).
     private String url = "jdbc:mysql://" + host + ":" + port + "/" + baseDatos
-            + "?serverTimezone=America/Bogota&useSSL=false&allowPublicKeyRetrieval=true";
+            + "?serverTimezone=America/Bogota&useSSL=true&requireSSL=true&allowPublicKeyRetrieval=true";
 
     // Ya no abrimos conexión aquí, solo dejamos todo listo para cuando la pidan
     public Conexion() {
