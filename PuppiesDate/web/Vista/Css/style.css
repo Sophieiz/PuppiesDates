@@ -3099,9 +3099,42 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 }
 
 .adoption-modal-loading {
-    text-align: center;
-    color: var(--coffee-brown);
-    font-weight: 800;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 40px 0;
+}
+
+.adoption-modal-loading span {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: var(--coffee-brown);
+    animation: rebotePuntito 1.2s infinite ease-in-out;
+}
+
+.adoption-modal-loading span:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.adoption-modal-loading span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.adoption-modal-loading span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes rebotePuntito {
+    0%, 80%, 100% {
+        transform: scale(0.6);
+        opacity: 0.5;
+    }
+    40% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 .modal-open {

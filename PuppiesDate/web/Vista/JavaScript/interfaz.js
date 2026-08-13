@@ -102,7 +102,7 @@ function configurarModalAdopcion() {
         modal.classList.remove("is-open");
         modal.setAttribute("aria-hidden", "true");
         document.body.classList.remove("modal-open");
-        content.innerHTML = '<p class="adoption-modal-loading">Cargando formulario...</p>';
+        content.innerHTML = '<div class="adoption-modal-loading"><span></span><span></span><span></span></div>';
     };
 
     document.querySelectorAll("[data-adoption-close]").forEach((button) => {
