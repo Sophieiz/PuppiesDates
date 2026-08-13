@@ -132,19 +132,9 @@ public class PerritoAdmi extends HttpServlet {
             String extension = fileName.contains(".") ? fileName.substring(fileName.lastIndexOf(".")) : ".jpg";
             String nuevoNombre = "perrito_" + System.currentTimeMillis() + extension;
 
-            
-            String uploadPath = obtenerCarpetaUploads();
-            File uploadDir = new File(uploadPath);
-            if (!uploadDir.exists()) {
-                uploadDir.mkdirs();
-            }
-
-            File fileToSave = new File(uploadPath + File.separator + nuevoNombre);
             try (InputStream input = filePart.getInputStream()) {
-                Files.copy(input, fileToSave.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                rutaFotoFinal = Controlador.CloudinaryUploader.subirImagen(input, nuevoNombre);
             }
-
-            rutaFotoFinal = "uploads/" + nuevoNombre;
         }
         perrito.setFoto(rutaFotoFinal);
 
@@ -156,7 +146,6 @@ public class PerritoAdmi extends HttpServlet {
         return perrito;
     }
 
- 
     private String obtenerCarpetaUploads() {
         String desdeEntorno = System.getenv("UPLOADS_DIR");
         if (desdeEntorno != null && !desdeEntorno.trim().isEmpty()) {

@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html lang="es">
@@ -26,7 +27,7 @@
                     <div class="ficha-perrito">
                         <c:choose>
                             <c:when test="${not empty perrito.foto}">
-                                <img src="${ctx}/${perrito.foto}" alt="Foto de ${perrito.nombre}"
+                                <img src="${fn:startsWith(perrito.foto, 'http') ? perrito.foto : ctx.concat('/').concat(perrito.foto)}" alt="Foto de ${perrito.nombre}"
                                      onerror="this.onerror=null; this.src='${ctx}/Vista/Imagenes/Perrito1.jpg';">
                             </c:when>
                         </c:choose>

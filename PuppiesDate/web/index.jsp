@@ -3,6 +3,7 @@
 <%@page import="Modelo.Perrito"%>
 <%@page import="java.util.List"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <%
     List<Perrito> listaPerritosInicio = new PerritoDAO().listarPerritoDisponible();
@@ -69,7 +70,7 @@
                                 <div class="tarjeta-perrito ${colorBorde}">
                                     <c:choose>
                                         <c:when test="${not empty perrito.foto}">
-                                            <img src="${ctx}/${perrito.foto}" alt="${perrito.nombre}"
+                                            <img src="${fn:startsWith(perrito.foto, 'http') ? perrito.foto : ctx.concat('/').concat(perrito.foto)}" alt="${perrito.nombre}"
                                                  onerror="this.onerror=null; this.src='${ctx}/Vista/Imagenes/Perrito1.jpg';">
                                         </c:when>
                                         <c:otherwise>
@@ -199,7 +200,7 @@
         <script>window.ctxApp = "${ctx}";</script>
         <script src="${ctx}/Vista/JavaScript/interfaz.js"></script>
         <script src="${ctx}/Vista/JavaScript/funciones.js"></script>
-        
-        
+
+
     </body>
 </html>
