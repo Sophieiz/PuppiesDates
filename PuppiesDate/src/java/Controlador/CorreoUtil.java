@@ -2,22 +2,19 @@ package Controlador;
 
 import Modelo.Perrito;
 import Modelo.Solicitud_adopcion;
-import java.util.Properties;
-import jakarta.mail.Message;
-import jakarta.mail.MessagingException;
-import jakarta.mail.PasswordAuthentication;
-import jakarta.mail.Session;
-import jakarta.mail.Transport;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeMessage;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
 
 public class CorreoUtil {
 
     private static final String CORREO_REMITENTE = "puppiesdates@gmail.com";
-    private static final String SMTP_USER = System.getenv("SMTP_USER");
-    private static final String SMTP_PASSWORD = System.getenv("SMTP_PASSWORD");
-    private static final String SMTP_HOST = System.getenv("SMTP_HOST") != null ? System.getenv("SMTP_HOST") : "smtp-relay.brevo.com";
-    private static final String SMTP_PORT = System.getenv("SMTP_PORT") != null ? System.getenv("SMTP_PORT") : "587";
+    private static final String NOMBRE_REMITENTE = "Puppies Dates";
+    private static final String BREVO_API_KEY = System.getenv("BREVO_API_KEY");
+    private static final String BREVO_URL = "https://api.brevo.com/v3/smtp/email";
     private static final String CORREO_FUNDACION = "puppiesdates@gmail.com";
 
     // Colores de marca (coinciden con las tarjetas del sitio: rosa / azul / mostaza)
@@ -28,37 +25,41 @@ public class CorreoUtil {
     private static final String COLOR_FONDO = "#fff8f3";
 
     // ==========================================================
-    //  INFRAESTRUCTURA COMÚN DE ENVÍO Y PLANTILLA HTML
+    //  INFRAESTRUCTURA COMÚN DE ENVÍO (API HTTP de Brevo) Y PLANTILLA HTML
     // ==========================================================
-    private static Session crearSesion() {
-        Properties propiedades = new Properties();
-        propiedades.put("mail.smtp.auth", "true");
-        propiedades.put("mail.smtp.starttls.enable", "true");
-        propiedades.put("mail.smtp.host", SMTP_HOST);
-        propiedades.put("mail.smtp.port", SMTP_PORT);
-        propiedades.put("mail.smtp.ssl.protocols", "TLSv1.2");
-        propiedades.put("mail.smtp.ssl.trust", SMTP_HOST);
-
-        return Session.getInstance(propiedades, new jakarta.mail.Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(SMTP_USER, SMTP_PASSWORD);
-            }
-        });
-    }
-
     private static boolean enviar(String destino, String asunto, String cuerpoHtml, String logTag) {
         try {
-            Session sesion = crearSesion();
-            MimeMessage mensaje = new MimeMessage(sesion);
-            mensaje.setFrom(new InternetAddress(CORREO_REMITENTE));
-            mensaje.setRecipients(Message.RecipientType.TO, InternetAddress.parse(limpiar(destino)));
-            mensaje.setSubject(asunto, "UTF-8");
-            mensaje.setContent(cuerpoHtml, "text/html; charset=UTF-8");
-            Transport.send(mensaje);
-            System.out.println("Correo (" + logTag + ") enviado con éxito.");
-            return true;
-        } catch (MessagingException e) {
+            String json = "{"
+                    + "\"sender\":{\"name\":\"" + jsonEscapar(NOMBRE_REMITENTE) + "\",\"email\":\"" + jsonEscapar(CORREO_REMITENTE) + "\"},"
+                    + "\"to\":[{\"email\":\"" + jsonEscapar(limpiar(destino)) + "\"}],"
+                    + "\"subject\":\"" + jsonEscapar(asunto) + "\","
+                    + "\"htmlContent\":\"" + jsonEscapar(cuerpoHtml) + "\""
+                    + "}";
+
+            HttpClient cliente = HttpClient.newBuilder()
+                    .connectTimeout(Duration.ofSeconds(15))
+                    .build();
+
+            HttpRequest peticion = HttpRequest.newBuilder()
+                    .uri(URI.create(BREVO_URL))
+                    .timeout(Duration.ofSeconds(15))
+                    .header("accept", "application/json")
+                    .header("api-key", BREVO_API_KEY)
+                    .header("content-type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(json))
+                    .build();
+
+            HttpResponse<String> respuesta = cliente.send(peticion, HttpResponse.BodyHandlers.ofString());
+
+            if (respuesta.statusCode() >= 200 && respuesta.statusCode() < 300) {
+                System.out.println("Correo (" + logTag + ") enviado con éxito.");
+                return true;
+            } else {
+                System.out.println("Error al enviar correo (" + logTag + "): HTTP "
+                        + respuesta.statusCode() + " - " + respuesta.body());
+                return false;
+            }
+        } catch (IOException | InterruptedException e) {
             System.out.println("Error al enviar correo (" + logTag + "): " + e.getMessage());
             return false;
         }
@@ -263,5 +264,17 @@ public class CorreoUtil {
                 .replace(">", "&gt;")
                 .replace("\"", "&quot;")
                 .replace("'", "&#39;");
+    }
+
+    // Escapa comillas, backslashes y saltos de línea para que el texto sea válido dentro de un JSON
+    private static String jsonEscapar(String valor) {
+        if (valor == null) {
+            return "";
+        }
+        return valor.replace("\\", "\\\\")
+                .replace("\"", "\\\"")
+                .replace("\r", "")
+                .replace("\n", "\\n")
+                .replace("\t", "\\t");
     }
 }
