@@ -27,6 +27,7 @@ public class Registrarse extends HttpServlet {
         String telefono = request.getParameter("telefonoi");
         String correo = request.getParameter("correoz");
         String clave = request.getParameter("clavev");
+        clave = Controlador.PasswordUtil.hashPassword(clave);
         int idTipoDocumento = Integer.parseInt(request.getParameter("tipodocs"));
 
         RolesDAO rolesDao = new RolesDAO();

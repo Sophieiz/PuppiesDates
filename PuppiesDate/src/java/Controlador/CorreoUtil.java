@@ -14,7 +14,10 @@ import jakarta.mail.internet.MimeMessage;
 public class CorreoUtil {
 
     private static final String CORREO_REMITENTE = "puppiesdates@gmail.com";
-    private static final String CONTRASENA_APP = "ziyqliydahgvuqie";
+    private static final String SMTP_USER = System.getenv("SMTP_USER");
+    private static final String SMTP_PASSWORD = System.getenv("SMTP_PASSWORD");
+    private static final String SMTP_HOST = System.getenv("SMTP_HOST") != null ? System.getenv("SMTP_HOST") : "smtp-relay.brevo.com";
+    private static final String SMTP_PORT = System.getenv("SMTP_PORT") != null ? System.getenv("SMTP_PORT") : "587";
     private static final String CORREO_FUNDACION = "puppiesdates@gmail.com";
 
     // Colores de marca (coinciden con las tarjetas del sitio: rosa / azul / mostaza)
@@ -31,15 +34,15 @@ public class CorreoUtil {
         Properties propiedades = new Properties();
         propiedades.put("mail.smtp.auth", "true");
         propiedades.put("mail.smtp.starttls.enable", "true");
-        propiedades.put("mail.smtp.host", "smtp.gmail.com");
-        propiedades.put("mail.smtp.port", "587");
+        propiedades.put("mail.smtp.host", SMTP_HOST);
+        propiedades.put("mail.smtp.port", SMTP_PORT);
         propiedades.put("mail.smtp.ssl.protocols", "TLSv1.2");
-        propiedades.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+        propiedades.put("mail.smtp.ssl.trust", SMTP_HOST);
 
         return Session.getInstance(propiedades, new jakarta.mail.Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(CORREO_REMITENTE, CONTRASENA_APP);
+                return new PasswordAuthentication(SMTP_USER, SMTP_PASSWORD);
             }
         });
     }

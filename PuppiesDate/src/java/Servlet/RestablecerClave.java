@@ -69,7 +69,8 @@ public class RestablecerClave extends HttpServlet {
         }
 
         UsuariosDAO usuariosDao = new UsuariosDAO();
-        boolean actualizado = usuariosDao.actualizarClave(recuperacion.getUsuarios_idUsuarios(), nuevaClave);
+        String nuevaClaveHash = Controlador.PasswordUtil.hashPassword(nuevaClave);
+        boolean actualizado = usuariosDao.actualizarClave(recuperacion.getUsuarios_idUsuarios(), nuevaClaveHash);
 
         if (actualizado) {
             recuperacionDao.marcarTokenUsado(recuperacion.getIdRecuperacion_clave());

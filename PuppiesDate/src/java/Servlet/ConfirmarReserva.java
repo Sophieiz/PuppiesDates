@@ -21,7 +21,7 @@ import jakarta.servlet.http.HttpSession;
 public class ConfirmarReserva extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet (HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.getRequestDispatcher("/Vista/ConfirmarReserva.jsp").forward(request, response);
     }

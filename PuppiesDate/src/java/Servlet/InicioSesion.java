@@ -27,7 +27,7 @@ public class InicioSesion extends HttpServlet {
             request.setAttribute("mensaje", "El correo no existe");
             request.getRequestDispatcher("/Vista/InicioSesion.jsp").forward(request, response);
 
-        } else if (!usuarioBD.getclave().equals(password)) {
+        } else if (!Controlador.PasswordUtil.verificarPassword(password, usuarioBD.getclave())) {
             request.setAttribute("mensaje", "Clave incorrecta");
             request.getRequestDispatcher("/Vista/InicioSesion.jsp").forward(request, response);
 
