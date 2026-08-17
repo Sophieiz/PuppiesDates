@@ -63,7 +63,7 @@ public class Filtro implements Filter {
         }
         // Validar sesión para páginas privadas
         if (session == null || session.getAttribute("perfil") == null) {
-            res.sendRedirect(req.getContextPath() + "/Vista/InicioSesion.jsp");
+            res.sendRedirect(req.getContextPath() + "/Iniciar");
             return;
         }
         chain.doFilter(request, response);

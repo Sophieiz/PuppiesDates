@@ -1,8 +1,9 @@
 package Servlet;
+
 import Controlador.UsuariosDAO;
 import Modelo.Usuarios;
 import java.io.IOException;
-import java.util.Date; 
+import java.util.Date;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -33,12 +34,11 @@ public class InicioSesion extends HttpServlet {
 
         } else {
 
-            
             Date hoy = new Date();
             Date fechaCad = usuarioBD.getfecha_cad();
 
             if (fechaCad != null && hoy.after(fechaCad)) {
-                
+
                 usuarioBD.setcheckbox(false);
                 try {
                     midao.actualizarUsuario(usuarioBD);
@@ -47,10 +47,9 @@ public class InicioSesion extends HttpServlet {
                 }
                 request.setAttribute("mensaje", "Tu cuenta ha expirado. Por favor regístrate nuevamente..");
                 request.getRequestDispatcher("/Vista/InicioSesion.jsp").forward(request, response);
-                return; 
+                return;
             }
 
-            
             if (!usuarioBD.ischeckbox()) {
                 request.setAttribute("mensaje", "Tu cuenta está inactiva. Por favor regístrate nuevamente.");
                 request.getRequestDispatcher("/Vista/InicioSesion.jsp").forward(request, response);
@@ -61,21 +60,20 @@ public class InicioSesion extends HttpServlet {
             HttpSession sesion = request.getSession();
             sesion.setAttribute("nombreUsuario", usuarioBD.getnombre());
             sesion.setAttribute("perfil", usuarioBD.getRoles_idRoles());
-            sesion.setAttribute("idUsuario", usuarioBD.getidUsuarios()); 
+            sesion.setAttribute("idUsuario", usuarioBD.getidUsuarios());
             sesion.setAttribute("correoUsuario", usuarioBD.getcorreo());
 
-
             if (usuarioBD.getRoles_idRoles() == 1) {
-                response.sendRedirect(request.getContextPath() + "/PanelAdmin.jsp");
+                request.getRequestDispatcher("/PanelAdmin.jsp").forward(request, response);
             } else {
-                response.sendRedirect(request.getContextPath() + "/PanelUsuario.jsp");
+                request.getRequestDispatcher("/PanelUsuario.jsp").forward(request, response);
             }
         }
-    }      
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.getRequestDispatcher("/Vista/InicioSesion.jsp").forward(request, response);
     }
-}         
+}

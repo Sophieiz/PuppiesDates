@@ -20,6 +20,6 @@ public class CerrarSesion extends HttpServlet {
             sesion.invalidate();
         }
         // Redirige al inicio
-        response.sendRedirect(request.getContextPath() + "/index.jsp");
+        response.sendRedirect(request.getContextPath() + "/");
     }
 }

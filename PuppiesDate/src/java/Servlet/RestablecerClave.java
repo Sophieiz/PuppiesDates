@@ -74,7 +74,7 @@ public class RestablecerClave extends HttpServlet {
 
         if (actualizado) {
             recuperacionDao.marcarTokenUsado(recuperacion.getIdRecuperacion_clave());
-            response.sendRedirect(request.getContextPath() + "/Vista/InicioSesion.jsp?claveActualizada=true");
+            response.sendRedirect(request.getContextPath() + "/Iniciar?claveActualizada=true");
         } else {
             request.setAttribute("mensaje", "Ocurrió un error al actualizar tu contraseña. Intenta de nuevo.");
             request.setAttribute("token", token);
