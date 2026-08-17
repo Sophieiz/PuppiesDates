@@ -24,6 +24,7 @@ public class Solicitud_adopcion {
     private String documentoUsuario;
     private String correoUsuario;
     private String nombrePerrito;
+    private String fotoPerrito;
     private String descripcionEstado_solicitud;
     private String nombreDepartamento;
     private String nombreUbicacion;
@@ -191,6 +192,14 @@ public class Solicitud_adopcion {
 
     public void setNombrePerrito(String nombrePerrito) {
         this.nombrePerrito = nombrePerrito;
+    }
+
+    public String getFotoPerrito() {
+        return fotoPerrito;
+    }
+
+    public void setFotoPerrito(String fotoPerrito) {
+        this.fotoPerrito = fotoPerrito;
     }
 
     public String getDescripcionEstado_solicitud() {

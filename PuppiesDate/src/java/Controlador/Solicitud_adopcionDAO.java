@@ -16,8 +16,8 @@ public class Solicitud_adopcionDAO {
     public int insertarSolicitud_adopcion(Solicitud_adopcion solicitud) {
         int idGenerado = -1;
         String sql = "INSERT INTO solicitud_adopcion (direccion, Departamento_idDepartamento, "
-                + "Municipio_idMunicipio, Localidad_idLocalidad, barrio, profesion, vive_en_idvive_en, "
-                + "tipo_vivienda_idtipo_vivienda, nucleo_familiar, tiene_mascotas, Usuarios_idUsuarios, Perrito_idPerrito, "
+                + "Municipio_idMunicipio, Localidad_idLocalidad, barrio, profesion, vive_en, "
+                + "tipo_vivienda, nucleo_familiar, tiene_mascotas, Usuarios_idUsuarios, Perrito_idPerrito, "
                 + "Estado_solicitud_idEstado_solicitud) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         Conexion conexion = new Conexion();
@@ -310,11 +310,11 @@ public class Solicitud_adopcionDAO {
 
     private String sqlBaseConJoins() {
         return "SELECT s.idSolicitud_adopcion, s.direccion, s.Departamento_idDepartamento, "
-                + "s.Municipio_idMunicipio, s.Localidad_idLocalidad, s.barrio, s.profesion, s.vive_en_idvive_en, "
-                + "s.tipo_vivienda_idtipo_vivienda, s.nucleo_familiar, s.tiene_mascotas, s.fecha_solicitud, "
+                + "s.Municipio_idMunicipio, s.Localidad_idLocalidad, s.barrio, s.profesion, s.vive_en, "
+                + "s.tipo_vivienda, s.nucleo_familiar, s.tiene_mascotas, s.fecha_solicitud, "
                 + "s.Usuarios_idUsuarios, s.Perrito_idPerrito, s.Estado_solicitud_idEstado_solicitud, "
                 + "u.nombre AS nombreUsuario, u.apellido AS apellidoUsuario, u.documento AS documentoUsuario, "
-                + "u.correo AS correoUsuario, p.nombre AS nombrePerrito, e.descripcion_estado AS descripcionEstado, "
+                + "u.correo AS correoUsuario, p.nombre AS nombrePerrito, p.foto AS fotoPerrito, e.descripcion_estado AS descripcionEstado, "
                 + "dep.nombre AS nombreDepartamento, COALESCE(mun.nombre, loc.nombre) AS nombreUbicacion "
                 + "FROM solicitud_adopcion s "
                 + "INNER JOIN usuarios u ON s.Usuarios_idUsuarios = u.idUsuarios "
@@ -348,6 +348,7 @@ public class Solicitud_adopcionDAO {
         solicitud.setDocumentoUsuario(rs.getString("documentoUsuario"));
         solicitud.setCorreoUsuario(rs.getString("correoUsuario"));
         solicitud.setNombrePerrito(rs.getString("nombrePerrito"));
+        solicitud.setFotoPerrito(rs.getString("fotoPerrito"));
         solicitud.setDescripcionEstado_solicitud(rs.getString("descripcionEstado"));
         solicitud.setNombreDepartamento(rs.getString("nombreDepartamento"));
         solicitud.setNombreUbicacion(rs.getString("nombreUbicacion"));

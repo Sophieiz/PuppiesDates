@@ -140,7 +140,7 @@
         </c:choose>
 
         <script>
-            const contextPath = "${ctx}";
+            window.contextPath = "${ctx}";
         </script>
         <script src="${ctx}/Vista/JavaScript/ubicacionAdopcion.js" defer></script>
         <script src="${ctx}/Vista/JavaScript/validarSolicitudAdopcion.js" defer></script>
