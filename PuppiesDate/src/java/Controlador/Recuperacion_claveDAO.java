@@ -4,25 +4,25 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import Modelo.Recuperacion_clave;
 
 public class Recuperacion_claveDAO {
 
     private final Conexion conexion = new Conexion();
 
-    public boolean insertarToken(Recuperacion_clave recuperacion) {
+    // Ahora es MySQL (con NOW()) quien calcula fecha_creacion y fecha_expiracion,
+    // así nunca hay desfase de zona horaria entre el servidor Java y la base de datos.
+    public boolean insertarToken(String token, int idUsuario, int minutosValidez) {
         boolean insertado = false;
-        String sql = "INSERT INTO recuperacion_clave (token, fecha_expiracion, usado, Usuarios_idUsuarios) "
-                + "VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO recuperacion_clave (token, fecha_creacion, fecha_expiracion, usado, Usuarios_idUsuarios) "
+                + "VALUES (?, NOW(), NOW() + INTERVAL ? MINUTE, 0, ?)";
 
         try (Connection con = conexion.getConn();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setString(1, recuperacion.getToken());
-            ps.setTimestamp(2, recuperacion.getFecha_expiracion());
-            ps.setBoolean(3, false);
-            ps.setInt(4, recuperacion.getUsuarios_idUsuarios());
+            ps.setString(1, token);
+            ps.setInt(2, minutosValidez);
+            ps.setInt(3, idUsuario);
 
             ps.executeUpdate();
             insertado = true;
@@ -40,13 +40,12 @@ public class Recuperacion_claveDAO {
                 + "r.Usuarios_idUsuarios, u.correo AS correoUsuario, u.nombre AS nombreUsuario "
                 + "FROM recuperacion_clave r "
                 + "INNER JOIN Usuarios u ON r.Usuarios_idUsuarios = u.idUsuarios "
-                + "WHERE r.token = ? AND r.usado = 0 AND r.fecha_expiracion > ?";
+                + "WHERE r.token = ? AND r.usado = 0 AND r.fecha_expiracion > NOW()";
 
         try (Connection con = conexion.getConn();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, token);
-            ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
