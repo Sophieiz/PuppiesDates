@@ -39,7 +39,7 @@ public class Recuperacion_claveDAO {
         String sql = "SELECT r.idRecuperacion_clave, r.token, r.fecha_creacion, r.fecha_expiracion, r.usado, "
                 + "r.Usuarios_idUsuarios, u.correo AS correoUsuario, u.nombre AS nombreUsuario "
                 + "FROM recuperacion_clave r "
-                + "INNER JOIN Usuarios u ON r.Usuarios_idUsuarios = u.idUsuarios "
+                + "INNER JOIN usuarios u ON r.Usuarios_idUsuarios = u.idUsuarios "
                 + "WHERE r.token = ? AND r.usado = 0 AND r.fecha_expiracion > NOW()";
 
         try (Connection con = conexion.getConn();
