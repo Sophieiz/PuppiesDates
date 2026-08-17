@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet("/CerrarSesion")
 public class CerrarSesion extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         // Obtiene la sesión actual y la destruye
