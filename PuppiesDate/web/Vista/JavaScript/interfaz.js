@@ -49,23 +49,19 @@ function configurarModalAdopcion() {
                     </div>`;
                     return;
                 }
-
                 const html = await response.text();
-                const documentFragment = new DOMParser().parseFromString(html, "text/html");
-                const adoptionWrap = documentFragment.querySelector(".adopcion-wrap");
-
-                // CAMBIO AQUÍ: Si encuentra .adopcion-wrap lo inserta, si no, inyecta directamente el HTML que vino del Servlet (el aviso)
-                content.innerHTML = adoptionWrap ? adoptionWrap.outerHTML : html;
-
-                if (adoptionWrap && typeof inicializarUbicacionAdopcion === "function") {
+                content.innerHTML = html;
+                if (content.querySelector(".adopcion-wrap") && typeof inicializarUbicacionAdopcion === "function") {
                     inicializarUbicacionAdopcion();
                 }
             } catch (error) {
+                console.error("Error al cargar el modal:", error);
                 content.innerHTML = '<p class="sin-perritos">No pudimos cargar el formulario. Intenta de nuevo.</p>';
             }
         });
     });
 }
+
 
 function validarSolicitudAdopcion() {
     const campos = [
@@ -98,7 +94,7 @@ function validarSolicitudAdopcion() {
 
         if (vacio) {
             valido = false;
-        }
+    }
     });
 
     return valido;
