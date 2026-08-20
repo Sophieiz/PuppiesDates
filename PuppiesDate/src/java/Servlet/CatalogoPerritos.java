@@ -12,7 +12,22 @@ import java.io.IOException;
 public class CatalogoPerritos extends HttpServlet {
 
     @Override
-    protected void doPost (HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        // Maneja las peticiones GET (al entrar directamente a la URL o recargar la página)
+        procesarSolicitud(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        // Maneja las peticiones POST (al enviar el formulario de búsqueda)
+        procesarSolicitud(request, response);
+    }
+
+    private void procesarSolicitud(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         String textoBusqueda = request.getParameter("buscar");
