@@ -49,8 +49,14 @@ function configurarModalAdopcion() {
                     </div>`;
                     return;
                 }
+
+                // Recibimos el HTML directamente sin usar DOMParser
                 const html = await response.text();
+
+                // Inyectamos el contenido devuelto por el Servlet (sea el aviso o el formulario)
                 content.innerHTML = html;
+
+                // Si se cargó el formulario completo, inicializamos eventos adicionales de ubicación
                 if (content.querySelector(".adopcion-wrap") && typeof inicializarUbicacionAdopcion === "function") {
                     inicializarUbicacionAdopcion();
                 }
