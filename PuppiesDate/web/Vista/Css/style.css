@@ -3804,3 +3804,16 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     gap: 15px;
     flex-wrap: wrap;
 }
+
+/*adopcion formulario sin inicuiar sesión*/
+
+.adopcion-auth-required h3,
+.adopcion-auth-required p {
+  color: #333333 !important; /* Texto oscuro visible */
+}
+
+.adopcion-auth-required .btn-cta-ingresa {
+  color: #8b263e;
+  font-weight: bold;
+  text-decoration: underline;
+}
