@@ -165,24 +165,30 @@ public class SolicitudAdopcionCliente extends HttpServlet {
 
     private void cargarFormularioYRedirigir(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String idPerritoStr = request.getParameter("idPerrito");
-        if (idPerritoStr != null) {
-            try {
-                PerritoDAO perritoDao = new PerritoDAO();
-                request.setAttribute("perrito", perritoDao.ConsultarPerrito(Integer.parseInt(idPerritoStr)));
-            } catch (NumberFormatException ignored) {
+        try {
+            String idPerritoStr = request.getParameter("idPerrito");
+            if (idPerritoStr != null) {
+                try {
+                    PerritoDAO perritoDao = new PerritoDAO();
+                    request.setAttribute("perrito", perritoDao.ConsultarPerrito(Integer.parseInt(idPerritoStr)));
+                } catch (NumberFormatException ignored) {
+                }
             }
+
+            DepartamentoDAO departamentoDao = new DepartamentoDAO();
+            request.setAttribute("departamentos", departamentoDao.listarActivos());
+
+            Vive_enDAO viveEnDao = new Vive_enDAO();
+            request.setAttribute("listaViveEn", viveEnDao.listarActivos());
+
+            Tipo_viviendaDAO tipoViviendaDao = new Tipo_viviendaDAO();
+            request.setAttribute("listaTipoVivienda", tipoViviendaDao.listarActivos());
+
+        } catch (Exception e) {
+            request.setAttribute("resultado", "Error al cargar datos: " + e.getMessage());
         }
 
-        DepartamentoDAO departamentoDao = new DepartamentoDAO();
-        request.setAttribute("departamentos", departamentoDao.listarActivos());
-
-        Vive_enDAO viveEnDao = new Vive_enDAO();
-        request.setAttribute("listaViveEn", viveEnDao.listarActivos());
-
-        Tipo_viviendaDAO tipoViviendaDao = new Tipo_viviendaDAO();
-        request.setAttribute("listaTipoVivienda", tipoViviendaDao.listarActivos());
-
+        // Redirigir siempre a SolicitudAdopcion.jsp
         request.getRequestDispatcher("/Vista/SolicitudAdopcion.jsp").forward(request, response);
     }
 }

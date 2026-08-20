@@ -11,7 +11,8 @@ function configurarMenuUsuario() {
     const toggle = document.getElementById("userDropdownToggle");
     const menu = document.getElementById("userDropdownMenu");
 
-    if (!toggle || !menu) return;
+    if (!toggle || !menu)
+        return;
 
     const cerrarMenu = () => {
         menu.classList.remove("is-open");
@@ -31,7 +32,8 @@ function configurarMenuUsuario() {
     });
 
     document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") cerrarMenu();
+        if (event.key === "Escape")
+            cerrarMenu();
     });
 }
 
@@ -43,7 +45,8 @@ function configurarCierreSesion() {
         link.addEventListener("click", (event) => {
             if (!modal) {
                 const confirmar = confirm("¿Estás seguro de que deseas cerrar sesión? Te esperamos pronto en Puppies Dates.");
-                if (!confirmar) event.preventDefault();
+                if (!confirmar)
+                    event.preventDefault();
                 return;
             }
 
@@ -55,7 +58,8 @@ function configurarCierreSesion() {
         });
     });
 
-    if (!modal) return;
+    if (!modal)
+        return;
 
     const cerrarLogoutModal = () => {
         modal.classList.remove("is-open");
@@ -70,7 +74,8 @@ function configurarCierreSesion() {
     const confirmarBtn = modal.querySelector("[data-logout-confirm]");
     if (confirmarBtn) {
         confirmarBtn.addEventListener("click", () => {
-            if (enlaceDestino) window.location.href = enlaceDestino;
+            if (enlaceDestino)
+                window.location.href = enlaceDestino;
         });
     }
 
@@ -85,7 +90,8 @@ function configurarModalAdopcion() {
     const modal = document.getElementById("adoptionModal");
     const content = document.getElementById("adoptionModalContent");
 
-    if (!modal || !content) return;
+    if (!modal || !content)
+        return;
 
     const cerrarModal = () => {
         modal.classList.remove("is-open");
@@ -113,30 +119,41 @@ function configurarModalAdopcion() {
 
             try {
                 const response = await fetch(link.href, {
-                    headers: { "X-Requested-With": "XMLHttpRequest" }
+                    headers: {"X-Requested-With": "XMLHttpRequest"}
                 });
 
+                if (!response.ok) {
+                    throw new Error("Error en la respuesta del servidor HTTP " + response.status);
+                }
+
                 const html = await response.text();
-                
-                // Si la respuesta incluye directamente la estructura HTML enviada desde el Servlet (200 OK)
+
+                // Si la respuesta es el aviso de iniciar sesión
                 if (html.includes("adopcion-auth-required")) {
                     content.innerHTML = html;
                     return;
                 }
 
-                // Si trae el formulario de la vista
+                // Extraer el formulario de la vista completa
                 const documentFragment = new DOMParser().parseFromString(html, "text/html");
                 const adoptionWrap = documentFragment.querySelector(".adopcion-wrap");
 
-                content.innerHTML = adoptionWrap
-                    ? adoptionWrap.outerHTML
-                    : html; // Muestra el html devuelto directamente si no viene wrappeado
+                if (adoptionWrap) {
+                    content.innerHTML = adoptionWrap.outerHTML;
 
-                if (adoptionWrap && typeof inicializarUbicacionAdopcion === "function") {
-                    inicializarUbicacionAdopcion();
+                    // Re-ejecutar los scripts de ubicacion y validacion
+                    if (window.initUbicacionAdopcion && typeof window.initUbicacionAdopcion === "function") {
+                        window.initUbicacionAdopcion();
+                    } else if (typeof inicializarUbicacionAdopcion === "function") {
+                        inicializarUbicacionAdopcion();
+                    }
+                } else {
+                    content.innerHTML = html;
                 }
+
             } catch (error) {
-                content.innerHTML = '<p class="sin-perritos">No pudimos cargar el formulario. Intenta de nuevo.</p>';
+                console.error("Error al abrir modal de adopción:", error);
+                content.innerHTML = '<p class="sin-perritos" style="text-align:center; padding: 2rem;">No pudimos cargar el formulario. Intenta de nuevo.</p>';
             }
         });
     });
@@ -149,7 +166,8 @@ function configurarCargaFotos() {
             const target = document.getElementById(input.dataset.photoTarget);
             const preview = document.getElementById(input.dataset.photoPreview);
 
-            if (!file || !target) return;
+            if (!file || !target)
+                return;
 
             const reader = new FileReader();
             reader.addEventListener("load", () => {
@@ -169,7 +187,8 @@ function configurarRedireccionModalExito() {
     if (btnIrIniciar) {
         btnIrIniciar.addEventListener('click', function () {
             const redirectUrl = this.getAttribute('data-url');
-            if (redirectUrl) window.location.href = redirectUrl;
+            if (redirectUrl)
+                window.location.href = redirectUrl;
         });
     }
 }
@@ -202,13 +221,16 @@ function validarSolicitudAdopcion() {
         const campo = document.getElementById(id);
         const error = document.getElementById(`error_${id}`);
 
-        if (!campo) return;
+        if (!campo)
+            return;
 
         const vacio = !campo.value || !campo.value.trim();
-        if (error) error.textContent = vacio ? mensaje : "";
+        if (error)
+            error.textContent = vacio ? mensaje : "";
         campo.classList.toggle("campo-error", vacio);
 
-        if (vacio) valido = false;
+        if (vacio)
+            valido = false;
     });
 
     return valido;
