@@ -23,22 +23,7 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-/**
- * Servlet unico que centraliza TODAS las rutas de la API movil (/api/*).
- *
- * En vez de tener un servlet por cada endpoint (LoginMobileServlet,
- * SolicitudesMobileServlet, etc.), este servlet captura cualquier ruta
- * que empiece por /api/ y decide internamente que hacer segun el
- * "pathInfo" (lo que viene despues de /api/).
- *
- * Desde Flutter NO cambia nada: /api/login y /api/solicitudes siguen
- * siendo las mismas URLs. Lo unico que cambia es que, del lado del
- * servidor, ahora vive todo en una sola clase.
- *
- * Para agregar un endpoint nuevo (ej: /api/perfil):
- *   1. Agregar el case "/perfil" en el switch de doGet o doPost.
- *   2. Escribir el metodo handlePerfil(request, response).
- */
+
 @WebServlet(name = "ApiServlet", urlPatterns = {"/api/*"})
 public class ApiServlet extends HttpServlet {
 

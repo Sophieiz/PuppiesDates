@@ -26,8 +26,16 @@ public class SolicitudAdopcionCliente extends HttpServlet {
         HttpSession sesion = request.getSession(false);
         if (sesion == null || sesion.getAttribute("idUsuario") == null) {
             response.setContentType("text/html; charset=UTF-8");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
-            response.getWriter().write("<div class=\"adopcion-auth-required\"></div>");
+            response.setStatus(HttpServletResponse.SC_OK); // 200 OK para que JS procese la respuesta
+
+            String contextPath = request.getContextPath();
+            response.getWriter().write(
+                    "<div class=\"adopcion-auth-required\" style=\"text-align: center; padding: 2rem;\">"
+                    + "   <h3 style=\"margin-bottom: 1rem; color: #333;\">¡Inicia sesión para continuar!</h3>"
+                    + "   <p style=\"margin-bottom: 1.5rem; color: #666;\">Debes ingresar a tu cuenta para enviar una solicitud de adopción.</p>"
+                    + "   <a href=\"" + contextPath + "/Iniciar\" class=\"btn-cta-ingresa\">Iniciar Sesión</a>"
+                    + "</div>"
+            );
             return;
         }
 
@@ -168,7 +176,7 @@ public class SolicitudAdopcionCliente extends HttpServlet {
 
         DepartamentoDAO departamentoDao = new DepartamentoDAO();
         request.setAttribute("departamentos", departamentoDao.listarActivos());
-        
+
         Vive_enDAO viveEnDao = new Vive_enDAO();
         request.setAttribute("listaViveEn", viveEnDao.listarActivos());
 

@@ -4,15 +4,14 @@ document.addEventListener("DOMContentLoaded", () => {
     configurarCargaFotos();
     configurarMenuUsuario();
     configurarRedireccionModalExito();
+    configurarReservasInvitado();
 });
 
 function configurarMenuUsuario() {
     const toggle = document.getElementById("userDropdownToggle");
     const menu = document.getElementById("userDropdownMenu");
 
-    if (!toggle || !menu) {
-        return;
-    }
+    if (!toggle || !menu) return;
 
     const cerrarMenu = () => {
         menu.classList.remove("is-open");
@@ -32,9 +31,7 @@ function configurarMenuUsuario() {
     });
 
     document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") {
-            cerrarMenu();
-        }
+        if (event.key === "Escape") cerrarMenu();
     });
 }
 
@@ -46,9 +43,7 @@ function configurarCierreSesion() {
         link.addEventListener("click", (event) => {
             if (!modal) {
                 const confirmar = confirm("¿Estás seguro de que deseas cerrar sesión? Te esperamos pronto en Puppies Dates.");
-                if (!confirmar) {
-                    event.preventDefault();
-                }
+                if (!confirmar) event.preventDefault();
                 return;
             }
 
@@ -60,9 +55,7 @@ function configurarCierreSesion() {
         });
     });
 
-    if (!modal) {
-        return;
-    }
+    if (!modal) return;
 
     const cerrarLogoutModal = () => {
         modal.classList.remove("is-open");
@@ -77,9 +70,7 @@ function configurarCierreSesion() {
     const confirmarBtn = modal.querySelector("[data-logout-confirm]");
     if (confirmarBtn) {
         confirmarBtn.addEventListener("click", () => {
-            if (enlaceDestino) {
-                window.location.href = enlaceDestino;
-            }
+            if (enlaceDestino) window.location.href = enlaceDestino;
         });
     }
 
@@ -94,9 +85,7 @@ function configurarModalAdopcion() {
     const modal = document.getElementById("adoptionModal");
     const content = document.getElementById("adoptionModalContent");
 
-    if (!modal || !content) {
-        return;
-    }
+    if (!modal || !content) return;
 
     const cerrarModal = () => {
         modal.classList.remove("is-open");
@@ -124,31 +113,24 @@ function configurarModalAdopcion() {
 
             try {
                 const response = await fetch(link.href, {
-                    headers: {
-                        "X-Requested-With": "XMLHttpRequest"
-                    }
+                    headers: { "X-Requested-With": "XMLHttpRequest" }
                 });
 
-                if (response.status === 401) {
-                    content.innerHTML = `
-            <div class="adopcion-auth-required">
-              <h3>¡Espera un momento!</h3>
-              <p>Para adoptar debes iniciar sesión o registrarte primero.</p>
-              <div class="adopcion-auth-botones">
-                <a href="${window.ctxApp || ""}/Iniciar" class="btn-menu btn-verde-activo">Iniciar sesión</a>
-                <a href="${window.ctxApp || ""}/Registrarse" class="btn-menu btn-rosa-sesion">Registrarme</a>
-              </div>
-            </div>`;
+                const html = await response.text();
+                
+                // Si la respuesta incluye directamente la estructura HTML enviada desde el Servlet (200 OK)
+                if (html.includes("adopcion-auth-required")) {
+                    content.innerHTML = html;
                     return;
                 }
 
-                const html = await response.text();
+                // Si trae el formulario de la vista
                 const documentFragment = new DOMParser().parseFromString(html, "text/html");
                 const adoptionWrap = documentFragment.querySelector(".adopcion-wrap");
 
                 content.innerHTML = adoptionWrap
-                        ? adoptionWrap.outerHTML
-                        : '<p class="sin-perritos">No pudimos cargar el formulario. Intenta de nuevo.</p>';
+                    ? adoptionWrap.outerHTML
+                    : html; // Muestra el html devuelto directamente si no viene wrappeado
 
                 if (adoptionWrap && typeof inicializarUbicacionAdopcion === "function") {
                     inicializarUbicacionAdopcion();
@@ -167,14 +149,11 @@ function configurarCargaFotos() {
             const target = document.getElementById(input.dataset.photoTarget);
             const preview = document.getElementById(input.dataset.photoPreview);
 
-            if (!file || !target) {
-                return;
-            }
+            if (!file || !target) return;
 
             const reader = new FileReader();
             reader.addEventListener("load", () => {
                 target.value = reader.result;
-
                 if (preview) {
                     preview.src = reader.result;
                     preview.classList.add("is-visible");
@@ -186,15 +165,22 @@ function configurarCargaFotos() {
 }
 
 function configurarRedireccionModalExito() {
-    // Redirección al Iniciar Sesión desde el Modal de Éxito
     const btnIrIniciar = document.getElementById('btnIrIniciarSesion');
-
     if (btnIrIniciar) {
         btnIrIniciar.addEventListener('click', function () {
             const redirectUrl = this.getAttribute('data-url');
-            if (redirectUrl) {
-                window.location.href = redirectUrl;
-            }
+            if (redirectUrl) window.location.href = redirectUrl;
+        });
+    }
+}
+
+function configurarReservasInvitado() {
+    const btnReservasInvitado = document.getElementById('btnReservasInvitado');
+    if (btnReservasInvitado) {
+        btnReservasInvitado.addEventListener('click', function (e) {
+            e.preventDefault();
+            alert('Debes iniciar sesión primero. Si no tienes cuenta, regístrate.');
+            window.location.href = btnReservasInvitado.dataset.loginUrl;
         });
     }
 }
@@ -216,34 +202,14 @@ function validarSolicitudAdopcion() {
         const campo = document.getElementById(id);
         const error = document.getElementById(`error_${id}`);
 
-        if (!campo) {
-            return;
-        }
+        if (!campo) return;
 
         const vacio = !campo.value || !campo.value.trim();
-
-        if (error) {
-            error.textContent = vacio ? mensaje : "";
-        }
-
+        if (error) error.textContent = vacio ? mensaje : "";
         campo.classList.toggle("campo-error", vacio);
 
-        if (vacio) {
-            valido = false;
-    }
+        if (vacio) valido = false;
     });
 
     return valido;
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const btnReservasInvitado = document.getElementById('btnReservasInvitado');
-
-        if (btnReservasInvitado) {
-            btnReservasInvitado.addEventListener('click', function (e) {
-                e.preventDefault();
-                alert('Debes iniciar sesión primero. Si no tienes cuenta, regístrate.');
-                window.location.href = btnReservasInvitado.dataset.loginUrl;
-            });
-        }
-    });
 }
