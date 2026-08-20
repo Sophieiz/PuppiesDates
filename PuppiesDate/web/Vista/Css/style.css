@@ -3809,7 +3809,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 
 .adopcion-auth-required h3,
 .adopcion-auth-required p {
-  color: #333333 !important; /* Texto oscuro visible */
+  color: #333333 !important; 
 }
 
 .adopcion-auth-required .btn-cta-ingresa {
