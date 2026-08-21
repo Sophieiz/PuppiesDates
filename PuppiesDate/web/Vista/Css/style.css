@@ -3817,3 +3817,261 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
   font-weight: bold;
   text-decoration: underline;
 }
+
+
+
+.user-dropdown-saludo,
+.mensaje-bienvenida,
+button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logout-modal-close):not(.adoption-modal-close):not(.user-dropdown-toggle):not(.admin-crud-btn-primary):not(.admin-crud-btn-secondary):not(.admin-crud-btn-danger):not(.logout-modal-cancel):not(.logout-modal-confirm):not(.js-logout-link):not([data-adoption-close]):not([data-logout-close]):not([data-logout-confirm]):not([data-cerrar]),
+.logout-modal-cancel,
+.logout-modal-confirm,
+.admin-buscador button,
+.buscador-catalogo button,
+.admin-buscador-limpiar,
+.buscador-limpiar {
+    font-family: 'Fredoka', sans-serif !important;
+}
+
+
+
+/*Responsive*/
+
+
+@media (max-width: 900px) {
+    /* HERO: pasa de 2 columnas a 1, texto arriba y carrusel abajo */
+    .hero-section {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        margin-bottom: 40px;
+    }
+
+    .hero-left {
+        align-items: center;
+        text-align: center;
+    }
+
+    .hero-subtitle {
+        max-width: 100%;
+    }
+
+    .carrusel {
+        height: 320px;
+    }
+
+    /* ACTIVIDADES: showcase pasa a 1 columna */
+    .actividades-showcase {
+        grid-template-columns: 1fr;
+    }
+
+    .actividad-card {
+        grid-template-columns: 1fr;
+        min-height: auto;
+    }
+
+    .actividad-media img {
+        min-height: 220px;
+    }
+
+    /* VIDEOS: 1 columna cuando no caben 2 de 450px */
+    .grid-videos {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .main-container {
+        padding: 10px 16px;
+    }
+
+    .hero-title {
+        font-size: 2.2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.05rem;
+    }
+
+    .carrusel {
+        height: 260px;
+    }
+
+    .btn-cta-ingresa {
+        width: 100%;
+        text-align: center;
+        padding: 14px 20px;
+    }
+
+    /* NAVBAR: menú se apila y centra en pantallas muy angostas */
+    .navegacion-centrada ul,
+    .navegacion ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .btn-menu {
+        width: 100%;
+        text-align: center;
+    }
+
+    .titulo-apartado {
+        font-size: 1.7rem;
+    }
+
+    .subtitulo-seccion {
+        font-size: 1rem;
+        padding: 0 10px;
+    }
+
+    /* TARJETAS DE PERRITOS: scroll horizontal más cómodo */
+    .grid-adopcion {
+        padding: 14px 10px;
+        gap: 14px;
+    }
+
+    .tarjeta-perrito {
+        width: 210px;
+    }
+
+    /* BLOQUES DE ACTIVIDAD SIMPLE */
+    .grid-actividades {
+        grid-template-columns: 1fr;
+    }
+
+    .bloque-actividad {
+        padding: 28px 20px;
+    }
+
+    /* ACTIVIDAD CARD: ajustar padding en info */
+    .actividad-info {
+        padding: 20px;
+    }
+
+    .actividad-info h3 {
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .carrusel {
+        height: 220px;
+    }
+
+    .hero-title {
+        font-size: 1.9rem;
+    }
+
+    .tarjeta-perrito {
+        width: 180px;
+    }
+}
+
+/*Responsive panel admi*/
+@media (max-width: 900px) {
+    .panel-admin-main {
+        padding: 20px 18px 32px;
+    }
+
+    .panel-admin-hero {
+        flex-direction: column;
+        text-align: center;
+        gap: 16px;
+        padding: 22px;
+    }
+
+    .panel-admin-hero img {
+        width: 88px;
+        height: 88px;
+    }
+
+    .panel-admin-welcome p:last-child {
+        max-width: 100%;
+    }
+
+    .panel-admin-summary {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .admin-ring-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+    }
+
+    .panel-admin-topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 600px) {
+    .barrainicioadmin {
+        padding: 20px 16px;
+    }
+
+    .logotitulosoftadmin h1 {
+        font-size: 1.1rem;
+    }
+
+    .panel-admin-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .panel-admin-hero {
+        padding: 18px;
+    }
+
+    .panel-admin-welcome h3 {
+        font-size: 1.5rem;
+    }
+
+    .admin-section {
+        padding: 16px;
+    }
+
+    .admin-section-title {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    /* Tablas admin: scroll horizontal suave en vez de desbordar */
+    .admin-reservas-table,
+    .admin-table-wrap table {
+        min-width: 560px;
+    }
+
+    .panel-admin-card {
+        padding: 14px;
+    }
+
+    .admin-profile-card img {
+        width: 90px;
+        height: 90px;
+    }
+
+    .footer-minimal-inner {
+        padding: 0 12px;
+    }
+}
+
+@media (max-width: 420px) {
+    .logotitulosoftadmin {
+        gap: 8px;
+    }
+
+    .logocortoadmin {
+        width: 42px;
+        height: 42px;
+    }
+
+    .logocortoadmin img {
+        width: 34px;
+        height: 34px;
+    }
+
+    .panel-admin-topbar h2 {
+        font-size: 1.4rem;
+    }
+}

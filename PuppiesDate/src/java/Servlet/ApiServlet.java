@@ -23,12 +23,11 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-
 @WebServlet(name = "ApiServlet", urlPatterns = {"/api/*"})
 public class ApiServlet extends HttpServlet {
 
-    private static final SimpleDateFormat FORMATO_FECHA =
-            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    private static final SimpleDateFormat FORMATO_FECHA
+            = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -64,7 +63,7 @@ public class ApiServlet extends HttpServlet {
         }
     }
 
-    // Preflight de CORS (por si el cliente movil llega a mandar OPTIONS)
+  
     @Override
     protected void doOptions(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -74,9 +73,7 @@ public class ApiServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
-    // ---------------------------------------------------------------
-    // /api/login  (antes: LoginMobileServlet)
-    // ---------------------------------------------------------------
+
     private void handleLogin(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
@@ -91,32 +88,29 @@ public class ApiServlet extends HttpServlet {
             return;
         }
 
-        Conexion conexion = new Conexion();
-        Connection con = conexion.getConn();
-
         String sql = "SELECT idUsuarios, nombre, apellido FROM usuarios "
                 + "WHERE correo = ? AND clave = ? AND activo = 1";
 
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = new Conexion().getConn(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, correo);
             ps.setString(2, clave);
-            ResultSet rs = ps.executeQuery();
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    int idUsuario = rs.getInt("idUsuarios");
+                    String nombre = rs.getString("nombre");
+                    String apellido = rs.getString("apellido");
 
-            if (rs.next()) {
-                int idUsuario = rs.getInt("idUsuarios");
-                String nombre = rs.getString("nombre");
-                String apellido = rs.getString("apellido");
-
-                try (PrintWriter out = response.getWriter()) {
-                    out.print("{\"success\":true,"
-                            + "\"idUsuario\":" + idUsuario + ","
-                            + "\"nombre\":\"" + escapar(nombre) + "\","
-                            + "\"apellido\":\"" + escapar(apellido) + "\"}");
-                }
-            } else {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                try (PrintWriter out = response.getWriter()) {
-                    out.print("{\"success\":false,\"mensaje\":\"Correo o clave incorrectos\"}");
+                    try (PrintWriter out = response.getWriter()) {
+                        out.print("{\"success\":true,"
+                                + "\"idUsuario\":" + idUsuario + ","
+                                + "\"nombre\":\"" + escapar(nombre) + "\","
+                                + "\"apellido\":\"" + escapar(apellido) + "\"}");
+                    }
+                } else {
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    try (PrintWriter out = response.getWriter()) {
+                        out.print("{\"success\":false,\"mensaje\":\"Correo o clave incorrectos\"}");
+                    }
                 }
             }
         } catch (Exception e) {
@@ -128,9 +122,6 @@ public class ApiServlet extends HttpServlet {
         }
     }
 
-    // ---------------------------------------------------------------
-    // /api/solicitudes  (antes: SolicitudesMobileServlet)
-    // ---------------------------------------------------------------
     private void handleSolicitudes(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
@@ -167,16 +158,16 @@ public class ApiServlet extends HttpServlet {
                 json.append(",");
             }
 
-            List<Historial_estado_solicitud> historial =
-                    dao.listarHistorialPorSolicitud(s.getIdSolicitud_adopcion());
+            List<Historial_estado_solicitud> historial
+                    = dao.listarHistorialPorSolicitud(s.getIdSolicitud_adopcion());
 
             json.append("{")
-                .append("\"id\":").append(s.getIdSolicitud_adopcion()).append(",")
-                .append("\"nombrePerrito\":").append(jsonString(s.getNombrePerrito())).append(",")
-                .append("\"fotoPerritoUrl\":").append(jsonStringNullable(construirUrlFoto(request, s.getFotoPerrito()))).append(",")
-                .append("\"fechaSolicitud\":").append(jsonString(formatearFecha(s.getFecha_solicitud()))).append(",")
-                .append("\"estadoActual\":").append(jsonString(mapearEstado(s.getDescripcionEstado_solicitud()))).append(",")
-                .append("\"historial\":[");
+                    .append("\"id\":").append(s.getIdSolicitud_adopcion()).append(",")
+                    .append("\"nombrePerrito\":").append(jsonString(s.getNombrePerrito())).append(",")
+                    .append("\"fotoPerritoUrl\":").append(jsonStringNullable(construirUrlFoto(request, s.getFotoPerrito()))).append(",")
+                    .append("\"fechaSolicitud\":").append(jsonString(formatearFecha(s.getFecha_solicitud()))).append(",")
+                    .append("\"estadoActual\":").append(jsonString(mapearEstado(s.getDescripcionEstado_solicitud()))).append(",")
+                    .append("\"historial\":[");
 
             for (int j = 0; j < historial.size(); j++) {
                 Historial_estado_solicitud h = historial.get(j);
@@ -184,10 +175,10 @@ public class ApiServlet extends HttpServlet {
                     json.append(",");
                 }
                 json.append("{")
-                    .append("\"estado\":").append(jsonString(mapearEstado(h.getDescripcionEstado_solicitud()))).append(",")
-                    .append("\"fecha\":").append(jsonString(formatearFecha(h.getFecha_cambio()))).append(",")
-                    .append("\"observacion\":").append(jsonStringNullable(h.getObservacion()))
-                    .append("}");
+                        .append("\"estado\":").append(jsonString(mapearEstado(h.getDescripcionEstado_solicitud()))).append(",")
+                        .append("\"fecha\":").append(jsonString(formatearFecha(h.getFecha_cambio()))).append(",")
+                        .append("\"observacion\":").append(jsonStringNullable(h.getObservacion()))
+                        .append("}");
             }
 
             json.append("]}");
@@ -200,19 +191,13 @@ public class ApiServlet extends HttpServlet {
         }
     }
 
-    // ---------------------------------------------------------------
-    // Utilidades compartidas
-    // ---------------------------------------------------------------
-
+    
     private void prepararRespuesta(HttpServletResponse response) {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.setHeader("Access-Control-Allow-Origin", "*");
     }
 
-    // Arma la URL completa y absoluta de la foto del perrito a partir de lo
-    // guardado en BD (ej: "uploads/perrito_123.jpg"), para que Flutter la
-    // pueda cargar directo con NetworkImage sin tener que armar nada.
     private String construirUrlFoto(HttpServletRequest request, String rutaFoto) {
         if (rutaFoto == null || rutaFoto.trim().isEmpty()) {
             return null;
@@ -289,7 +274,9 @@ public class ApiServlet extends HttpServlet {
     }
 
     private String escapar(String valor) {
-        if (valor == null) return "";
+        if (valor == null) {
+            return "";
+        }
         return valor.replace("\\", "\\\\").replace("\"", "\\\"");
     }
 }
