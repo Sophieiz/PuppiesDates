@@ -4181,8 +4181,9 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     }
 
     .actividad-page-hero img {
-        height: 220px;
-        order: -1; /* la imagen pasa arriba del texto */
+        height: 260px;
+        object-position: center 30%;
+        order: -1;
     }
 
     .actividad-page-hero h2 {
