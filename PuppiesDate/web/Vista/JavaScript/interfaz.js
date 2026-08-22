@@ -129,3 +129,31 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+(function () {
+    var filtroRaza = document.getElementById('filtroRaza');
+    var tarjetas = document.querySelectorAll('#gridPerritos .tarjeta-perrito');
+    var mensajeVacio = document.getElementById('sinResultadosFiltro');
+
+    if (!filtroRaza) {
+        return;
+    }
+
+    filtroRaza.addEventListener('change', function () {
+        var razaSeleccionada = filtroRaza.value;
+        var visibles = 0;
+
+        tarjetas.forEach(function (tarjeta) {
+            var coincide = razaSeleccionada === 'todas' || tarjeta.dataset.raza === razaSeleccionada;
+            tarjeta.style.display = coincide ? '' : 'none';
+            if (coincide) {
+                visibles++;
+            }
+        });
+
+        if (mensajeVacio) {
+            mensajeVacio.style.display = visibles === 0 ? 'block' : 'none';
+        }
+    });
+})
+();

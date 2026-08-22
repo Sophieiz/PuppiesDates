@@ -4214,3 +4214,29 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 .seccion-quienes-somos {
     padding: 60px 0;
 }
+
+
+/*Categoris catalogo perrito*/
+
+.filtro-catalogo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin: 0 auto 2rem;
+}
+
+.filtro-etiqueta {
+    font-weight: 600;
+}
+
+.filtro-select {
+    padding: 0.6rem 1.2rem;
+    border-radius: 999px;
+    border: 1px solid #ddd;
+    font-family: inherit;
+}
+
+.sin-resultados-filtro {
+    text-align: center;
+}

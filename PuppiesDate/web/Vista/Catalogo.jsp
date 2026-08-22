@@ -8,6 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Puppies Dates - Perritos en adopción</title>
         <link rel="stylesheet" href="${ctx}/Vista/Css/style.css">
+        <link rel="stylesheet" href="${ctx}/Vista/Css/filtro-catalogo.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
@@ -19,31 +20,28 @@
         <h2 class="titulo-seccion">Perritos en adopción</h2>
         <p class="subtitulo-seccion">Cada uno tiene una historia distinta. Conoce la suya y dale un nuevo hogar.</p>
 
-        <form action="${ctx}/CatalogoPerritos" method="GET" class="buscador-catalogo">
-            <input type="text" name="buscar" placeholder="Buscar perrito por nombre..." value="${terminoBusqueda}">
-            <button type="submit">Buscar</button>
-            <c:if test="${not empty terminoBusqueda}">
-                <a href="${ctx}/CatalogoPerritos" class="buscador-limpiar">Ver todos</a>
-            </c:if>
-        </form>
+        <div class="filtro-catalogo">
+            <label for="filtroRaza" class="filtro-etiqueta">Filtrar por raza:</label>
+            <select id="filtroRaza" class="filtro-select">
+                <option value="todas">Todas las razas</option>
+                <c:forEach var="raza" items="${listaRazas}">
+                    <option value="${fn:toLowerCase(raza)}">${raza}</option>
+                </c:forEach>
+            </select>
+        </div>
 
         <c:choose>
             <c:when test="${empty listaPerritos}">
-                <p class="sin-perritos">
-                    <c:choose>
-                        <c:when test="${not empty terminoBusqueda}">No encontramos perritos con "${terminoBusqueda}". Intenta con otro nombre.</c:when>
-                        <c:otherwise>Por ahora no hay perritos disponibles para adopción. ¡Vuelve pronto!</c:otherwise>
-                    </c:choose>
-                </p>
+                <p class="sin-perritos">Por ahora no hay perritos disponibles para adopción. ¡Vuelve pronto!</p>
             </c:when>
             <c:otherwise>
-                <div class="grid-adopcion grid-adopcion-catalogo">
+                <div class="grid-adopcion grid-adopcion-catalogo" id="gridPerritos">
                     <c:forEach var="perrito" items="${listaPerritos}" varStatus="i">
                         <c:set var="colorBorde" value="${i.index % 3 == 0 ? 'card-borde-rosa' : (i.index % 3 == 1 ? 'card-borde-verde' : 'card-borde-mostaza')}"/>
                         <c:set var="colorTag" value="${i.index % 3 == 0 ? 'bg-tag-rosa' : (i.index % 3 == 1 ? 'bg-tag-verde' : 'bg-tag-mostaza')}"/>
-                        <div class="tarjeta-perrito ${colorBorde}">
+                        <div class="tarjeta-perrito ${colorBorde}" data-raza="${fn:toLowerCase(perrito.descripcionRaza)}">
 
-                            <!-- 1. CONTENEDOR DE IMAGEN CORREGIDO -->
+                            <!-- 1. CONTENEDOR DE IMAGEN -->
                             <div class="contenedor-foto-catalogo">
                                 <c:choose>
                                     <c:when test="${not empty perrito.foto}">
@@ -66,7 +64,6 @@
                                 <h3>${perrito.nombre}</h3>
                                 <p>${perrito.descripcionRaza}${not empty perrito.descripcionRaza ? ' · ' : ''}${perrito.descripcionSexo}</p>
 
-                                <!-- Asegúrate de usar el atributo ID correcto de tu clase Perrito -->
                                 <a href="${ctx}/SolicitudAdopcionCliente?idPerrito=${perrito.idPerrito}" 
                                    class="estado-adopcion js-adoption-modal-link"
                                    data-id="${perrito.idPerrito}">
@@ -77,6 +74,9 @@
                         </div>
                     </c:forEach>
                 </div>
+                <p class="sin-perritos sin-resultados-filtro" id="sinResultadosFiltro" style="display:none;">
+                    No encontramos perritos de esa raza. Prueba con otra.
+                </p>
             </c:otherwise>
         </c:choose>
 
@@ -91,6 +91,7 @@
         </div>
         <script>window.ctxApp = "${ctx}";</script>
         <script src="${ctx}/Vista/JavaScript/interfaz.js"></script>
+        <script src="${ctx}/Vista/JavaScript/filtro-catalogo.js"></script>
 
     </body>
 </html>
