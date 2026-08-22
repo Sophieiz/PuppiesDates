@@ -105,3 +105,27 @@ function validarSolicitudAdopcion() {
 
     return valido;
 }
+
+
+// Menú hamburguesa
+document.addEventListener('DOMContentLoaded', function () {
+    const menuToggle = document.getElementById('menuToggle');
+    const navMenu = document.getElementById('navMenu');
+
+    if (menuToggle && navMenu) {
+        menuToggle.addEventListener('click', function () {
+            const isOpen = navMenu.classList.toggle('is-open');
+            menuToggle.classList.toggle('is-open', isOpen);
+            menuToggle.setAttribute('aria-expanded', isOpen);
+        });
+
+        
+        navMenu.querySelectorAll('a').forEach(function (link) {
+            link.addEventListener('click', function () {
+                navMenu.classList.remove('is-open');
+                menuToggle.classList.remove('is-open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+    }
+});
