@@ -4207,3 +4207,10 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
         font-size: 1.8rem;
     }
 }
+
+
+/*Historia*/
+
+.seccion-quienes-somos {
+    padding: 60px 0;
+}

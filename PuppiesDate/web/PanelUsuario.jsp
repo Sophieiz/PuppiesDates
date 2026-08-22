@@ -200,6 +200,27 @@
             </div> 
         </section>
 
+        <section class="seccion-quienes-somos">
+            <div class="main-container">
+                <h2 class="titulo-apartado">Quiénes somos</h2>
+                <p class="subtitulo-seccion">
+                    Puppies Dates nació con un propósito simple: darle una segunda oportunidad a los perritos rescatados y crear un espacio donde las personas puedan conocerlos, cuidarlos y, si lo desean, adoptarlos. Desde el primer paseo hasta la primera sesión de yoga con nuestros peluditos, cada actividad está pensada para acercar a las personas al bienestar animal.
+                </p>
+                <div class="grid-actividades">
+                    <div class="bloque-actividad bloque-azul">
+                        <div class="icono-actividad"></div>
+                        <h3>Nuestra Misión</h3>
+                        <p>Conectar a personas y perritos rescatados a través de actividades y experiencias que promuevan el bienestar animal y faciliten procesos de adopción responsable.</p>
+                    </div>
+                    <div class="bloque-actividad bloque-rosa">
+                        <div class="icono-actividad"></div>
+                        <h3>Nuestra Visión</h3>
+                        <p>Ser la comunidad de referencia en adopción y cuidado responsable de perritos, construyendo un entorno donde cada peludito encuentre un hogar amoroso.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <%@ include file="Vista/Footer.jsp" %>
 
         <div class="adoption-modal-shell" id="adoptionModal" aria-hidden="true">
@@ -211,7 +232,7 @@
                 </div>
             </section>
         </div>
-        
+
         <script>window.ctxApp = "${ctx}";</script>
         <script src="${ctx}/Vista/JavaScript/funciones.js"></script>
         <script src="${ctx}/Vista/JavaScript/interfaz.js"></script>
