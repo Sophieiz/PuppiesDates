@@ -130,6 +130,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+
+document.addEventListener('DOMContentLoaded', function () {
+    configurarModalAdopcion();
+});
+
 (function () {
     var filtroRaza = document.getElementById('filtroRaza');
     var tarjetas = document.querySelectorAll('#gridPerritos .tarjeta-perrito');
@@ -155,5 +160,4 @@ document.addEventListener('DOMContentLoaded', function () {
             mensajeVacio.style.display = visibles === 0 ? 'block' : 'none';
         }
     });
-})
-();
+})();
