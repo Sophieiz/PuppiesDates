@@ -13,25 +13,8 @@
         <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     </head>
     <body>
-        <div class="header-cloud-wrapper">
-            <header class="barrainicio main-container">
-                <div class="brand-container">
-                    <div class="logocorto">
-                        <img src="${ctx}/Vista/Imagenes/image.png" alt="Logo Puppies Dates">
-                    </div>
-                    <h1 class="logo-texto">PUPPIES DATES</h1>
-                </div>
-                <nav class="navegacion">
-                    <ul>
-                        <li><a href="${ctx}/index.jsp" class="btn-menu">Inicio</a></li>
-                        <li><a href="${ctx}/Vista/Actividad.jsp" class="btn-menu">Actividad</a></li>
-                        <li><a href="${ctx}/CatalogoPerritos" class="btn-menu btn-verde-activo">Adopta</a></li>
-                        <li><a href="${ctx}/CargarRegistro" class="btn-menu btn-rosa-sesion">Registrarse</a></li>
-                    </ul>
-                </nav>
-                <div class="cloud-wave"></div>
-            </header>
-        </div>
+        <c:set var="activePage" value="adopta" scope="request"/>
+        <%@ include file="Header.jsp" %>
 
         <h2 class="titulo-seccion">Perritos en adopción</h2>
         <p class="subtitulo-seccion">Cada uno tiene una historia distinta. Conoce la suya y dale un nuevo hogar.</p>
@@ -64,7 +47,7 @@
                             <div class="contenedor-foto-catalogo">
                                 <c:choose>
                                     <c:when test="${not empty perrito.foto}">
-                                       <img src="${fn:startsWith(perrito.foto, 'http') ? perrito.foto : ctx.concat('/').concat(perrito.foto)}"
+                                        <img src="${fn:startsWith(perrito.foto, 'http') ? perrito.foto : ctx.concat('/').concat(perrito.foto)}"
                                              alt="Foto de ${perrito.nombre}"
                                              onerror="this.onerror=null; this.src='${ctx}/Vista/Imagenes/Perrito1.jpg';" />
                                     </c:when>
@@ -108,6 +91,6 @@
         </div>
         <script>window.ctxApp = "${ctx}";</script>
         <script src="${ctx}/Vista/JavaScript/interfaz.js"></script>
-        
+
     </body>
 </html>
