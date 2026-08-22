@@ -25,17 +25,10 @@ public class SolicitudAdopcionCliente extends HttpServlet {
 
         HttpSession sesion = request.getSession(false);
         if (sesion == null || sesion.getAttribute("idUsuario") == null) {
-            response.setContentType("text/html; charset=UTF-8");
-            response.setStatus(HttpServletResponse.SC_OK); // 200 OK para que JS procese la respuesta
-
-            String contextPath = request.getContextPath();
-            response.getWriter().write(
-                    "<div class=\"adopcion-auth-required\" style=\"text-align: center; padding: 2rem;\">"
-                    + "   <h3 style=\"margin-bottom: 1rem; color: #333;\">¡Inicia sesión para continuar!</h3>"
-                    + "   <p style=\"margin-bottom: 1.5rem; color: #666;\">Debes ingresar a tu cuenta para enviar una solicitud de adopción.</p>"
-                    + "   <a href=\"" + contextPath + "/Iniciar\" class=\"btn-cta-ingresa\">Iniciar Sesión</a>"
-                    + "</div>"
-            );
+            // 401: interfaz.js detecta este código de estado y muestra su propio modal
+            // estilizado ("¡Espera un momento!" con botones de Iniciar sesión / Registrarme),
+            // así que aquí no hace falta mandar HTML.
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
 
