@@ -31,9 +31,7 @@
                     <h2>Actividades con perritos</h2>
                     <p>Dos planes pensados para crear, respirar y compartir con perritos rescatados en un espacio amoroso.</p>
                 </div>
-                <div class="actividad-page-hero-imgwrap">
-                    <img src="${ctx}/Vista/Imagenes/Perrito5.jpg" alt="Perrito feliz en Puppies Dates">
-                </div>
+                <img src="${ctx}/Vista/Imagenes/Perrito5.jpg" alt="Perrito feliz en Puppies Dates">
             </section>
 
             <section class="seccion-actividades actividad-page-body">
