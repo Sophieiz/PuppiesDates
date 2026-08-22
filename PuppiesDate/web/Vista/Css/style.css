@@ -4273,3 +4273,46 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     opacity: 0.75;
     margin-top: 1.5rem;
 }
+
+
+
+.adoption-modal-box:has(.adopcion-auth-required) {
+    width: min(400px, 92vw);
+    padding: 22px 26px 30px;
+}
+
+
+.adopcion-mascota {
+    width: 120px;
+    margin: 0 auto 6px;
+    animation: mascotaBrinco 2.4s ease-in-out infinite;
+}
+
+.adopcion-mascota svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.mascota-cola {
+    transform-origin: 150px 120px;
+    animation: colaMeneo 0.55s ease-in-out infinite;
+}
+
+@keyframes mascotaBrinco {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+@keyframes colaMeneo {
+    0%, 100% {
+        transform: rotate(-12deg);
+    }
+    50% {
+        transform: rotate(12deg);
+    }
+}

@@ -40,6 +40,22 @@ function configurarModalAdopcion() {
                 if (response.status === 401) {
                     content.innerHTML = `
                     <div class="adopcion-auth-required">
+                      <div class="adopcion-mascota" aria-hidden="true">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                          <path class="mascota-cola" d="M150 130 Q185 110 175 75" stroke="#F8B553" stroke-width="18" stroke-linecap="round" fill="none"/>
+                          <ellipse cx="100" cy="150" rx="58" ry="42" fill="#F8B553"/>
+                          <circle cx="100" cy="95" r="42" fill="#F8B553"/>
+                          <ellipse cx="65" cy="80" rx="16" ry="26" fill="#6D3A52" transform="rotate(-20 65 80)"/>
+                          <ellipse cx="135" cy="80" rx="16" ry="26" fill="#6D3A52" transform="rotate(20 135 80)"/>
+                          <ellipse cx="100" cy="110" rx="22" ry="16" fill="#FFF8EE"/>
+                          <ellipse cx="100" cy="106" rx="7" ry="5" fill="#6D3A52"/>
+                          <circle cx="82" cy="88" r="5" fill="#6D3A52"/>
+                          <circle cx="118" cy="88" r="5" fill="#6D3A52"/>
+                          <path d="M96 122 Q100 138 104 122 Z" fill="#DA74A3"/>
+                          <ellipse cx="75" cy="185" rx="14" ry="9" fill="#FFF8EE"/>
+                          <ellipse cx="125" cy="185" rx="14" ry="9" fill="#FFF8EE"/>
+                        </svg>
+                      </div>
                       <h3>¡Espera un momento!</h3>
                       <p>Para adoptar debes iniciar sesión o registrarte primero.</p>
                       <div class="adopcion-auth-botones">
@@ -130,7 +146,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-
+// Inicializa el modal de adopción (sin esta llamada, los links
+// "Quiero adoptarlo" nunca reciben preventDefault() y el navegador navega
+// directo al servlet en vez de abrir el modal).
 document.addEventListener('DOMContentLoaded', function () {
     configurarModalAdopcion();
 });
