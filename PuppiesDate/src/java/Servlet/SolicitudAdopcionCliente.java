@@ -25,9 +25,8 @@ public class SolicitudAdopcionCliente extends HttpServlet {
 
         HttpSession sesion = request.getSession(false);
         if (sesion == null || sesion.getAttribute("idUsuario") == null) {
-            // 401: interfaz.js detecta este código de estado y muestra su propio modal
-            // estilizado ("¡Espera un momento!" con botones de Iniciar sesión / Registrarme),
-            // así que aquí no hace falta mandar HTML.
+            
+            
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
@@ -181,7 +180,13 @@ public class SolicitudAdopcionCliente extends HttpServlet {
             request.setAttribute("resultado", "Error al cargar datos: " + e.getMessage());
         }
 
-        // Redirigir siempre a SolicitudAdopcion.jsp
-        request.getRequestDispatcher("/Vista/SolicitudAdopcion.jsp").forward(request, response);
+
+        String requestedWith = request.getHeader("X-Requested-With");
+        boolean esPeticionAjax = "XMLHttpRequest".equals(requestedWith);
+        String vista = esPeticionAjax
+                ? "/Vista/SolicitudAdopcionFragmento.jsp"
+                : "/Vista/SolicitudAdopcion.jsp";
+
+        request.getRequestDispatcher(vista).forward(request, response);
     }
 }
