@@ -8,7 +8,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Puppies Dates - Perritos en adopción</title>
         <link rel="stylesheet" href="${ctx}/Vista/Css/style.css">
-        <link rel="stylesheet" href="${ctx}/Vista/Css/filtro-catalogo.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
@@ -91,7 +90,6 @@
         </div>
         <script>window.ctxApp = "${ctx}";</script>
         <script src="${ctx}/Vista/JavaScript/interfaz.js"></script>
-        <script src="${ctx}/Vista/JavaScript/filtro-catalogo.js"></script>
 
     </body>
 </html>
