@@ -4174,16 +4174,27 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 @media (max-width: 900px) {
     .actividad-page-hero {
         grid-template-columns: 1fr;
-        padding-top: 20px;
-        padding-bottom: 20px;
+        padding-top: 30px;
+        padding-bottom: 30px;
         gap: 24px;
         text-align: center;
+    }
+
+    .actividad-page-hero-imgwrap {
+        background: var(--white);
+        padding: 12px;
+        border-radius: 40px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+        order: -1;
     }
 
     .actividad-page-hero img {
         height: 260px;
         object-position: center 30%;
-        order: -1;
+        border-radius: 30px;
+        border: none;
+        display: block;
+        width: 100%;
     }
 
     .actividad-page-hero h2 {
@@ -4195,6 +4206,8 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
         margin: 0 auto;
     }
 }
+
+
 
 @media (max-width: 600px) {
     .actividad-page-hero img {
