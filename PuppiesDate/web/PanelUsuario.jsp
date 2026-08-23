@@ -22,6 +22,11 @@
     request.setAttribute("listaPerritosPanel", listaPerritosPanel);
 %>
 
+<%
+    Controlador.ActividadDAO daoActividad = new Controlador.ActividadDAO();
+    request.setAttribute("actividades", daoActividad.Actividad());
+%>
+
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -151,37 +156,28 @@
             <div class="main-container">
                 <h2 class="titulo-apartado">Actividades con perritos</h2>
                 <p class="subtitulo-seccion">Reserva una experiencia creativa o tranquila para compartir con nuestros peluditos.</p>
+                <c:set var="imagenesActividad" value="Perrito3.jpg,Perrito4.jpg,Perrito5.jpg,Perrito6.jpg,Perrito7.jpg,Gatito1.jpg,Gatito2.jpg,Gatito3.jpg,Gatito4.jpg,Gatito5.jpg,Gatito6.jpg"/>
+                <c:set var="listaImagenesActividad" value="${fn:split(imagenesActividad, ',')}"/>
                 <div class="actividades-showcase">
-                    <article class="actividad-card actividad-pintar">
-                        <div class="actividad-media">
-                            <img src="${ctx}/Vista/Imagenes/Perrito6.jpg" alt="Perrito en actividad de pintura">
-                        </div>
-                        <div class="actividad-info">
-                            <span class="actividad-tag">Creativa</span>
-                            <h3>Pintar tote-bag</h3>
-                            <p>Pinta una tote-bag personalizada mientras convives con perritos rescatados en un ambiente relajado.</p>
-                            <details>
-                                <summary>Que incluye</summary>
-                                <p>Bolsa, pinturas, pinceles, acompanamiento y espacio de interaccion con perritos.</p>
-                            </details>
-                            <a href="${ctx}/ReservaCliente" class="actividad-cta">Reservar</a>
-                        </div>
-                    </article>
-                    <article class="actividad-card actividad-yoga">
-                        <div class="actividad-media">
-                            <img src="${ctx}/Vista/Imagenes/Perrito7.jpg" alt="Perrito para yoga">
-                        </div>
-                        <div class="actividad-info">
-                            <span class="actividad-tag">Bienestar</span>
-                            <h3>Yoga con perritos</h3>
-                            <p>Una sesion suave de yoga para estirar, respirar y compartir momentos tranquilos con los peluditos.</p>
-                            <details>
-                                <summary>Que incluye</summary>
-                                <p>Clase guiada, tapete, hidratacion y tiempo de mimos al finalizar la sesion.</p>
-                            </details>
-                            <a href="${ctx}/ReservaCliente" class="actividad-cta">Reservar</a>
-                        </div>
-                    </article>
+                    <c:forEach var="act" items="${actividades}" varStatus="loop">
+                        <article class="actividad-card ${loop.index % 2 == 0 ? 'actividad-pintar' : 'actividad-yoga'}">
+                            <div class="actividad-media">
+                                <img src="${ctx}/Vista/Imagenes/${listaImagenesActividad[loop.index % fn:length(listaImagenesActividad)]}" alt="${act.tipoActividadNombre}">
+                            </div>
+                            <div class="actividad-info">
+                                <span class="actividad-tag">Experiencia</span>
+                                <h3>${act.tipoActividadNombre}</h3>
+                                <p>${act.descripcion_actividad}</p>
+                                <c:if test="${not empty act.precioTexto}">
+                                    <p class="actividad-precio">${act.precioTexto}</p>
+                                </c:if>
+                                <a href="${ctx}/ReservaCliente" class="actividad-cta">Reservar</a>
+                            </div>
+                        </article>
+                    </c:forEach>
+                    <c:if test="${empty actividades}">
+                        <p class="sin-perritos">Pronto tendremos nuevas actividades disponibles.</p>
+                    </c:if>
                 </div>
                 <div class="grid-actividades">
                     <div class="bloque-actividad bloque-azul">

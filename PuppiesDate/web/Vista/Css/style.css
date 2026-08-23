@@ -1144,7 +1144,7 @@ body {
     transform: translateY(-2px);
 }
 
-button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logout-modal-close):not(.adoption-modal-close):not(.user-dropdown-toggle):not(.admin-crud-btn-primary):not(.admin-crud-btn-secondary):not(.admin-crud-btn-danger):not(.logout-modal-cancel):not(.logout-modal-confirm):not(.js-logout-link):not(.menu-toggle):not([data-adoption-close]):not([data-logout-close]):not([data-logout-confirm]):not([data-cerrar]) {
+button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logout-modal-close):not(.adoption-modal-close):not(.user-dropdown-toggle):not(.admin-crud-btn-primary):not(.admin-crud-btn-secondary):not(.admin-crud-btn-danger):not(.logout-modal-cancel):not(.logout-modal-confirm):not(.js-logout-link):not(.menu-toggle):not([data-adoption-close]):not([data-logout-close]):not([data-logout-confirm]):not([data-cerrar]):not(.btn-circulo-info) {
     width: 100%;
     padding: 14px;
     border: none;
@@ -1159,7 +1159,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     transition: background-color 0.2s ease, transform 0.15s ease;
 }
 
-button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logout-modal-close):not(.adoption-modal-close):not(.user-dropdown-toggle):not(.admin-crud-btn-primary):not(.admin-crud-btn-secondary):not(.admin-crud-btn-danger):not(.logout-modal-cancel):not(.logout-modal-confirm):not(.js-logout-link):not([data-adoption-close]):not([data-logout-close]):not([data-logout-confirm]):not([data-cerrar]):hover {
+button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logout-modal-close):not(.adoption-modal-close):not(.user-dropdown-toggle):not(.admin-crud-btn-primary):not(.admin-crud-btn-secondary):not(.admin-crud-btn-danger):not(.logout-modal-cancel):not(.logout-modal-confirm):not(.js-logout-link):not([data-adoption-close]):not([data-logout-close]):not([data-logout-confirm]):not([data-cerrar]):not(.btn-circulo-info):hover {
     background-color: #C9CE67;
     transform: translateY(-2px);
 }

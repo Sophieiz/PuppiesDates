@@ -29,7 +29,7 @@
         <nav class="navegacion navegacion-centrada" id="navMenu">
             <ul>
                 <li><a href="${urlInicio}" class="btn-menu ${activePage == 'inicio' ? 'btn-verde-activo' : ''}">Inicio</a></li>
-                <li><a href="${ctx}/Vista/Actividad.jsp" class="btn-menu ${activePage == 'actividades' ? 'btn-verde-activo' : ''}">Actividades</a></li>
+                <li><a href="${ctx}/Actividades" class="btn-menu ${activePage == 'actividades' ? 'btn-verde-activo' : ''}">Actividades</a></li>
                 <li>
                     <c:choose>
                         <c:when test="${not empty sessionScope.nombreUsuario}">
@@ -55,9 +55,9 @@
                         </button>
                         <div class="user-dropdown-menu" id="userDropdownMenu" role="menu">
                             <p class="user-dropdown-saludo">Bienvenid@ ${sessionScope.nombreUsuario}</p>
+                            <a href="${ctx}/MiPerfil" role="menuitem">Mi Perfil</a>
                             <a href="${ctx}/MisSolicitudes" role="menuitem">Mis Solicitudes</a>
                             <a href="${ctx}/MisReservas" role="menuitem">Mis Reservas</a>
-                            <hr class="user-dropdown-divider">
                             <a href="${ctx}/CerrarSesion" class="js-logout-link user-dropdown-logout" role="menuitem">Cerrar Sesión</a>
                         </div>
                     </div>

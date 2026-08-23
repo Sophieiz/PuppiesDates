@@ -334,4 +334,62 @@ public class UsuariosDAO {
 
         return actualizado;
     }
+
+
+
+    public Usuarios ConsultarUsuarioPorId(int idUsuarios) {
+        Usuarios usuario = null;
+        String sql = "SELECT idUsuarios, nombre, apellido, documento, telefono, correo, clave, fecha_nac, fecha_cad, checkbox, Tipo_documento_idTipo_documento, Roles_idRoles FROM usuarios WHERE idUsuarios = ?";
+
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, idUsuarios);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    usuario = new Usuarios();
+                    usuario.setidUsuarios(rs.getInt("idUsuarios"));
+                    usuario.setnombre(rs.getString("nombre"));
+                    usuario.setapellido(rs.getString("apellido"));
+                    usuario.setdocumento(rs.getString("documento"));
+                    usuario.settelefono(rs.getString("telefono"));
+                    usuario.setcorreo(rs.getString("correo"));
+                    usuario.setclave(rs.getString("clave"));
+                    usuario.setfecha_nac(rs.getDate("fecha_nac"));
+                    usuario.setfecha_cad(rs.getDate("fecha_cad"));
+                    usuario.setcheckbox(rs.getBoolean("checkbox"));
+                    usuario.setTipo_documento_idTipo_documento(rs.getInt("Tipo_documento_idTipo_documento"));
+                    usuario.setRoles_idRoles(rs.getInt("Roles_idRoles"));
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al consultar usuario por id: " + ex.getMessage());
+        }
+
+        return usuario;
+}
+
+    public boolean actualizarDatosPersonales(int idUsuarios, String nombre, String apellido, String telefono, String correo) {
+        boolean actualizado = false;
+        String sql = "UPDATE usuarios SET nombre=?, apellido=?, telefono=?, correo=? WHERE idUsuarios=?";
+
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, nombre);
+            ps.setString(2, apellido);
+            ps.setString(3, telefono);
+            ps.setString(4, correo);
+            ps.setInt(5, idUsuarios);
+
+            if (ps.executeUpdate() > 0) {
+                actualizado = true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar datos personales: " + e.getMessage());
+        }
+
+        return actualizado;
+    }
+
 }
