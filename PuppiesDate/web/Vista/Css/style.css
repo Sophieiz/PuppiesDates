@@ -12,7 +12,7 @@
 
     /* ---- Alias de compatibilidad con nombres previos ---- */
     --bg-cream: #FBF6EC;
-    --bg-actividades: #FFFFFF;
+    --bg-actividades: var(--peony);
     --wild-brown: var(--eggplant);
     --plume-green: var(--succulent);
     --plume-pink: var(--peony);
@@ -793,6 +793,11 @@ body {
 .divisor-a-actividades {
     background-color: var(--plume-beige);
     background-image: radial-gradient(circle at 50% 100%, var(--bg-actividades) 28px, transparent 29px);
+}
+
+.divisor-a-quienes {
+    background-color: var(--peony);
+    background-image: radial-gradient(circle at 50% 100%, var(--bg-cream) 28px, transparent 29px);
 }
 
 /*ACTIVIDADES */

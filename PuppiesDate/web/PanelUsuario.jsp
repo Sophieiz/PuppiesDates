@@ -159,7 +159,7 @@
                 <c:set var="imagenesActividad" value="Perrito3.jpg,Perrito4.jpg,Perrito5.jpg,Perrito6.jpg,Perrito7.jpg,Gatito1.jpg,Gatito2.jpg,Gatito3.jpg,Gatito4.jpg,Gatito5.jpg,Gatito6.jpg"/>
                 <c:set var="listaImagenesActividad" value="${fn:split(imagenesActividad, ',')}"/>
                 <div class="actividades-showcase">
-                    <c:forEach var="act" items="${actividades}" varStatus="loop" end="2">
+                    <c:forEach var="act" items="${actividades}" varStatus="loop" end="1">
                         <article class="actividad-card ${loop.index % 2 == 0 ? 'actividad-pintar' : 'actividad-yoga'}">
                             <div class="actividad-media">
                                 <img src="${ctx}/Vista/Imagenes/${listaImagenesActividad[loop.index % fn:length(listaImagenesActividad)]}" alt="${act.tipoActividadNombre}"
@@ -199,7 +199,7 @@
                 </div>
             </div> 
         </section>
-
+        <div class="divisor-nube divisor-a-quienes"></div>
         <section class="seccion-quienes-somos">
             <div class="main-container">
                 <h2 class="titulo-apartado">Quiénes somos</h2>

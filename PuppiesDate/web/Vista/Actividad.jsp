@@ -35,7 +35,7 @@
 
             <section class="seccion-actividades actividad-page-body">
                 <div class="main-container">
-                    <c:set var="imagenesActividad" value="Perrito3.jpg,Perrito4.jpg,Perrito5.jpg,Perrito6.jpg,Perrito7.jpg,Gatito1.jpg,Gatito2.jpg,Gatito3.jpg,Gatito4.jpg,Gatito5.jpg,Gatito6.jpg"/>
+                    <c:set var="imagenesActividad" value="Perrito3_1.jpg,Perrito4.jpg,Perrito5.jpg,Perrito6.jpg,Perrito7.jpg,Gatito1.jpg,Gatito2.jpg,Gatito3.jpg,Gatito4.jpg,Gatito5.jpg,Gatito6.jpg"/>
                     <c:set var="listaImagenesActividad" value="${fn:split(imagenesActividad, ',')}"/>
                     <div class="actividades-showcase">
                         <c:forEach var="act" items="${actividades}" varStatus="loop">
