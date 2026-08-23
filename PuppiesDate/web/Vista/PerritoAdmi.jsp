@@ -153,7 +153,7 @@
                     </div>
 
                     <div class="admin-crud-field">
-                        <label for="especialidad">Especialidad:</label>
+                        <label for="especialidad">Temperamento:</label>
                         <input type="text" name="especialidad" id="especialidad" placeholder="Ej: NA">
                         <span class="admin-crud-error"></span>
                     </div>

@@ -95,7 +95,7 @@
                     <a href="${ctx}/RolesAdmi">Roles</a>
                 </details>
 
-                <a class="admin-nav-papeleria" href="${ctx}/PapeleraAdmi">Papelería</a>
+                <a class="admin-nav-papeleria" href="${ctx}/PapeleraAdmi">Papelera</a>
                 <a class="admin-nav-logout js-logout-link" href="${ctx}/CerrarSesion">Cerrar Sesión</a>
             </nav>
         </aside>

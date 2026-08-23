@@ -9,9 +9,9 @@
             <img src="${ctx}/Vista/Imagenes/image.png" alt="Puppies Dates">
         </div>
         <div class="footer-minimal-social">
-            <a href="#" aria-label="Instagram">Instagram</a>
-            <a href="#" aria-label="WhatsApp">WhatsApp</a>
-            <a href="#" aria-label="TikTok">TikTok</a>
+            <a href="https://www.instagram.com/puppiesdates/" aria-label="Instagram" target="_blank" rel="noopener">Instagram</a>
+            <a href="https://wa.me/573159686333" aria-label="WhatsApp" target="_blank" rel="noopener">WhatsApp</a>
+            <a href="https://www.tiktok.com/@puppiesdates?lang=es" aria-label="TikTok" target="_blank" rel="noopener">TikTok</a>
         </div>
         <hr class="footer-minimal-divider">
         <p class="footer-minimal-copy">&copy; 2026 Puppies Dates. Todos los derechos reservados.</p>
