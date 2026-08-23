@@ -2964,7 +2964,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 }
 
 .navegacionadmin a:hover,
-.admin-nav-home {
+.navegacionadmin a.admin-nav-home {
     background: rgba(255, 255, 255, 0.92);
     color: var(--coffee-brown);
     transform: translateX(3px);
@@ -3660,6 +3660,14 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     box-shadow: 0 8px 18px rgba(111, 78, 55, 0.12);
 }
 
+.admin-body > .footer-minimal-admin {
+    grid-column: 1 / -1;
+}
+
+.admin-nav-group summary::before {
+    display: none;
+}
+
 .social-box a::before,
 .footer-redes a::before {
     display: inline-grid;
@@ -4315,4 +4323,25 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     50% {
         transform: rotate(12deg);
     }
+}
+
+
+/*Papeleria*/
+
+.admin-nav-papeleria {
+    display: block;
+    border: 1px solid rgba(253, 248, 240, 0.24);
+    border-radius: 18px;
+    background: rgba(253, 248, 240, 0.1);
+    padding: 13px 14px;
+    color: #fffaf5;
+    font-weight: 800;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.admin-nav-papeleria:hover {
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--coffee-brown);
+    transform: translateX(3px);
 }
