@@ -17,7 +17,7 @@
             </div>
         </c:if>
 
-        <div class="admin-form-wrap">
+        <div class="admin-form-wrap admin-users-wrap">
             <div class="admin-table-card">
                 <div class="admin-crud-toolbar">
                     <h3>Reservas</h3>
@@ -54,7 +54,8 @@
                             <c:forEach var="reserva" items="${listaReservas}">
                                 <tr class="admin-crud-row" 
                                     data-admin-row 
-                                    tabindex="0"             
+                                    tabindex="0" 
+                                    data-field-idReserva="${reserva.idReserva}"
                                     data-field-num_personas="${reserva.num_personas}"
                                     data-field-hora="${reserva.hora}"
                                     data-field-fecha="${reserva.fecha}"
@@ -64,16 +65,20 @@
                                     data-field-Actividad_idActividad="${reserva.actividad_idActividad}"
                                     data-field-Pagos_idPagos="${reserva.pagos_idPagos}"
                                     data-duplicate-key="${reserva.num_personas}|${reserva.hora}|${reserva.fecha}|${reserva.usuarios_idUsuarios}|${reserva.disponibilidad_idDisponibilidad}|${reserva.estado_reserva_idEstado_reserva}|${reserva.actividad_idActividad}|${reserva.pagos_idPagos}">
-
                                     <td>${reserva.idReserva}</td>
                                     <td>${reserva.num_personas}</td>
                                     <td>${reserva.hora}</td>
                                     <td>${reserva.fecha}</td>
-                                    <td>${reserva.usuarios_idUsuarios}</td>
-                                    <td>${reserva.disponibilidad_idDisponibilidad}</td>
-                                    <td>${reserva.estado_reserva_idEstado_reserva}</td>
-                                    <td>${reserva.nombreActividad}</td>
-                                    <td>${reserva.pagos_idPagos}</td>
+                                    <td>${reserva.nombreUsuario}</td>
+                                    <td>${reserva.cupoDisponible}/${reserva.cupoTotal} cupos</td>
+                                    <td>${reserva.descripcionEstadoReserva}</td>
+                                    <td>
+                                        <details class="detalle-actividad">
+                                            <summary>Ver actividad</summary>
+                                            <p>${reserva.nombreActividad}</p>
+                                        </details>
+                                    </td>
+                                    <td>${reserva.estadoPago}</td>
                                 </tr>
                             </c:forEach>
                         </tbody>

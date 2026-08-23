@@ -17,11 +17,14 @@ public class Reserva {
     private String nombreActividad;
     private String nombreUsuario;
     private String descripcionEstadoReserva;
+    private int cupoDisponible;
+    private int cupoTotal;
+    private String estadoPago;
 
     public Reserva() {
     }
 
-    public Reserva(int idReserva ,int num_personas, Time hora, Date fecha, int usuarios_idUsuarios, int Disponibilidad_idDisponibilidad,int Estado_reserva_idEstado_reserva, int Actividad_idActividad) {
+    public Reserva(int idReserva, int num_personas, Time hora, Date fecha, int usuarios_idUsuarios, int Disponibilidad_idDisponibilidad, int Estado_reserva_idEstado_reserva, int Actividad_idActividad) {
         this.num_personas = num_personas;
         this.hora = hora;
         this.fecha = fecha;
@@ -31,13 +34,13 @@ public class Reserva {
         this.Actividad_idActividad = Actividad_idActividad;
         this.Pagos_idPagos = Pagos_idPagos;
     }
-    
+
     public int getidReserva() {
         return idReserva;
     }
-    
+
     public void setidReserva(int idReserva) {
-        this. idReserva = idReserva;
+        this.idReserva = idReserva;
     }
 
     public int getNum_personas() {
@@ -75,20 +78,19 @@ public class Reserva {
     public int getDisponibilidad_idDisponibilidad() {
         return Disponibilidad_idDisponibilidad;
     }
-     
+
     public void setDisponibilidad_idDisponibilidad(int Disponibilidad_idDisponibilidad) {
         this.Disponibilidad_idDisponibilidad = Disponibilidad_idDisponibilidad;
     }
-   
+
     public int getEstado_reserva_idEstado_reserva() {
         return Estado_reserva_idEstado_reserva;
     }
-    
 
     public void setEstado_reserva_idEstado_reserva(int Estado_reserva_idEstado_reserva) {
         this.Estado_reserva_idEstado_reserva = Estado_reserva_idEstado_reserva;
     }
-   
+
     public int getActividad_idActividad() {
         return Actividad_idActividad;
     }
@@ -96,34 +98,60 @@ public class Reserva {
     public void setActividad_idActividad(int Actividad_idActividad) {
         this.Actividad_idActividad = Actividad_idActividad;
     }
-    
+
     public int getPagos_idPagos() {
         return Pagos_idPagos;
     }
-    
+
     public void setPagos_idPagos(int Pagos_idPagos) {
-        this. Pagos_idPagos = Pagos_idPagos;
+        this.Pagos_idPagos = Pagos_idPagos;
     }
 
+    public String getNombreActividad() {
+        return nombreActividad;
+    }
 
+    public void setNombreActividad(String nombreActividad) {
+        this.nombreActividad = nombreActividad;
+    }
 
-public String getNombreActividad() {
-    return nombreActividad;
-}
-public void setNombreActividad(String nombreActividad) {
-    this.nombreActividad = nombreActividad;
-}
-public String getNombreUsuario() {
-    return nombreUsuario;
-}
-public void setNombreUsuario(String nombreUsuario) {
-    this.nombreUsuario = nombreUsuario;
-}
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
 
-public String getDescripcionEstadoReserva() {
-    return descripcionEstadoReserva;
-}
-public void setDescripcionEstadoReserva(String descripcionEstadoReserva) {
-    this.descripcionEstadoReserva = descripcionEstadoReserva;
-}
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    public String getDescripcionEstadoReserva() {
+        return descripcionEstadoReserva;
+    }
+
+    public void setDescripcionEstadoReserva(String descripcionEstadoReserva) {
+        this.descripcionEstadoReserva = descripcionEstadoReserva;
+    }
+
+    public int getCupoDisponible() {
+        return cupoDisponible;
+    }
+
+    public void setCupoDisponible(int cupoDisponible) {
+        this.cupoDisponible = cupoDisponible;
+    }
+
+    public int getCupoTotal() {
+        return cupoTotal;
+    }
+
+    public void setCupoTotal(int cupoTotal) {
+        this.cupoTotal = cupoTotal;
+    }
+
+    public String getEstadoPago() {
+        return estadoPago;
+    }
+
+    public void setEstadoPago(String estadoPago) {
+        this.estadoPago = estadoPago;
+    }
 }

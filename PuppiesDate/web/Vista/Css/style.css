@@ -4345,3 +4345,34 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     color: var(--coffee-brown);
     transform: translateX(3px);
 }
+
+/*Tabla reserva*/
+
+.admin-users-wrap .admin-crud-table {
+    min-width: 0;
+    table-layout: fixed;
+    width: 100%;
+}
+
+.admin-users-wrap .admin-crud-table td,
+.admin-users-wrap .admin-crud-table th {
+    word-break: break-word;
+}
+
+.detalle-actividad summary {
+    cursor: pointer;
+    color: #94B2ED;
+    font-weight: 800;
+    list-style: none;
+}
+
+.detalle-actividad summary::-webkit-details-marker {
+    display: none;
+}
+
+.detalle-actividad p {
+    margin-top: 8px;
+    font-size: 0.88rem;
+    color: var(--text-dark);
+    line-height: 1.4;
+}
