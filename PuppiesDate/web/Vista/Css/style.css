@@ -4384,3 +4384,24 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 .admin-users-wrap .admin-crud-table th {
     white-space: nowrap;
 }
+
+.aviso-fechas-disponibles {
+    background-color: #fdf3df;
+    border: 1.5px solid #F4D77A;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    color: #6D3A52;
+    font-weight: 700;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.precio-actividad-texto {
+    margin-top: 6px;
+    font-weight: 700;
+    color: #6D3A52;
+    background: #f8f3ec;
+    border-radius: 10px;
+    padding: 8px 12px;
+}

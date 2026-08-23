@@ -179,3 +179,66 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 })();
+
+// Precio dinámico al seleccionar actividad
+function configurarPrecioActividad() {
+    const select = document.getElementById('actividad');
+    const textoPrecio = document.getElementById('precioActividadTexto');
+
+    if (!select || !textoPrecio) {
+        return;
+    }
+
+    select.addEventListener('change', function () {
+        const opcion = select.options[select.selectedIndex];
+        const precio = opcion ? opcion.getAttribute('data-precio') : '';
+
+        if (precio && precio.trim() !== '') {
+            textoPrecio.textContent = 'Precio: ' + precio;
+            textoPrecio.style.display = 'block';
+        } else {
+            textoPrecio.style.display = 'none';
+        }
+    });
+}
+
+// Modal de fechas disponibles
+function configurarModalFechasDisponibles() {
+    const boton = document.getElementById('btnVerFechas');
+    const modal = document.getElementById('fechasModal');
+    const cerrar = document.getElementById('cerrarFechasModal');
+    const contenido = document.getElementById('fechasModalContent');
+    const form = document.getElementById('formReserva');
+
+    if (!boton || !modal || !contenido || !form) {
+        return;
+    }
+
+    const ctx = form.dataset.ctx || '';
+
+    const abrirModal = async () => {
+        modal.classList.add('is-open');
+        contenido.innerHTML = '<div class="adoption-modal-loading"><span></span><span></span><span></span></div>';
+
+        try {
+            const response = await fetch(ctx + '/ConsultarFechasDisponibles');
+            const html = await response.text();
+            contenido.innerHTML = html;
+        } catch (error) {
+            console.error('Error al cargar fechas disponibles:', error);
+            contenido.innerHTML = '<p class="sin-perritos">No pudimos cargar las fechas. Intenta de nuevo.</p>';
+        }
+    };
+
+    const cerrarModal = () => {
+        modal.classList.remove('is-open');
+    };
+
+    boton.addEventListener('click', abrirModal);
+    cerrar.addEventListener('click', cerrarModal);
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    configurarPrecioActividad();
+    configurarModalFechasDisponibles();
+});

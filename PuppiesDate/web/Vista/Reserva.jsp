@@ -30,7 +30,7 @@
         </c:if>
 
         <!-- Ahora apunta al Servlet que verifica disponibilidad, no directo a ReservaCliente -->
-        <form action="${ctx}/VerificarDisponibilidad" method="post" id="formReserva" novalidate>
+        <form action="${ctx}/VerificarDisponibilidad" method="post" id="formReserva" data-ctx="${ctx}" novalidate>
             <div class="Formulario">
 
                 <c:if test="${not empty resultado}">
@@ -73,17 +73,32 @@
                     <select id="actividad" name="actividada">
                         <option value="">-- Selecciona una actividad --</option>
                         <c:forEach var="act" items="${actividades}">
-                            <option value="${act.idActividad}">${act.descripcion_actividad}</option>
+                            <option value="${act.idActividad}" data-precio="${act.precioTexto}">${act.tipoActividadNombre}</option>
                         </c:forEach>
                     </select>
                     <span class="error-mensaje" id="error_actividad"></span>
+                    <p id="precioActividadTexto" class="precio-actividad-texto" style="display:none;"></p>
                 </div>
+
+                <div class="aviso-fechas-disponibles">
+                    Antes de reservar, revisa qué fechas tenemos disponibles.
+                </div>
+                <button type="button" id="btnVerFechas">Ver fechas disponibles</button>
+
+                <button type="submit">Verificar disponibilidad</button>
 
                 <!-- Ya no abre el modal directamente: ahora es un submit normal del form -->
                 <button type="submit">Verificar disponibilidad</button>
             </div>
         </form>
-
+        <div class="admin-modal-overlay" id="fechasModal">
+            <div class="admin-modal-caja">
+                <button type="button" class="admin-modal-cerrar" id="cerrarFechasModal">&times;</button>
+                <div id="fechasModalContent">
+                    <div class="adoption-modal-loading"><span></span><span></span><span></span></div>
+                </div>
+            </div>
+        </div>
         <%@ include file="Footer.jsp" %>
         <script src="${ctx}/Vista/JavaScript/interfaz.js"></script>
     </body>

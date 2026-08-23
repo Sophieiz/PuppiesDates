@@ -48,4 +48,23 @@ public class Disponibilidad {
     public void setHorarios_idHorarios(int Horarios_idHorarios) {
         this.Horarios_idHorarios = Horarios_idHorarios;
     }
+    
+        private java.sql.Time horaIni;
+    private java.sql.Time horaFin;
+
+    public java.sql.Time getHoraIni() {
+        return horaIni;
+    }
+
+    public void setHoraIni(java.sql.Time horaIni) {
+        this.horaIni = horaIni;
+    }
+
+    public java.sql.Time getHoraFin() {
+        return horaFin;
+    }
+
+    public void setHoraFin(java.sql.Time horaFin) {
+        this.horaFin = horaFin;
+    }
 }

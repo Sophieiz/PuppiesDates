@@ -38,4 +38,23 @@ public class Actividad {
     public void setLista_Precios_idLista_Precios(int Lista_Precios_idLista_Precios){
         this.Lista_Precios_idLista_Precios = Lista_Precios_idLista_Precios;
     }
+
+    private String precioTexto;
+
+    public String getPrecioTexto() {
+        return precioTexto;
+    }
+
+    public void setPrecioTexto(String precioTexto) {
+        this.precioTexto = precioTexto;
+    }
+        private String tipoActividadNombre;
+
+    public String getTipoActividadNombre() {
+        return tipoActividadNombre;
+    }
+
+    public void setTipoActividadNombre(String tipoActividadNombre) {
+        this.tipoActividadNombre = tipoActividadNombre;
+    }
 }

@@ -214,4 +214,33 @@ public class DisponibilidadDAO {
             return false;
         }
     }
+    
+        public List<Disponibilidad> listarFechasDisponiblesFuturas() {
+        List<Disponibilidad> lista = new ArrayList<>();
+        String sql = "SELECT d.idDisponibilidad, d.fecha, d.cupo_total, d.cupo_disponible, "
+                + "d.Horarios_idHorarios, h.hora_ini, h.hora_fin "
+                + "FROM disponibilidad d "
+                + "INNER JOIN horarios h ON d.Horarios_idHorarios = h.idHorarios "
+                + "WHERE d.activo = 1 AND d.cupo_disponible > 0 AND d.fecha >= CURDATE() "
+                + "ORDER BY d.fecha ASC, h.hora_ini ASC";
+
+        try (Connection con = new Conexion().getConn();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Disponibilidad dispo = new Disponibilidad();
+                dispo.setidDisponibilidad(rs.getInt(1));
+                dispo.setfecha(rs.getDate(2));
+                dispo.setcupo_total(rs.getInt(3));
+                dispo.setcupo_disponible(rs.getInt(4));
+                dispo.setHorarios_idHorarios(rs.getInt(5));
+                dispo.setHoraIni(rs.getTime(6));
+                dispo.setHoraFin(rs.getTime(7));
+                lista.add(dispo);
+            }
+        } catch (Exception e) {
+            System.out.println("Error al listar fechas disponibles: " + e.getMessage());
+        }
+        return lista;
+    }
 }
