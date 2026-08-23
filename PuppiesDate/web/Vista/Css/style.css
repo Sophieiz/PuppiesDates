@@ -4376,3 +4376,11 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     color: var(--text-dark);
     line-height: 1.4;
 }
+
+.admin-users-wrap {
+    max-width: 1400px;
+}
+
+.admin-users-wrap .admin-crud-table th {
+    white-space: nowrap;
+}

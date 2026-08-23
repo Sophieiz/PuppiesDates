@@ -73,7 +73,7 @@
                                     <td>${reserva.cupoDisponible}/${reserva.cupoTotal} cupos</td>
                                     <td>${reserva.descripcionEstadoReserva}</td>
                                     <td>
-                                        <details class="detalle-actividad">
+                                        <details class="detalle-actividad" onclick="event.stopPropagation()">
                                             <summary>Ver actividad</summary>
                                             <p>${reserva.nombreActividad}</p>
                                         </details>
