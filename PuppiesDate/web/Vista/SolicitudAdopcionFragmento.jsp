@@ -1,11 +1,11 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 
 <c:choose>
     <c:when test="${empty perrito}">
-        <p class="sin-perritos">No encontramos ese perrito. <a href="${ctx}/CatalogoPerritos">Vuelve al catÃ¡logo</a>.</p>
+        <p class="sin-perritos">No encontramos ese perrito. <a href="${ctx}/CatalogoPerritos">Vuelve al catálogo</a>.</p>
     </c:when>
     <c:otherwise>
         <div class="adopcion-wrap">
@@ -35,16 +35,16 @@
                 <form action="${ctx}/SolicitudAdopcionCliente" method="post" onsubmit="return validarSolicitudAdopcion()" novalidate>
                     <div class="Formulario">
                         <c:if test="${not empty resultado}">
-                            <p class="mensaje ${resultado.startsWith('Â¡') ? 'mensaje-exito' : 'mensaje-error'}">${resultado}</p>
+                            <p class="mensaje ${resultado.startsWith('¡') ? 'mensaje-exito' : 'mensaje-error'}">${resultado}</p>
                         </c:if>
 
-                        <h2 class="titulo-form">Formulario de adopciÃ³n</h2>
+                        <h2 class="titulo-form">Formulario de adopción</h2>
                         <hr>
 
                         <input type="hidden" name="idPerrito" value="${perrito.idPerrito}">
 
                         <div class="campo-reserva">
-                            <label for="direccion">DirecciÃ³n</label>
+                            <label for="direccion">Dirección</label>
                             <input type="text" name="direccion" id="direccion" placeholder="Ej: Calle 45 #12-30">
                             <span class="error-mensaje" id="error_direccion"></span>
                         </div>
@@ -76,7 +76,7 @@
                         </div>
 
                         <div class="campo-reserva">
-                            <label for="profesion">ProfesiÃ³n</label>
+                            <label for="profesion">Profesión</label>
                             <input type="text" name="profesion" id="profesion">
                             <span class="error-mensaje" id="error_profesion"></span>
                         </div>
@@ -103,16 +103,16 @@
                         </div>
 
                         <div class="campo-reserva">
-                            <label for="nucleo_familiar">NÃºcleo familiar</label>
-                            <textarea name="nucleo_familiar" id="nucleo_familiar" rows="3" placeholder="Explica brevemente cÃ³mo estÃ¡ conformada tu familia"></textarea>
+                            <label for="nucleo_familiar">Núcleo familiar</label>
+                            <textarea name="nucleo_familiar" id="nucleo_familiar" rows="3" placeholder="Explica brevemente cómo está conformada tu familia"></textarea>
                             <span class="error-mensaje" id="error_nucleo_familiar"></span>
                         </div>
 
                         <div class="campo-reserva">
-                            <label for="tiene_mascotas">Â¿Tienes mascotas actualmente?</label>
+                            <label for="tiene_mascotas">¿Tienes mascotas actualmente?</label>
                             <select name="tiene_mascotas" id="tiene_mascotas">
                                 <option value="false">No</option>
-                                <option value="true">SÃ­</option>
+                                <option value="true">Sí</option>
                             </select>
                         </div>
 
