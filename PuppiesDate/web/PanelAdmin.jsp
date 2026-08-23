@@ -61,7 +61,7 @@
         <link rel="stylesheet" href="${ctx}/Vista/Css/style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">    <body class="admin-body">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">    <body class="admin-body">
         <aside class="barrainicioadmin">
             <div class="logotitulosoftadmin">
                 <div class="logocortoadmin">
@@ -208,13 +208,20 @@
                                 <tbody>
                                     <c:forEach var="reserva" items="${reservasPanelAdmin}">
                                         <tr>
-                                            <td>#${reserva.idReserva}</td>
-                                            <td>${reserva.fecha}</td>
-                                            <td>${reserva.hora}</td>
+                                            <td>${reserva.idReserva}</td>
                                             <td>${reserva.num_personas}</td>
-                                            <td>${reserva.usuarios_idUsuarios}</td>
-                                            <td>${reserva.nombreActividad}</td>
-                                            <td><span class="admin-status">Programada</span></td>
+                                            <td>${reserva.hora}</td>
+                                            <td>${reserva.fecha}</td>
+                                            <td>${reserva.nombreUsuario}</td>
+                                            <td>${reserva.cupoDisponible}/${reserva.cupoTotal} cupos</td>
+                                            <td>${reserva.descripcionEstadoReserva}</td>
+                                            <td>
+                                                <details class="detalle-actividad" onclick="event.stopPropagation()">
+                                                    <summary>Ver actividad</summary>
+                                                    <p>${reserva.nombreActividad}</p>
+                                                </details>
+                                            </td>
+                                            <td>${reserva.estadoPago}</td>
                                         </tr>
                                     </c:forEach>
                                     <c:if test="${empty reservasPanelAdmin}">
