@@ -156,11 +156,9 @@ body {
     border-top-right-radius: 100%;
     transform: scaleY(1.5);
     border-top: 4px solid var(--plume-blue);
-    /* Sombra suavizada (antes era mas pesada/oscura) */
     box-shadow: 0px 4px 8px -6px rgba(109, 58, 82, 0.08);
 }
 
-/* NAVBAR COMPACTO en páginas de formulario (login, registro, recuperar clave, reservas) */
 .pagina-formulario .header-cloud-wrapper,
 .reserva-page .header-cloud-wrapper {
     padding-bottom: 0;
@@ -187,7 +185,6 @@ body {
     font-size: 0.9rem;
 }
 
-/* Navbar recto (sin la curva/ola) en páginas de formulario */
 .pagina-formulario .cloud-wave,
 .reserva-page .cloud-wave {
     display: none;
@@ -206,7 +203,7 @@ body {
 }
 
 .logo-texto {
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-size: 2rem;
     font-weight: 700;
     color: var(--white);
@@ -245,7 +242,7 @@ body {
 .btn-rosa-sesion {
     background-color: #DA74A3 !important;
     color: var(--white) !important;
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
 }
 
 .user-greeting {
@@ -254,7 +251,6 @@ body {
     margin-right: 5px;
 }
 
-/* MENU DESPLEGABLE DE USUARIO (circulito con patita) */
 .user-dropdown {
     position: relative;
 }
@@ -269,7 +265,7 @@ body {
     color: #fff;
     font-size: 1.1rem;
     font-weight: 800;
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -302,7 +298,7 @@ body {
 }
 
 .user-dropdown-saludo {
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-weight: 700;
     color: var(--eggplant);
     padding: 8px 12px 10px;
@@ -345,7 +341,7 @@ body {
     padding: 14px 18px;
     text-align: left;
     font-weight: 800;
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     border: 1px solid #ead8cb;
     box-shadow: 0 12px 28px rgba(84, 54, 35, 0.12);
     position: relative;
@@ -384,14 +380,11 @@ body {
     color: #fffaf5;
 }
 
-/*BOTON VOLVER*/
-
 .btn-volver-inicio {
-    position: fixed; 
-    top: 23px;       
-    left: 25px;      
-    z-index: 9999;   
-    
+    position: fixed;
+    top: 23px;
+    left: 25px;
+    z-index: 9999;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -408,7 +401,7 @@ body {
 
 .btn-volver-inicio:hover {
     background-color: #f3ece4;
-    transform: scale(1.08); 
+    transform: scale(1.08);
 }
 
 .btn-volver-inicio::after {
@@ -434,7 +427,6 @@ body {
     visibility: visible;
 }
 
-/*HERO*/
 .hero-section {
     display: grid;
     grid-template-columns: 1.1fr 0.9fr;
@@ -450,7 +442,7 @@ body {
 }
 
 .hero-title {
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-size: 3.5rem;
     font-weight: 700;
     color: var(--wild-brown);
@@ -466,7 +458,7 @@ body {
 }
 
 .hero-motivacional {
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-size: 1rem;
     font-weight: 600;
     color: #DA74A3;
@@ -476,7 +468,7 @@ body {
 .btn-cta-ingresa {
     display: inline-block;
     text-decoration: none;
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-weight: 600;
     font-size: 1.2rem;
     background-color: var(--plume-green);
@@ -491,7 +483,6 @@ body {
     transform: translateY(-2px);
 }
 
-/*CARRUSEL */
 .carrusel-container {
     background: var(--white);
     padding: 14px;
@@ -526,30 +517,22 @@ body {
     transform: translateY(-50%);
     background: var(--white);
     border: none;
-    
-    
     width: 46px !important;
     height: 46px !important;
-    border-radius: 50% !important; 
-    
-    
+    border-radius: 50% !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    
-    
     font-size: 1.2rem;
     color: var(--wild-brown);
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    z-index: 10; 
+    z-index: 10;
     transition: background-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
 }
 
-
 .prev { left: 20px; }
 .next { right: 20px; }
-
 
 .btn-carrusel-nav:hover {
     background-color: var(--plume-green);
@@ -557,7 +540,6 @@ body {
     transform: translateY(-50%) scale(1.1);
 }
 
-/*SECCIONES INICIO*/
 .seccion-adopcion,
 .seccion-videos {
     width: 100% !important;
@@ -574,8 +556,6 @@ body {
     background-color: var(--plume-beige);
 }
 
-
-
 .seccion-adopcion .main-container,
 .seccion-videos .main-container,
 .seccion-actividades .main-container {
@@ -583,7 +563,7 @@ body {
 }
 
 .titulo-apartado {
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-size: 2.2rem;
     color: var(--white);
     text-align: center;
@@ -598,7 +578,6 @@ body {
     line-height: 1.5;
 }
 
-/*TARJETAS PERRITOS*/
 .grid-adopcion {
     display: flex;
     flex-direction: row;
@@ -628,14 +607,13 @@ body {
 
 .tarjeta-perrito {
     background: var(--white);
-    border-radius: 24px;  
+    border-radius: 24px;
     position: relative;
     display: flex;
     flex-direction: column;
     box-shadow: 0 8px 24px rgba(90, 75, 65, 0.08);
     transition: transform 0.2s ease;
 }
-
 
 .tarjeta-perrito-link {
     text-decoration: none;
@@ -654,9 +632,9 @@ body {
 
 .tarjeta-perrito img {
     width: 100%;
-    height: 200px;       
-    object-fit: cover;   
-    object-position: center; 
+    height: 200px;
+    object-fit: cover;
+    object-position: center;
 }
 .card-borde-rosa { border-color: var(--plume-pink); }
 .card-borde-azul { border-color: var(--plume-blue); }
@@ -690,7 +668,7 @@ body {
 }
 
 .tarjeta-perrito h3 {
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-size: 1.6rem;
     margin-bottom: 8px;
     color: var(--wild-brown);
@@ -713,7 +691,6 @@ body {
     border-radius: 20px;
 }
 
-/*VIDEOS*/
 .grid-videos {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
@@ -727,18 +704,16 @@ body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.01);
 }
 
-
 .contenedor-video-real {
     position: relative;
     width: 100%;
-    padding-top: 56.25%; 
-    border-radius: 24px; 
-    overflow: hidden; 
+    padding-top: 56.25%;
+    border-radius: 24px;
+    overflow: hidden;
     box-shadow: 0 8px 24px rgba(90, 75, 65, 0.1);
-    background-color: #000; 
+    background-color: #000;
     margin-bottom: 16px;
 }
-
 
 .contenedor-video-real iframe {
     position: absolute;
@@ -764,12 +739,11 @@ body {
 }
 
 .tarjeta-video h3 {
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-size: 1.4rem;
     margin-bottom: 5px;
 }
 
-/*DIVISORES NUBE*/
 .divisor-nube {
     position: relative;
     width: 100% !important;
@@ -795,7 +769,6 @@ body {
     background-image: radial-gradient(circle at 50% 100%, var(--bg-actividades) 28px, transparent 29px);
 }
 
-/*ACTIVIDADES */
 .seccion-actividades {
     background-color: var(--bg-actividades) !important;
     width: 100% !important;
@@ -832,7 +805,7 @@ body {
 }
 
 .bloque-actividad h3 {
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-size: 1.6rem;
     margin-bottom: 10px;
 }
@@ -900,7 +873,7 @@ body {
 }
 
 .actividad-info h3 {
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-size: 1.8rem;
     color: var(--wild-brown);
 }
@@ -935,7 +908,7 @@ body {
     background: var(--plume-green);
     color: var(--white);
     text-decoration: none;
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-weight: 700;
     box-shadow: 0 10px 22px rgba(163, 197, 182, 0.35);
 }
@@ -958,7 +931,7 @@ body {
 }
 
 .actividad-page-hero h2 {
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-size: 3rem;
     color: var(--wild-brown);
     margin: 14px 0 12px;
@@ -983,7 +956,6 @@ body {
     padding-top: 30px !important;
 }
 
-/*FOOTER*/
 .footer-aesthetic {
     background-color: #94B2ED !important;
     width: 100% !important;
@@ -1049,7 +1021,6 @@ body {
     font-size: 14px;
 }
 
-/*FORMULARIOS */
 .Formulario {
     max-width: 480px;
     margin: 50px auto;
@@ -1058,11 +1029,10 @@ body {
     border-radius: 28px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
     text-align: left;
-    
 }
 
 .titulo-form {
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-size: 1.9rem;
     color: var(--wild-brown);
     text-align: center;
@@ -1108,7 +1078,7 @@ body {
 }
 .Formulario textarea {
     min-height: 120px;
-    resize: vertical; 
+    resize: vertical;
 }
 
 .Formulario input.input-error,
@@ -1130,7 +1100,7 @@ body {
     border: none;
     border-radius: 14px;
     cursor: pointer;
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-size: 1.15rem;
     font-weight: 600;
     background-color: var(--wild-brown);
@@ -1150,7 +1120,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     border: none;
     border-radius: 14px;
     cursor: pointer;
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-size: 1.15rem;
     font-weight: 600;
     background-color: var(--plume-green);
@@ -1208,7 +1178,6 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     display: block;
 }
 
-/*MENSAJES*/
 .mensaje {
     text-align: center;
     padding: 12px 18px;
@@ -1253,7 +1222,6 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     transform: translateY(0);
 }
 
-/*FORMULARIOS ADMIN - FONDO Y LAYOUT */
 .admin-form-body {
     background-image: url("../Imagenes/FondoHuellitas.jpg");
     background-size: 300px;
@@ -1267,7 +1235,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     align-items: center;
     gap: 8px;
     text-decoration: none;
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-weight: 700;
     font-size: 1rem;
     color: var(--wild-brown);
@@ -1305,7 +1273,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 }
 
 .admin-form-card h2 {
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-size: 1.9rem;
     color: var(--wild-brown);
     margin-bottom: 6px;
@@ -1358,7 +1326,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     border: none;
     border-radius: 14px;
     cursor: pointer;
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-size: 1.15rem;
     font-weight: 600;
     background-color: var(--wild-brown);
@@ -1390,7 +1358,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 
 .admin-inactivos-wrap summary {
     cursor: pointer;
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-weight: 600;
     color: #6D3A52;
     padding: 8px 0;
@@ -1411,7 +1379,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 }
 
 .admin-table-card h3 {
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-size: 1.5rem;
     color: var(--text-dark);
     margin-bottom: 20px;
@@ -1511,7 +1479,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     border: none;
     padding: 8px 16px;
     border-radius: 10px;
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.2s ease;
@@ -1526,7 +1494,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     border: none;
     padding: 8px 16px;
     border-radius: 10px;
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.2s ease;
@@ -1534,7 +1502,6 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 
 .btn-eliminar:hover { background-color: #e06060; }
 
-/* PANEL ADMINISTRADOR */
 .admin-body {
     display: grid;
     grid-template-columns: 260px minmax(0, 1fr);
@@ -1547,7 +1514,6 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 .barrainicioadmin {
     position: sticky;
     top: 0;
-    
     background: #94B2ED;
     color: var(--white);
     padding: 28px 22px;
@@ -1578,7 +1544,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 }
 
 .logotitulosoftadmin h1 {
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-size: 1.35rem;
     line-height: 1.1;
     color: var(--white);
@@ -1641,7 +1607,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 }
 
 .panel-admin-topbar h2 {
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-size: 1.8rem;
     color: var(--text-dark);
 }
@@ -1676,7 +1642,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 }
 
 .panel-admin-welcome h3 {
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-size: 2rem;
     color: var(--white);
     margin: 6px 0 8px;
@@ -1690,7 +1656,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 }
 
 .panel-admin-welcome .panel-admin-motivacional {
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-style: italic;
     font-weight: 600;
     color: #fffaf5;
@@ -1733,7 +1699,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 .admin-calendar-card strong,
 .admin-note-card strong {
     display: block;
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-size: 3rem;
     color: #94B2ED;
     line-height: 1;
@@ -1777,7 +1743,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 .admin-ring span {
     position: relative;
     z-index: 1;
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-size: 2rem;
     color: #6D3A52;
 }
@@ -1786,7 +1752,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 .admin-section-title h3,
 .admin-profile-card h3,
 .admin-mini-list h3 {
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     color: var(--text-dark);
 }
 
@@ -1992,13 +1958,12 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 .admin-body {
     display: grid !important;
     grid-template-columns: 260px minmax(0, 1fr);
-    grid-template-rows: 1fr auto; 
+    grid-template-rows: 1fr auto;
     min-height: 100vh;
     background: linear-gradient(135deg, #f8f3ec 0%, #eef6f3 48%, #f7edf1 100%);
     margin: 0;
     overflow-x: hidden;
 }
-
 
 .modal-overlay {
     display: none;
@@ -2101,7 +2066,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     border: none;
     border-radius: 14px;
     cursor: pointer;
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-size: 1.05rem;
     font-weight: 600;
     background-color: #e6ded4;
@@ -2117,7 +2082,6 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 .modal-abierto {
     overflow: hidden;
 }
-
 
 .tabla-lista-admin td {
     white-space: nowrap;
@@ -2150,8 +2114,6 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     border-color: var(--plume-green);
     box-shadow: 0 0 0 3px rgba(163, 197, 182, 0.15);
 }
-
-
 
 .logo-footer img {
     width: 70px;
@@ -2229,7 +2191,6 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     }
 }
 
-/* ===== Admin CRUD responsive modals and validation ===== */
 .admin-crud-toolbar {
     display: flex;
     align-items: center;
@@ -2244,7 +2205,6 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     margin: 0;
 }
 
-/* BUSCADOR (pill con lupa, inspirado en Uiverse, colores del sitio) */
 .admin-buscador,
 .buscador-catalogo {
     display: flex;
@@ -2517,7 +2477,6 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     color: #6D3A52;
 }
 
-/* Modal de Disponibilidad (no tenía estilos propios, reutiliza el patrón de admin-crud-modal) */
 .admin-modal-overlay {
     position: fixed;
     inset: 0;
@@ -2772,18 +2731,16 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     color: var(--text-dark);
 }
 
-/*Catalogo perritos*/
-
 .grid-adopcion-catalogo {
     flex-wrap: wrap;
     overflow-x: visible;
     justify-content: center;
 }
- 
+
 .grid-adopcion-catalogo .tarjeta-perrito {
     width: 260px;
 }
- 
+
 .tarjeta-perrito .estado-adopcion {
     margin: 0 15px 15px 15px;
     text-decoration: none;
@@ -2791,16 +2748,14 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     cursor: pointer;
     border: none;
 }
- 
+
 .sin-perritos {
     text-align: center;
     color: var(--white);
     font-size: 1.1rem;
     padding: 40px;
 }
- 
-/* FORMULARIO DE SOLICITUD DE ADOPCIÓN */
- 
+
 .adopcion-wrap {
     display: flex;
     flex-wrap: wrap;
@@ -2810,7 +2765,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     padding: 0 20px;
     align-items: flex-start;
 }
- 
+
 .ficha-perrito {
     flex: 1 1 380px;
     background: var(--white);
@@ -2818,7 +2773,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     padding: 20px;
     box-shadow: 0 8px 24px rgba(90, 75, 65, 0.08);
 }
- 
+
 .ficha-perrito img {
     width: 100%;
     border-radius: 14px;
@@ -2826,13 +2781,13 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     object-fit: cover;
     margin-bottom: 15px;
 }
- 
+
 .ficha-perrito h2 {
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     color: var(--wild-brown);
     margin-bottom: 10px;
 }
- 
+
 .ficha-dato {
     display: flex;
     justify-content: space-between;
@@ -2840,12 +2795,12 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     border-bottom: 1px solid #f0e9e2;
     font-size: 0.95rem;
 }
- 
+
 .ficha-dato span:first-child {
     color: var(--text-dark);
     font-weight: 600;
 }
- 
+
 .ficha-historia {
     margin-top: 15px;
     font-size: 0.9rem;
@@ -2853,15 +2808,15 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     color: var(--text-dark);
     white-space: pre-line;
 }
- 
+
 .adopcion-form {
     flex: 1 1 420px;
 }
- 
+
 .adopcion-form .Formulario {
     margin: 0;
 }
- 
+
 .panel-lista-tarjetas {
     display: flex;
     flex-direction: column;
@@ -2869,14 +2824,14 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     max-width: 640px;
     margin: 24px auto 0;
 }
- 
+
 .panel-tarjeta-registro {
     background: var(--white);
     border-radius: 18px;
     padding: 20px 24px;
     box-shadow: 0 6px 20px rgba(90, 75, 65, 0.08);
 }
- 
+
 .panel-tarjeta-cabecera {
     display: flex;
     justify-content: space-between;
@@ -2884,19 +2839,18 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     flex-wrap: wrap;
     gap: 8px;
 }
- 
+
 .panel-tarjeta-cabecera h3 {
     margin: 0;
     color: var(--wild-brown);
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
 }
- 
+
 .panel-tarjeta-detalle {
     margin: 6px 0 0;
     color: var(--text-dark);
     font-size: 0.9rem;
 }
- 
 
 .estado-badge {
     padding: 6px 14px;
@@ -2906,18 +2860,16 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     color: var(--white);
     white-space: nowrap;
 }
- 
+
 .estado-pendiente { background: #F8B553; }
 .estado-en-proceso { background: #94B2ED; }
 .estado-aprobado { background: #C9CE67; }
 .estado-rechazado { background: #6D3A52; }
- 
 
 .estado-reserva-badge {
     background: var(--plume-blue);
 }
 
-/* AJUSTES DE INTERFAZ PUPPIES DATES */
 :root {
     --coffee-brown: #6D3A52;
     --mint-green: #DAE097;
@@ -3180,7 +3132,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 }
 
 .logout-modal-box h3 {
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     color: #6D3A52;
     font-size: 1.5rem;
     margin-bottom: 10px;
@@ -3269,7 +3221,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     padding: 16px 18px;
     background: var(--mint-green);
     color: var(--coffee-brown);
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-size: 0.95rem;
 }
 
@@ -3434,9 +3386,6 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     }
 }
 
-/* PRIORIDAD UI: CARRUSEL, TIPOGRAFIA Y FOOTER */
-/* (variables de paleta ya consolidadas en el :root principal) */
-
 .imagen-contenedor {
     width: 100%;
     transform: translateX(0);
@@ -3450,7 +3399,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 }
 
 :where(h1, h2, h3, .titulo-apartado, .titulo-seccion, .titulo-form, .admin-crud-title) {
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-weight: 800;
     letter-spacing: 0;
     line-height: 1.08;
@@ -3540,7 +3489,6 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     border-top: 6px solid var(--tulip);
 }
 
-/* FOOTER MINIMALISTA CENTRADO (Header.jsp / Footer.jsp) */
 .footer-minimal {
     padding: 46px 20px 30px;
 }
@@ -3600,7 +3548,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 }
 
 .footer-minimal-nombre {
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-weight: 700;
     color: #fffaf5;
     font-size: 1.1rem;
@@ -3710,7 +3658,6 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     }
 }
 
-/*modal al registrase*/
 .modal-exito-shell {
     display: none;
     position: fixed;
@@ -3751,7 +3698,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 
 .modal-exito-titulo {
     color: #4E8752;
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-size: 1.8rem;
     margin-bottom: 12px;
 }
@@ -3781,8 +3728,6 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     background-color: #3b683e;
 }
 
-/*SOLICITUD ADOPCIÓN SIN INICIAR SESIÓN*/
-
 .adopcion-auth-required {
     text-align: center;
     padding: 30px 20px;
@@ -3805,11 +3750,9 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     flex-wrap: wrap;
 }
 
-/*adopcion formulario sin inicuiar sesión*/
-
 .adopcion-auth-required h3,
 .adopcion-auth-required p {
-  color: #333333 !important; 
+  color: #333333 !important;
 }
 
 .adopcion-auth-required .btn-cta-ingresa {
@@ -3817,8 +3760,6 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
   font-weight: bold;
   text-decoration: underline;
 }
-
-
 
 .user-dropdown-saludo,
 .mensaje-bienvenida,
@@ -3829,16 +3770,10 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 .buscador-catalogo button,
 .admin-buscador-limpiar,
 .buscador-limpiar {
-    font-family: 'Fredoka', sans-serif !important;
+    font-family: 'Bagel Fat One', sans-serif !important;
 }
 
-
-
-/*Responsive*/
-
-
 @media (max-width: 900px) {
-    /* HERO: pasa de 2 columnas a 1, texto arriba y carrusel abajo */
     .hero-section {
         grid-template-columns: 1fr;
         gap: 30px;
@@ -3858,7 +3793,6 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
         height: 320px;
     }
 
-    /* ACTIVIDADES: showcase pasa a 1 columna */
     .actividades-showcase {
         grid-template-columns: 1fr;
     }
@@ -3872,7 +3806,6 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
         min-height: 220px;
     }
 
-    /* VIDEOS: 1 columna cuando no caben 2 de 450px */
     .grid-videos {
         grid-template-columns: 1fr;
     }
@@ -3901,7 +3834,6 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
         padding: 14px 20px;
     }
 
-    /* NAVBAR: menú se apila y centra en pantallas muy angostas */
     .navegacion-centrada ul,
     .navegacion ul {
         flex-direction: column;
@@ -3923,7 +3855,6 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
         padding: 0 10px;
     }
 
-    /* TARJETAS DE PERRITOS: scroll horizontal más cómodo */
     .grid-adopcion {
         padding: 14px 10px;
         gap: 14px;
@@ -3933,7 +3864,6 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
         width: 210px;
     }
 
-    /* BLOQUES DE ACTIVIDAD SIMPLE */
     .grid-actividades {
         grid-template-columns: 1fr;
     }
@@ -3942,7 +3872,6 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
         padding: 28px 20px;
     }
 
-    /* ACTIVIDAD CARD: ajustar padding en info */
     .actividad-info {
         padding: 20px;
     }
@@ -3966,7 +3895,6 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     }
 }
 
-/*Responsive panel admi*/
 @media (max-width: 900px) {
     .panel-admin-main {
         padding: 20px 18px 32px;
@@ -4036,7 +3964,6 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
         gap: 8px;
     }
 
-    /* Tablas admin: scroll horizontal suave en vez de desbordar */
     .admin-reservas-table,
     .admin-table-wrap table {
         min-width: 560px;
@@ -4076,8 +4003,6 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     }
 }
 
-
-/* MENÚ HAMBURGUESA (móvil) */
 .menu-toggle {
     display: none;
     flex-direction: column;
@@ -4208,15 +4133,9 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     }
 }
 
-
-/*Historia*/
-
 .seccion-quienes-somos {
     padding: 60px 0;
 }
-
-
-/*Categoris catalogo perrito*/
 
 .filtro-catalogo {
     display: flex;
@@ -4228,7 +4147,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 }
 
 .filtro-etiqueta {
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Bagel Fat One', sans-serif;
     font-weight: 600;
     color: #5b2333;
     font-size: 1.05rem;
@@ -4248,7 +4167,6 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     cursor: pointer;
     box-shadow: 0 3px 10px rgba(91, 35, 51, 0.08);
     transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
-
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'><path d='M1 1l6 6 6-6' fill='none' stroke='%235b2333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
     background-repeat: no-repeat;
     background-position: right 1.2rem center;
@@ -4274,13 +4192,10 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     margin-top: 1.5rem;
 }
 
-
-
 .adoption-modal-box:has(.adopcion-auth-required) {
     width: min(400px, 92vw);
     padding: 22px 26px 30px;
 }
-
 
 .adopcion-mascota {
     width: 120px;
