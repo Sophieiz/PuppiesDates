@@ -44,7 +44,41 @@
                     <select id="tipodoc" name="tipodocs">
                         <option value="">-- Selecciona un tipo --</option>
                         <c:forEach var="tipo" items="${tiposDoc}">
-                            <option value="${tipo.idTipo_documento}">${tipo.descripcion_doc}</option>
+                            <c:choose>
+                                <c:when test="${fn:contains(tipo.descripcion_doc, 'Cédula de Ciudadanía')}">
+                                    <c:set var="soloNum" value="true"/>
+                                    <c:set var="docMin" value="6"/>
+                                    <c:set var="docMax" value="10"/>
+                                </c:when>
+                                <c:when test="${fn:contains(tipo.descripcion_doc, 'Tarjeta de Identidad')}">
+                                    <c:set var="soloNum" value="true"/>
+                                    <c:set var="docMin" value="10"/>
+                                    <c:set var="docMax" value="11"/>
+                                </c:when>
+                                <c:when test="${fn:contains(tipo.descripcion_doc, 'Cédula de Extranjería')}">
+                                    <c:set var="soloNum" value="false"/>
+                                    <c:set var="docMin" value="6"/>
+                                    <c:set var="docMax" value="9"/>
+                                </c:when>
+                                <c:when test="${fn:contains(tipo.descripcion_doc, 'Pasaporte')}">
+                                    <c:set var="soloNum" value="false"/>
+                                    <c:set var="docMin" value="6"/>
+                                    <c:set var="docMax" value="12"/>
+                                </c:when>
+                                <c:when test="${fn:contains(tipo.descripcion_doc, 'PPT')}">
+                                    <c:set var="soloNum" value="false"/>
+                                    <c:set var="docMin" value="6"/>
+                                    <c:set var="docMax" value="15"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:set var="soloNum" value="true"/>
+                                    <c:set var="docMin" value="6"/>
+                                    <c:set var="docMax" value="15"/>
+                                </c:otherwise>
+                            </c:choose>
+                            <option value="${tipo.idTipo_documento}" data-solo-numeros="${tipo.solo_numeros}">
+                                ${tipo.descripcion_doc}
+                            </option>
                         </c:forEach>
                     </select>
                     <span class="error-mensaje" id="error_tipodoc"></span>
@@ -110,6 +144,6 @@
 
 
         <%@ include file="Footer.jsp" %>
-        <script src="${ctx}/Vista/JavaScript/interfaz.js"></script>
+        <script src="${ctx}/Vista/JavaScript/validarReg.js"></script>
     </body>
 </html>

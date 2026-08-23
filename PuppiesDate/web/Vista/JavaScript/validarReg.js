@@ -104,6 +104,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const selectTipo = campos.tipodoc.input;
         const opcionSeleccionada = selectTipo.options[selectTipo.selectedIndex];
         const soloNumeros = opcionSeleccionada ? opcionSeleccionada.getAttribute('data-solo-numeros') : 'true';
+        const min = opcionSeleccionada ? parseInt(opcionSeleccionada.getAttribute('data-min'), 10) : 6;
+        const max = opcionSeleccionada ? parseInt(opcionSeleccionada.getAttribute('data-max'), 10) : 15;
 
         if (valor === '') {
             mostrarError(campos.documento, 'El número de documento es obligatorio.');
@@ -115,15 +117,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 mostrarError(campos.documento, 'Para este tipo de documento solo se permiten números.');
                 return false;
             }
-            if (valor.length < 6 || valor.length > 11) {
-                mostrarError(campos.documento, 'Debe tener entre 6 y 11 dígitos.');
-                return false;
-            }
         } else {
-            if (valor.length < 6 || valor.length > 15) {
-                mostrarError(campos.documento, 'El documento debe tener entre 6 y 15 caracteres.');
+            if (!/^[a-zA-Z0-9]+$/.test(valor)) {
+                mostrarError(campos.documento, 'El documento solo puede contener letras y números.');
                 return false;
             }
+        }
+
+        if (valor.length < min || valor.length > max) {
+            mostrarError(campos.documento, `Debe tener entre ${min} y ${max} caracteres.`);
+            return false;
         }
 
         limpiarError(campos.documento);

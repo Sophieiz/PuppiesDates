@@ -93,25 +93,26 @@ public class Tipo_documentoDAO {
         return eliminado;
     }
 
-    public List<Tipo_documento> listarTipoDocumento() {
-        List<Tipo_documento> lista = new ArrayList<>();
-        String sql = "SELECT idTipo_documento, descripcion_doc FROM tipo_documento WHERE activo = 1";
+public List<Tipo_documento> listarTipoDocumento() {
+    List<Tipo_documento> lista = new ArrayList<>();
+    String sql = "SELECT idTipo_documento, descripcion_doc, solo_numeros FROM tipo_documento WHERE activo = 1";
 
-        try (Connection con = conexion.getConn();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+    try (Connection con = conexion.getConn();
+         PreparedStatement ps = con.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
 
-            while (rs.next()) {
-                Tipo_documento doc = new Tipo_documento();
-                doc.setidTipo_documento(rs.getInt("idTipo_documento"));
-                doc.setdescripcion_doc(rs.getString("descripcion_doc"));
-                lista.add(doc);
-            }
-        } catch (SQLException e) {
-            System.out.println("Error al listar tipos de documento: " + e.getMessage());
+        while (rs.next()) {
+            Tipo_documento doc = new Tipo_documento();
+            doc.setidTipo_documento(rs.getInt("idTipo_documento"));
+            doc.setdescripcion_doc(rs.getString("descripcion_doc"));
+            doc.setSolo_numeros(rs.getBoolean("solo_numeros"));
+            lista.add(doc);
         }
-        return lista;
+    } catch (SQLException e) {
+        System.out.println("Error al listar tipos de documento: " + e.getMessage());
     }
+    return lista;
+}
 
     public List<Tipo_documento> listarInactivos() {
         List<Tipo_documento> lista = new ArrayList<>();
