@@ -8,11 +8,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Admin - Actividades</title>
         <link rel="stylesheet" href="${ctx}/Vista/Css/style.css">
-        <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
-    </head>
+        <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">    </head>
     <body class="admin-form-body">
         <a href="${ctx}/PanelAdmin.jsp" class="btn-volver-panel">&#8592; Volver al panel</a>
-        
+
         <c:if test="${not empty mensaje}">
             <div class="mensaje-bienvenida">
                 <p>${mensaje}</p>
@@ -26,9 +25,9 @@
                     <h3>Actividades</h3>
                     <button type="button" class="admin-crud-btn-primary" data-open-create>Nueva actividad</button>
                 </div>
-                
+
                 <p class="admin-crud-help">Haz clic sobre una fila para modificar o eliminar el registro.</p>
-                
+
                 <div class="admin-crud-table-wrap">
                     <table class="admin-crud-table">
                         <thead>
@@ -50,7 +49,7 @@
                                     data-field-tipoActi="${actividad.tipo_Actividad_idTipo_Actividad}"
                                     data-field-listaPrecioAct="${actividad.lista_Precios_idLista_Precios}"
                                     data-duplicate-key="${actividad.descripcion_actividad}|${actividad.tipo_Actividad_idTipo_Actividad}|${actividad.lista_Precios_idLista_Precios}">
-                                    
+
                                     <td>${actividad.idActividad}</td>
                                     <td>${actividad.descripcion_actividad}</td>
                                     <td>
@@ -75,12 +74,12 @@
             </div>
         </div>
 
-        
+
         <div class="admin-crud-modal modal-overlay" id="modal-editar" aria-hidden="true">
             <div class="admin-crud-modal-box">
                 <button type="button" class="admin-modal-cerrar" data-cerrar="modal-editar" aria-label="Cerrar">&times;</button>
                 <h2 class="admin-crud-title" data-modal-title>Nueva actividad</h2>
-                
+
                 <form action="${ctx}/Actividad" method="POST" class="admin-managed-form"
                       data-id-name="idActividad" 
                       data-duplicate-keys="descripcionAct,tipoActi,listaPrecioAct"
@@ -88,11 +87,11 @@
                       data-edit-action="actualizar"
                       data-create-title="Nueva actividad" 
                       data-edit-title="Modificar actividad">
-                    
+
                     <input type="hidden" id="modalAccion" name="accion" value="insertar">
                     <input type="hidden" id="modalId" name="id" value="">
                     <input type="hidden" name="idActividad">
-                    
+
                     <div class="admin-crud-alert" data-form-alert></div>
 
                     <div class="admin-crud-field">
@@ -132,7 +131,7 @@
             </div>
         </div>
 
-        
+
         <div class="admin-crud-modal modal-overlay" id="modal-confirmar-eliminar" aria-hidden="true">
             <div class="admin-crud-modal-box admin-crud-confirm">
                 <h2 class="admin-crud-title">¿Está seguro de eliminar este registro?</h2>

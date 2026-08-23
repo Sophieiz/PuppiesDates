@@ -8,8 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Admin - Estado de Reserva</title>
         <link rel="stylesheet" href="${ctx}/Vista/Css/style.css">
-        <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
-    </head>
+        <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">    </head>
     <body class="admin-form-body">
         <a href="${ctx}/PanelAdmin.jsp" class="btn-volver-panel">&#8592; Volver al panel</a>
 
@@ -20,7 +19,7 @@
         </c:if>
 
         <div class="admin-form-wrap">
-            
+
             <div class="admin-table-card">
                 <div class="admin-crud-toolbar">
                     <h3>Estado de Reserva</h3>
@@ -55,10 +54,10 @@
             </div>
         </div>
 
-       
+
         <div class="admin-crud-modal modal-overlay" id="modal-editar" aria-hidden="true">
             <div class="admin-crud-modal-box">
-               <button type="button" class="admin-modal-cerrar" data-cerrar="modal-editar" aria-label="Cerrar">&times;</button>
+                <button type="button" class="admin-modal-cerrar" data-cerrar="modal-editar" aria-label="Cerrar">&times;</button>
                 <h2 class="admin-crud-title" data-modal-title>Nuevo estado</h2>
 
                 <form action="${ctx}/EstadoReservaAdmi" method="POST" class="admin-managed-form" 
@@ -68,7 +67,7 @@
                       data-edit-action="actualizar" 
                       data-create-title="Nuevo estado" 
                       data-edit-title="Modificar estado">
-                    
+
                     <input type="hidden" id="modalAccion" name="accion" value="insertar">
                     <input type="hidden" id="modalId" name="id" value="">
                     <input type="hidden" name="idEstado_reserva">
@@ -90,7 +89,7 @@
             </div>
         </div>
 
-        
+
         <div class="admin-crud-modal modal-overlay" id="modal-confirmar-eliminar" aria-hidden="true">
             <div class="admin-crud-modal-box admin-crud-confirm">
                 <h2 class="admin-crud-title">¿Está seguro de eliminar este registro?</h2>

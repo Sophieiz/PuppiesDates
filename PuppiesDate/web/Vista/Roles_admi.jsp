@@ -7,8 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Admin - Roles</title>
         <link rel="stylesheet" href="${ctx}/Vista/Css/style.css">
-        <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
-    </head>
+        <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">    </head>
     <body class="admin-form-body">
         <a href="${ctx}/PanelAdmin.jsp" class="btn-volver-panel">&#8592; Volver al panel</a>
 
@@ -31,7 +30,7 @@
                     <table class="admin-crud-table">
                         <thead>
                             <tr>
-                               <th>#</th>
+                                <th>#</th>
                                 <th>Descripción</th>
                             </tr>
                         </thead>
@@ -44,7 +43,7 @@
                                     data-field-idRoles="${rol.idRoles}" 
                                     data-field-descripcion_rol="${rol.descripcion_rol}" 
                                     data-duplicate-key="${rol.descripcion_rol}">
-                                    
+
                                     <td>${rol.idRoles}</td>
                                     <td>${rol.descripcion_rol}</td>
                                 </tr>
@@ -55,7 +54,7 @@
             </div>
         </div>
 
-        
+
         <div class="admin-crud-modal modal-overlay" id="modal-editar" aria-hidden="true">
             <div class="admin-crud-modal-box">
                 <button type="button" class="admin-modal-cerrar" data-cerrar="modal-editar" aria-label="Cerrar">&times;</button>
@@ -90,7 +89,7 @@
             </div>
         </div>
 
-        
+
         <div class="admin-crud-modal modal-overlay" id="modal-confirmar-eliminar" aria-hidden="true">
             <div class="admin-crud-modal-box admin-crud-confirm">
                 <h2 class="admin-crud-title">¿Está seguro de eliminar este registro?</h2>

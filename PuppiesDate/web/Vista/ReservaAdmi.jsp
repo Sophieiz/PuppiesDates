@@ -7,8 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Admin - Reservas</title>
         <link rel="stylesheet" href="${ctx}/Vista/Css/style.css">
-        <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
-    </head>
+        <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">    </head>
     <body class="admin-form-body">
         <a href="${ctx}/PanelAdmin.jsp" class="btn-volver-panel">&#8592; Volver al panel</a>
 
@@ -39,7 +38,7 @@
                     <table class="admin-crud-table">
                         <thead>
                             <tr>
-                                
+
                                 <th> # </th>
                                 <th>Personas</th>
                                 <th>Hora</th>
@@ -65,7 +64,7 @@
                                     data-field-Actividad_idActividad="${reserva.actividad_idActividad}"
                                     data-field-Pagos_idPagos="${reserva.pagos_idPagos}"
                                     data-duplicate-key="${reserva.num_personas}|${reserva.hora}|${reserva.fecha}|${reserva.usuarios_idUsuarios}|${reserva.disponibilidad_idDisponibilidad}|${reserva.estado_reserva_idEstado_reserva}|${reserva.actividad_idActividad}|${reserva.pagos_idPagos}">
-                                    
+
                                     <td>${reserva.idReserva}</td>
                                     <td>${reserva.num_personas}</td>
                                     <td>${reserva.hora}</td>
@@ -153,7 +152,7 @@
             </div>
         </div>
 
-      
+
         <div class="admin-crud-modal modal-overlay" id="modal-confirmar-eliminar" aria-hidden="true">
             <div class="admin-crud-modal-box admin-crud-confirm">
                 <h2 class="admin-crud-title">¿Está seguro de inactivar este registro? No se eliminará, solo dejará de estar disponible.</h2>

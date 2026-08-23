@@ -7,8 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Admin - Perritos</title>
         <link rel="stylesheet" href="${ctx}/Vista/Css/style.css">
-        <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
-    </head>
+        <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">    </head>
     <body class="admin-form-body">
         <a href="${ctx}/PanelAdmin.jsp" class="btn-volver-panel">&#8592; Volver al panel</a>
 
@@ -165,7 +164,7 @@
                         <span class="admin-crud-error"></span>
                     </div>
 
-                    
+
                     <div class="admin-crud-field">
                         <label for="titulo_historia">Título de la historia:</label>
                         <input type="text" name="titulo_historia" id="titulo_historia" placeholder="Ej: El milagro de volver a confiar">

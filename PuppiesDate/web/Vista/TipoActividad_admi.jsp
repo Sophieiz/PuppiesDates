@@ -7,8 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Admin - Tipo de actividad</title>
         <link rel="stylesheet" href="${ctx}/Vista/Css/style.css">
-        <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
-    </head>
+        <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">    </head>
     <body class="admin-form-body">
         <a href="${ctx}/PanelAdmin.jsp" class="btn-volver-panel">&#8592; Volver al panel</a>
 
@@ -44,7 +43,7 @@
                                     data-field-idTipo_Actividad="${tipo.idTipo_Actividad}"
                                     data-field-nombreActivi="${tipo.nombre_activi}"
                                     data-duplicate-key="${tipo.nombre_activi}">
-                                    
+
                                     <td>${tipo.idTipo_Actividad}</td>
                                     <td>${tipo.nombre_activi}</td>
                                 </tr>

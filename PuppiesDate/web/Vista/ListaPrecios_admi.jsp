@@ -7,8 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Admin - Lista de precios</title>
         <link rel="stylesheet" href="${ctx}/Vista/Css/style.css">
-        <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
-    </head>
+        <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">    </head>
     <body class="admin-form-body">
         <a href="${ctx}/PanelAdmin.jsp" class="btn-volver-panel">&#8592; Volver al panel</a>
 
@@ -43,7 +42,7 @@
                                     data-field-idLista_Precios="${precio.idLista_Precio}" 
                                     data-field-descripPrecio="${precio.descrip_precio}" 
                                     data-duplicate-key="${precio.descrip_precio}">
-                                    
+
                                     <td>${precio.descrip_precio}</td>
                                 </tr>
                             </c:forEach>
@@ -103,7 +102,7 @@
                 <form action="${ctx}/Listaprecios" method="POST">
                     <input type="hidden" name="accion" value="eliminar">
                     <input type="hidden" name="idLista_Precios">
-                    
+
                     <div class="admin-crud-actions">
                         <button type="button" class="admin-crud-btn-secondary" data-cerrar="modal-confirmar-eliminar">No</button>
                         <button type="submit" class="admin-crud-btn-danger">Sí</button>

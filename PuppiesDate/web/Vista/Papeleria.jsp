@@ -8,8 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Admin - Papelería</title>
         <link rel="stylesheet" href="${ctx}/Vista/Css/style.css">
-        <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
-    </head>
+        <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">    </head>
     <body class="admin-form-body">
         <a href="${ctx}/PanelAdmin.jsp" class="btn-volver-panel">&#8592; Volver al panel</a>
 
@@ -131,7 +130,7 @@
                     <table class="admin-crud-table">
                         <thead>
                             <tr>
-                               
+
                                 <th>Descripción</th>
                                 <th>Tipo</th>
                                 <th>Precio</th>
@@ -185,7 +184,7 @@
                     <table class="tabla-lista-admin">
                         <thead>
                             <tr>
-                                
+
                                 <th>Fecha</th>
                                 <th>Cupo total</th>
                                 <th>Cupo disponible</th>
@@ -236,7 +235,7 @@
                     <table class="admin-crud-table">
                         <thead>
                             <tr>
-                                
+
                                 <th>Descripción</th>
                                 <th></th>
                             </tr>
@@ -270,7 +269,7 @@
                     <table class="admin-crud-table">
                         <thead>
                             <tr>
-                                
+
                                 <th>Nombre</th>
                                 <th></th>
                             </tr>
@@ -304,7 +303,7 @@
                     <table class="admin-crud-table">
                         <thead>
                             <tr>
-                                
+
                                 <th>Descripción</th>
                                 <th></th>
                             </tr>
@@ -338,7 +337,7 @@
                     <table class="admin-crud-table">
                         <thead>
                             <tr>
-                               
+
                                 <th>Estado del pago</th>
                                 <th></th>
                             </tr>
@@ -372,7 +371,7 @@
                     <table class="admin-crud-table">
                         <thead>
                             <tr>
-                                
+
                                 <th>Nombre</th>
                                 <th>Raza</th>
                                 <th>Ciudad</th>
@@ -410,7 +409,7 @@
                     <table class="admin-crud-table">
                         <thead>
                             <tr>
-                                
+
                                 <th>Actividad</th>
                                 <th>Fecha</th>
                                 <th>Hora</th>
@@ -450,7 +449,7 @@
                     <table class="admin-crud-table">
                         <thead>
                             <tr>
-                                
+
                                 <th>Perrito</th>
                                 <th>Solicitante</th>
                                 <th>Estado</th>
@@ -488,7 +487,7 @@
                     <table class="admin-crud-table">
                         <thead>
                             <tr>
-                                
+
                                 <th>Nombre</th>
                                 <th>Documento</th>
                                 <th>Correo</th>
