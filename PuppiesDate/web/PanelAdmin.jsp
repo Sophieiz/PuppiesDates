@@ -61,8 +61,7 @@
         <link rel="stylesheet" href="${ctx}/Vista/Css/style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
-    </head>
+        <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">    </head>
     <body class="admin-body">
         <aside class="barrainicioadmin">
             <div class="logotitulosoftadmin">
@@ -96,7 +95,7 @@
                     <a href="${ctx}/UsuarioAdmi">Usuarios</a>
                     <a href="${ctx}/RolesAdmi">Roles</a>
                 </details>
-                
+
                 <a class="admin-nav-papeleria" href="${ctx}/PapeleraAdmi">Papelería</a>
                 <a class="admin-nav-logout js-logout-link" href="${ctx}/CerrarSesion">Cerrar Sesión</a>
             </nav>
