@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <c:choose>
     <c:when test="${not empty sessionScope.nombreUsuario}">
@@ -18,7 +19,7 @@
         <link rel="stylesheet" href="${ctx}/Vista/Css/style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">    <body>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">    <body>
         <c:set var="activePage" value="actividades" scope="request"/>
         <%@ include file="Header.jsp" %>
 
@@ -34,46 +35,29 @@
 
             <section class="seccion-actividades actividad-page-body">
                 <div class="main-container">
+                    <c:set var="imagenesActividad" value="Perrito3.jpg,Perrito4.jpg,Perrito5.jpg,Perrito6.jpg,Perrito7.jpg,Gatito1.jpg,Gatito2.jpg,Gatito3.jpg,Gatito4.jpg,Gatito5.jpg,Gatito6.jpg"/>
+                    <c:set var="listaImagenesActividad" value="${fn:split(imagenesActividad, ',')}"/>
                     <div class="actividades-showcase">
-                        <article class="actividad-card actividad-pintar">
-                            <div class="actividad-media">
-                                <img src="${ctx}/Vista/Imagenes/Perrito6.jpg" alt="Perrito en actividad de pintura">
-                            </div>
-                            <div class="actividad-info">
-                                <span class="actividad-tag">Creativa</span>
-                                <h3>Pintar tote-bag</h3>
-                                <p>Disena y pinta una tote-bag mientras compartes con perritos tranquilos y curiosos.</p>
-                                <details open>
-                                    <summary>Que incluye</summary>
-                                    <p>Bolsa, pinturas, pinceles, guia creativa y espacio de convivencia con perritos.</p>
-                                </details>
-                                <details>
-                                    <summary>Ideal para</summary>
-                                    <p>Personas que quieren una actividad manual, colorida y relajada.</p>
-                                </details>
-                                <a href="${actividadReservaUrl}" class="actividad-cta">Reservar</a>
-                            </div>
-                        </article>
+                        <c:forEach var="act" items="${actividades}" varStatus="loop">
+                            <article class="actividad-card ${loop.index % 2 == 0 ? 'actividad-pintar' : 'actividad-yoga'}">
+                                <div class="actividad-media">
+                                    <img src="${ctx}/Vista/Imagenes/${listaImagenesActividad[loop.index % fn:length(listaImagenesActividad)]}" alt="${act.tipoActividadNombre}">
+                                </div>
+                                <div class="actividad-info">
+                                    <span class="actividad-tag">Experiencia</span>
+                                    <h3>${act.tipoActividadNombre}</h3>
+                                    <p>${act.descripcion_actividad}</p>
+                                    <c:if test="${not empty act.precioTexto}">
+                                        <p class="actividad-precio">${act.precioTexto}</p>
+                                    </c:if>
+                                    <a href="${actividadReservaUrl}" class="actividad-cta">Reservar</a>
+                                </div>
+                            </article>
+                        </c:forEach>
 
-                        <article class="actividad-card actividad-yoga">
-                            <div class="actividad-media">
-                                <img src="${ctx}/Vista/Imagenes/Perrito7.jpg" alt="Perrito para yoga">
-                            </div>
-                            <div class="actividad-info">
-                                <span class="actividad-tag">Bienestar</span>
-                                <h3>Yoga con perritos</h3>
-                                <p>Una sesion de estiramientos suaves, respiracion y conexion con los peluditos.</p>
-                                <details open>
-                                    <summary>Que incluye</summary>
-                                    <p>Clase guiada, tapete, hidratacion y tiempo de mimos al finalizar.</p>
-                                </details>
-                                <details>
-                                    <summary>Ideal para</summary>
-                                    <p>Visitantes que buscan una experiencia calmada, tierna y diferente.</p>
-                                </details>
-                                <a href="${actividadReservaUrl}" class="actividad-cta">Reservar</a>
-                            </div>
-                        </article>
+                        <c:if test="${empty actividades}">
+                            <p class="sin-perritos">Pronto tendremos nuevas actividades disponibles.</p>
+                        </c:if>
                     </div>
                 </div>
             </section>
