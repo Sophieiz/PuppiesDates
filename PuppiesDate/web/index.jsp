@@ -25,7 +25,7 @@
         <link rel="stylesheet" href="${ctx}/Vista/Css/style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">    <body>   
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">    <body>   
         <c:set var="activePage" value="inicio" scope="request"/>
         <%@ include file="Vista/Header.jsp" %>
 
@@ -144,10 +144,11 @@
                 <c:set var="imagenesActividad" value="Perrito3.jpg,Perrito4.jpg,Perrito5.jpg,Perrito6.jpg,Perrito7.jpg,Gatito1.jpg,Gatito2.jpg,Gatito3.jpg,Gatito4.jpg,Gatito5.jpg,Gatito6.jpg"/>
                 <c:set var="listaImagenesActividad" value="${fn:split(imagenesActividad, ',')}"/>
                 <div class="actividades-showcase">
-                    <c:forEach var="act" items="${actividades}" varStatus="loop">
+                    <c:forEach var="act" items="${actividades}" varStatus="loop" end="2">
                         <article class="actividad-card ${loop.index % 2 == 0 ? 'actividad-pintar' : 'actividad-yoga'}">
                             <div class="actividad-media">
-                                <img src="${ctx}/Vista/Imagenes/${listaImagenesActividad[loop.index % fn:length(listaImagenesActividad)]}" alt="${act.tipoActividadNombre}">
+                                <img src="${ctx}/Vista/Imagenes/${listaImagenesActividad[loop.index % fn:length(listaImagenesActividad)]}" alt="${act.tipoActividadNombre}"
+                                     onerror="this.onerror=null; this.src='${ctx}/Vista/Imagenes/Perrito1.jpg';">
                             </div>
                             <div class="actividad-info">
                                 <span class="actividad-tag">Experiencia</span>
@@ -156,7 +157,7 @@
                                 <c:if test="${not empty act.precioTexto}">
                                     <p class="actividad-precio">${act.precioTexto}</p>
                                 </c:if>
-                                <a href="${ctx}/Iniciar" class="actividad-cta">Reservar</a>
+                                <a href="${ctx}/ReservaCliente" class="actividad-cta">Reservar</a>
                             </div>
                         </article>
                     </c:forEach>
@@ -164,6 +165,11 @@
                         <p class="sin-perritos">Pronto tendremos nuevas actividades disponibles.</p>
                     </c:if>
                 </div>
+                <c:if test="${not empty actividades and fn:length(actividades) > 3}">
+                    <div class="ver-mas-wrap">
+                        <a href="${ctx}/Actividades" class="btn-menu btn-verde-activo">Ver más</a>
+                    </div>
+                </c:if>
                 <div class="grid-actividades">
                     <div class="bloque-actividad bloque-azul">
                         <div class="icono-actividad"></div>
