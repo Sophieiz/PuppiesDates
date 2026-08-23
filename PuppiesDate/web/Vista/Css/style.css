@@ -4385,16 +4385,42 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     white-space: nowrap;
 }
 
-.aviso-fechas-disponibles {
-    background-color: #fdf3df;
-    border: 1.5px solid #F4D77A;
-    border-radius: 12px;
-    padding: 10px 14px;
+.aviso-fechas-mini {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.btn-circulo-info {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--tulip);
+    color: #ffffff;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 700;
+    font-style: italic;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 8px rgba(109, 58, 82, 0.2);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.btn-circulo-info:hover {
+    background-color: var(--eggplant);
+    transform: scale(1.1);
+}
+
+.aviso-fechas-mini span {
     font-size: 0.85rem;
     color: #6D3A52;
     font-weight: 700;
-    margin-bottom: 8px;
-    text-align: center;
 }
 
 .precio-actividad-texto {
