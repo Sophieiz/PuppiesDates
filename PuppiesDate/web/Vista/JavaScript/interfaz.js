@@ -242,3 +242,34 @@ document.addEventListener('DOMContentLoaded', function () {
     configurarPrecioActividad();
     configurarModalFechasDisponibles();
 });
+
+
+// Menú desplegable de usuario (circulito con inicial)
+document.addEventListener('DOMContentLoaded', function () {
+    const userToggle = document.getElementById('userDropdownToggle');
+    const userMenu = document.getElementById('userDropdownMenu');
+
+    if (userToggle && userMenu) {
+        userToggle.addEventListener('click', function (event) {
+            event.stopPropagation(); // evita que el click document cierre el menú al abrirlo
+            const isOpen = userMenu.classList.toggle('is-open');
+            userToggle.setAttribute('aria-expanded', isOpen);
+        });
+
+        // Cerrar si se hace clic fuera del menú
+        document.addEventListener('click', function (event) {
+            if (!userMenu.contains(event.target) && !userToggle.contains(event.target)) {
+                userMenu.classList.remove('is-open');
+                userToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        // Cerrar con tecla Escape
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && userMenu.classList.contains('is-open')) {
+                userMenu.classList.remove('is-open');
+                userToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
+});
