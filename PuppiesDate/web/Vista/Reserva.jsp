@@ -11,8 +11,7 @@
         <link rel="stylesheet" href="${ctx}/Vista/Css/formulario-reserva-styles.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
-        <script src="${ctx}/Vista/JavaScript/validarReserva.js" defer></script>
+        <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">        <script src="${ctx}/Vista/JavaScript/validarReserva.js" defer></script>
     </head>
     <body class="reserva-page">   
         <c:set var="activePage" value="reservas" scope="request"/>
@@ -26,7 +25,7 @@
                 <a href="${ctx}/index.jsp" class="btn-volver-inicio">&larr;</a>
             </c:otherwise>
         </c:choose>
-                
+
         <c:if test="${empty sessionScope.nombreUsuario}">
             <c:redirect url="/Iniciar"/>
         </c:if>

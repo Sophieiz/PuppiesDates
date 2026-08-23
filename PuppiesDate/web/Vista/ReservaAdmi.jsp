@@ -7,6 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Admin - Reservas</title>
         <link rel="stylesheet" href="${ctx}/Vista/Css/style.css">
+        <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     </head>
     <body class="admin-form-body">
         <a href="${ctx}/PanelAdmin.jsp" class="btn-volver-panel">&#8592; Volver al panel</a>

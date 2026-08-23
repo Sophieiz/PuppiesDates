@@ -9,8 +9,7 @@
         <link rel="stylesheet" href="${ctx}/Vista/Css/style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
-        <script src="${ctx}/Vista/JavaScript/validarInicio.js" defer></script>
+        <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">        <script src="${ctx}/Vista/JavaScript/validarInicio.js" defer></script>
     </head>
     <body class="pagina-formulario">
         <c:set var="activePage" value="inicio" scope="request"/>
@@ -20,7 +19,7 @@
 
         <form action="${ctx}/Iniciar" method="post" onsubmit="return validarLogin()" novalidate>
             <div class="Formulario">
-                
+
                 <%-- Alerta de Error General --%>
                 <c:if test="${not empty mensaje}">
                     <p class="mensaje mensaje-error">${mensaje}</p>
