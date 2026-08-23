@@ -29,7 +29,8 @@
         <nav class="navegacion navegacion-centrada" id="navMenu">
             <ul>
                 <li><a href="${urlInicio}" class="btn-menu ${activePage == 'inicio' ? 'btn-verde-activo' : ''}">Inicio</a></li>
-                <li><a href="${ctx}/Actividades" class="btn-menu ${activePage == 'actividades' ? 'btn-verde-activo' : ''}">Actividades</a></li>                <li>
+                <li><a href="${ctx}/Vista/Actividad.jsp" class="btn-menu ${activePage == 'actividades' ? 'btn-verde-activo' : ''}">Actividades</a></li>
+                <li>
                     <c:choose>
                         <c:when test="${not empty sessionScope.nombreUsuario}">
                             <a href="${ctx}/ReservaCliente" class="btn-menu ${activePage == 'reservas' ? 'btn-verde-activo' : ''}">Reservas</a>

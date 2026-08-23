@@ -39,8 +39,8 @@
                                 <div class="imagen-contenedor" id="carrusel">
                                     <img src="${ctx}/Vista/Imagenes/Perrito5.jpg" alt="Perrito 5">
                                     <img src="${ctx}/Vista/Imagenes/Perrito2.jpg" alt="Perrito 2">
-                                    <img src="${ctx}/Vista/Imagenes/Gatito2.jpg" alt="Gatito 2">
-                                    <img src="${ctx}/Vista/Imagenes/Gatito1.jpg" alt="Gatito 1">
+                                    <img src="${ctx}/Vista/Imagenes/perrito3_1.jpg" alt="perrito 3">
+                                    <img src="${ctx}/Vista/Imagenes/Perrito4.jpg" alt="Perrito 4">
                                 </div>
                                 <button type="button" class="btn-carrusel-nav prev" id="left">&#10094;</button>
                                 <button type="button" class="btn-carrusel-nav next" id="right">&#10095;</button>
