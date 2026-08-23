@@ -57,7 +57,8 @@ public class InicioSesion extends HttpServlet {
             }
 
             // Login exitoso
-            HttpSession sesion = request.getSession();
+            request.getSession().invalidate(); 
+            HttpSession sesion = request.getSession(true); 
             sesion.setAttribute("nombreUsuario", usuarioBD.getnombre());
             sesion.setAttribute("perfil", usuarioBD.getRoles_idRoles());
             sesion.setAttribute("idUsuario", usuarioBD.getidUsuarios());

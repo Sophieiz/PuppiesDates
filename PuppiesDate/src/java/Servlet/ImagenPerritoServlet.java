@@ -11,21 +11,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 
-/**
- * Sirve las imagenes de perritos que se guardan en una carpeta FIJA fuera del
- * directorio de despliegue (para que no se pierdan al recompilar/redesplegar).
- *
- * Se mapea a /uploads/* asi que una foto guardada en BD como
- * "uploads/perrito_123.jpg" se sigue viendo con la misma URL de siempre:
- * ${ctx}/uploads/perrito_123.jpg
- */
+
 @WebServlet(name = "ImagenPerritoServlet", urlPatterns = {"/uploads/*"})
 public class ImagenPerritoServlet extends HttpServlet {
 
-    /**
-     * Misma logica que PerritoAdmi: si existe la variable de entorno UPLOADS_DIR
-     * (ruta del Volume en Railway), se usa esa; si no, la carpeta fija local.
-     */
+   
     private static String carpetaBase() {
         String desdeEntorno = System.getenv("UPLOADS_DIR");
         if (desdeEntorno != null && !desdeEntorno.trim().isEmpty()) {
