@@ -114,11 +114,8 @@
 
                     <div class="admin-crud-field">
                         <label for="raza">Raza:</label>
-                        <select name="raza" id="raza" data-label="raza" data-required-message="La raza es obligatoria." required>
-                            <option value="">Seleccione...</option>
-                            <c:forEach var="razaOpcion" items="${listaRazas}">
-                                <option value="${razaOpcion.idRaza}">${razaOpcion.nombre}</option>
-                            </c:forEach>
+                        <select name="raza" id="raza" data-label="raza" data-required-message="La raza es obligatoria." required disabled>
+                            <option value="" selected disabled>Selecciona primero la especie</option>
                         </select>
                         <span class="admin-crud-error"></span>
                     </div>
@@ -220,7 +217,10 @@
             </div>
         </div>
 
+        <script>window.contextPath = "${ctx}";</script>
+        <script src="${ctx}/Vista/JavaScript/razaAdmin.js"></script>
         <script src="${ctx}/Vista/JavaScript/Admi_modales.js"></script>
         <script src="${ctx}/Vista/JavaScript/interfaz.js"></script>
+
     </body>
 </html>
