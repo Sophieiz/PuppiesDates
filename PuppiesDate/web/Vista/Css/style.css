@@ -4493,3 +4493,26 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     height: 72px;
     padding: 8px;
 }
+
+
+/* 1. Habilitar scroll horizontal en el contenedor de la tabla */
+.admin-crud-table-wrap {
+    width: 100%;
+    overflow-x: auto; /* Permite el desplazamiento horizontal */
+    -webkit-overflow-scrolling: touch; /* Hace que el scroll sea fluido en celulares (iOS) */
+    display: block;
+}
+
+/* 2. Evitar que el texto de las celdas se apile hacia abajo */
+.admin-crud-table th, 
+.admin-crud-table td {
+    white-space: nowrap; /* Obliga al texto a mantenerse en una sola línea */
+    padding: 12px 15px; /* (Opcional) Ajusta el espaciado interno si están muy juntas */
+}
+
+/* 3. Asegurar que la tabla no colapse a menos de su contenido */
+.admin-crud-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px; /* Este valor obliga a la tabla a tener un ancho mínimo. Ajustalo si es necesario */
+}

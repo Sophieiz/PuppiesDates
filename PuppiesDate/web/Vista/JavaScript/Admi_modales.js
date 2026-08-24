@@ -14,16 +14,14 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentRow = null;
 
     function openModal(modal) {
-        if (!modal)
-            return;
+        if (!modal) return;
         modal.classList.add('activo', 'is-open');
         modal.setAttribute('aria-hidden', 'false');
         document.body.classList.add('modal-abierto');
     }
 
     function closeModal(modal) {
-        if (!modal)
-            return;
+        if (!modal) return;
         modal.classList.remove('activo', 'is-open');
         modal.setAttribute('aria-hidden', 'true');
         if (!document.querySelector('.modal-overlay.activo, .admin-crud-modal.is-open')) {
@@ -41,16 +39,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function showAlert(form, message) {
         const box = alertBox(form);
-        if (!box)
-            return;
+        if (!box) return;
         box.textContent = message;
         box.classList.add('is-open', 'activa');
     }
 
     function clearAlert(form) {
         const box = alertBox(form);
-        if (!box)
-            return;
+        if (!box) return;
         box.textContent = '';
         box.classList.remove('is-open', 'activa');
     }
@@ -61,8 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function getErrorElement(input) {
         const container = getFieldContainer(input);
-        if (!container)
-            return null;
+        if (!container) return null;
         let error = container.querySelector('.admin-crud-error, .error-mensaje');
         if (!error) {
             error = document.createElement('span');
@@ -73,8 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function clearFormState(form) {
-        if (!form)
-            return;
+        if (!form) return;
         clearAlert(form);
         form.querySelectorAll('.input-error, .input-ok, .field-invalid, .field-valid').forEach(function (field) {
             field.classList.remove('input-error', 'input-ok', 'field-invalid', 'field-valid');
@@ -97,8 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function requiredMessage(input) {
-        if (input.dataset.requiredMessage)
-            return input.dataset.requiredMessage;
+        if (input.dataset.requiredMessage) return input.dataset.requiredMessage;
         const label = input.dataset.label || input.getAttribute('aria-label') || input.name || 'campo';
         const article = input.dataset.article || 'El';
         return article + ' ' + label + ' es obligatorio.';
@@ -126,10 +119,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 const min = input.min !== '' ? Number(input.min) : null;
                 const max = input.max !== '' ? Number(input.max) : null;
                 valid = Number.isFinite(numberValue);
-                if (valid && min !== null)
-                    valid = numberValue >= min;
-                if (valid && max !== null)
-                    valid = numberValue <= max;
+                if (valid && min !== null) valid = numberValue >= min;
+                if (valid && max !== null) valid = numberValue <= max;
                 message = 'El ' + (input.dataset.label || input.name) + ' tiene un valor incorrecto.';
             } else if (input.type === 'date') {
                 valid = !Number.isNaN(new Date(value + 'T00:00:00').getTime());
@@ -161,8 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function isDuplicate(form) {
         const key = duplicateKeyFromForm(form);
-        if (!key)
-            return false;
+        if (!key) return false;
         const idName = form.dataset.idName || '';
         const idField = idName ? form.querySelector('[name="' + idName + '"]') : null;
         const currentId = normalizeValue(idField ? idField.value : '');
@@ -178,8 +168,7 @@ document.addEventListener('DOMContentLoaded', function () {
         clearAlert(form);
 
         form.querySelectorAll('input, select, textarea').forEach(function (field) {
-            if (!validateField(field, true))
-                valid = false;
+            if (!validateField(field, true)) valid = false;
         });
 
         if (!valid) {
@@ -195,41 +184,32 @@ document.addEventListener('DOMContentLoaded', function () {
         return true;
     }
 
-    // 📸 FUNCIÓN ACTUALIZADA PARA CARGAR DATOS Y LA VISTA PREVIA DE LA FOTO
     function fillFormFromRow(form, row) {
         form.querySelectorAll('[name]').forEach(function (field) {
-            if (field.name === 'accion')
-                return;
+            if (field.name === 'accion') return;
             const value = row.getAttribute('data-field-' + field.name);
-            if (value !== null)
-                field.value = value;
+            if (value !== null) field.value = value;
         });
 
         const modalId = form.querySelector('#modalId');
         const rowId = row.getAttribute('data-field-id') || row.getAttribute('data-id');
-        if (modalId && rowId !== null)
-            modalId.value = rowId;
+        if (modalId && rowId !== null) modalId.value = rowId;
 
-        // --- Cargar Foto y Vista Previa al Editar ---
         const fotoNombre = row.getAttribute('data-field-foto');
         const inputHiddenFoto = document.getElementById('foto');
         const imgPreview = document.getElementById('preview-foto');
         const inputFileInput = document.getElementById('fotoArchivo');
 
-        if (inputFileInput)
-            inputFileInput.value = ''; // Limpia la selección de archivo nuevo
+        if (inputFileInput) inputFileInput.value = '';
 
         if (fotoNombre && fotoNombre.trim() !== '') {
-            if (inputHiddenFoto)
-                inputHiddenFoto.value = fotoNombre;
+            if (inputHiddenFoto) inputHiddenFoto.value = fotoNombre;
             if (imgPreview) {
-                // Cambia 'Vista/Fotos/' por la subcarpeta real si tus imágenes están en otra ruta
                 imgPreview.src = 'Vista/Fotos/' + fotoNombre;
                 imgPreview.style.display = 'block';
             }
         } else {
-            if (inputHiddenFoto)
-                inputHiddenFoto.value = '';
+            if (inputHiddenFoto) inputHiddenFoto.value = '';
             if (imgPreview) {
                 imgPreview.src = '';
                 imgPreview.style.display = 'none';
@@ -238,14 +218,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function fillDeleteForm(row) {
-        if (!deleteForm || !row)
-            return;
+        if (!deleteForm || !row) return;
         deleteForm.querySelectorAll('[name]').forEach(function (field) {
-            if (field.name === 'accion')
-                return;
+            if (field.name === 'accion') return;
             const value = row.getAttribute('data-field-' + field.name);
-            if (value !== null)
-                field.value = value;
+            if (value !== null) field.value = value;
         });
     }
 
@@ -262,8 +239,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function submitDeleteFromMainForm() {
-        if (!editForm || !currentRow)
-            return;
+        if (!editForm || !currentRow) return;
         fillFormFromRow(editForm, currentRow);
         setAction(editForm, editForm.dataset.deleteAction || 'eliminar');
         HTMLFormElement.prototype.submit.call(editForm);
@@ -277,8 +253,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.querySelectorAll('.modal-overlay, .admin-crud-modal').forEach(function (overlay) {
         overlay.addEventListener('click', function (event) {
-            if (event.target === overlay)
-                closeModal(overlay);
+            if (event.target === overlay) closeModal(overlay);
         });
     });
 
@@ -288,11 +263,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // ➕ REGISTRO NUEVO
     document.querySelectorAll('[data-open-create]').forEach(function (button) {
         button.addEventListener('click', function () {
-            if (!editModal || !editForm)
-                return;
+            if (!editModal || !editForm) return;
             currentRow = null;
             editForm.reset();
             clearFormState(editForm);
@@ -303,38 +276,29 @@ document.addEventListener('DOMContentLoaded', function () {
                 selectRaza.innerHTML = '<option value="" selected disabled>Selecciona primero la especie</option>';
             }
 
-            // Limpia la vista previa de la imagen al crear
             const imgPreview = document.getElementById('preview-foto');
             const inputHiddenFoto = document.getElementById('foto');
             if (imgPreview) {
                 imgPreview.src = '';
                 imgPreview.style.display = 'none';
             }
-            if (inputHiddenFoto) {
-                inputHiddenFoto.value = '';
-            }
+            if (inputHiddenFoto) inputHiddenFoto.value = '';
 
             editModal.classList.remove('admin-crud-edit-mode');
             setAction(editForm, editForm.dataset.createAction || 'insertar');
             const modalId = editForm.querySelector('#modalId');
-            if (modalId)
-                modalId.value = '';
-            if (title)
-                title.textContent = editForm.dataset.createTitle || 'Nuevo registro';
+            if (modalId) modalId.value = '';
+            if (title) title.textContent = editForm.dataset.createTitle || 'Nuevo registro';
             openModal(editModal);
             const firstField = editForm.querySelector('input:not([type="hidden"]), select, textarea');
-            if (firstField)
-                firstField.focus();
+            if (firstField) firstField.focus();
         });
     });
 
-    // ✏️ CLIC EN FILA PARA MODIFICAR
     document.querySelectorAll('[data-admin-row]').forEach(function (row) {
         row.addEventListener('click', function (event) {
-            if (event.target.closest('a, button, input, select, textarea'))
-                return;
-            if (!editModal || !editForm)
-                return;
+            if (event.target.closest('a, button, input, select, textarea')) return;
+            if (!editModal || !editForm) return;
             currentRow = row;
             editForm.reset();
             clearFormState(editForm);
@@ -347,12 +311,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
             editModal.classList.add('admin-crud-edit-mode');
             setAction(editForm, editForm.dataset.editAction || 'actualizar');
-            if (title)
-                title.textContent = editForm.dataset.editTitle || 'Modificar registro';
+            if (title) title.textContent = editForm.dataset.editTitle || 'Modificar registro';
             openModal(editModal);
             const firstField = editForm.querySelector('input:not([type="hidden"]), select, textarea');
-            if (firstField)
-                firstField.focus();
+            if (firstField) firstField.focus();
         });
 
         row.addEventListener('keydown', function (event) {
@@ -367,8 +329,7 @@ document.addEventListener('DOMContentLoaded', function () {
         form.setAttribute('novalidate', 'novalidate');
 
         form.querySelectorAll('input, select, textarea').forEach(function (field) {
-            if (field.type === 'hidden' || field.name === 'accion')
-                return;
+            if (field.type === 'hidden' || field.name === 'accion') return;
             ['input', 'change', 'blur'].forEach(function (eventName) {
                 field.addEventListener(eventName, function () {
                     validateField(field, true);
@@ -389,30 +350,31 @@ document.addEventListener('DOMContentLoaded', function () {
             const fotoOculta = document.getElementById('foto');
             const errorFoto = document.getElementById('error-foto');
 
-            const tieneArchivoNuevo = fotoInput && fotoInput.files.length > 0;
-            const tieneFotoExistente = fotoOculta && fotoOculta.value.trim() !== '';
+            // SE CORRIGE AQUÍ: Solo validar la foto si el input existe en este formulario
+            if (fotoInput) {
+                const tieneArchivoNuevo = fotoInput.files.length > 0;
+                const tieneFotoExistente = fotoOculta && fotoOculta.value.trim() !== '';
 
-            if (esCreacion && !tieneArchivoNuevo) {
-                if (errorFoto) errorFoto.textContent = 'Debes subir una foto del perrito.';
-                if (fotoInput) fotoInput.classList.add('input-error');
-                event.preventDefault();
-                return;
-            }
+                if (esCreacion && !tieneArchivoNuevo) {
+                    if (errorFoto) errorFoto.textContent = 'Debes subir una foto del perrito.';
+                    fotoInput.classList.add('input-error');
+                    event.preventDefault();
+                    return;
+                }
 
-            if (!esCreacion && !tieneArchivoNuevo && !tieneFotoExistente) {
-                if (errorFoto) errorFoto.textContent = 'Debes subir una foto del perrito.';
-                if (fotoInput) fotoInput.classList.add('input-error');
-                event.preventDefault();
-                return;
+                if (!esCreacion && !tieneArchivoNuevo && !tieneFotoExistente) {
+                    if (errorFoto) errorFoto.textContent = 'Debes subir una foto del perrito.';
+                    fotoInput.classList.add('input-error');
+                    event.preventDefault();
+                    return;
+                }
             }
         });
     });
 
-    // 🗑️ ABRIR CONFIRMACIÓN DE INACTIVAR (ahora fuera del forEach de formularios)
     document.querySelectorAll('[data-open-delete]').forEach(function (button) {
         button.addEventListener('click', function () {
-            if (!currentRow || !confirmModal)
-                return;
+            if (!currentRow || !confirmModal) return;
             fillDeleteForm(currentRow);
             openModal(confirmModal);
         });
@@ -426,7 +388,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // 🖼️ VISTA PREVIA DE FOTO AL SELECCIONAR ARCHIVO (también fuera del forEach)
     const fotoInput = document.getElementById('fotoArchivo');
     if (fotoInput) {
         fotoInput.addEventListener('change', function (e) {
@@ -438,31 +399,4 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
-});
-
-
-document.addEventListener('DOMContentLoaded', () => {
-    const modalEditar = document.getElementById('modal-editar');
-    const btnNuevo = document.querySelector('[data-open-create]');
-    const btnsCerrar = document.querySelectorAll('[data-cerrar]');
-
-    // Abrir modal para crear
-    if (btnNuevo && modalEditar) {
-        btnNuevo.addEventListener('click', () => {
-            modalEditar.setAttribute('aria-hidden', 'false');
-            modalEditar.classList.add('is-active'); // O la clase de visibilidad que uses
-        });
-    }
-
-    // Cerrar modales
-    btnsCerrar.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const modalId = btn.getAttribute('data-cerrar');
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.setAttribute('aria-hidden', 'true');
-                modal.classList.remove('is-active');
-            }
-        });
-    });
 });
