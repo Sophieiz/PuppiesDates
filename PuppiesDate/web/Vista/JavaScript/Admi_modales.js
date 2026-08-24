@@ -296,13 +296,12 @@ document.addEventListener('DOMContentLoaded', function () {
             currentRow = null;
             editForm.reset();
             clearFormState(editForm);
-            
+
             const selectRaza = document.getElementById('raza');
             if (selectRaza) {
                 selectRaza.disabled = true;
                 selectRaza.innerHTML = '<option value="" selected disabled>Selecciona primero la especie</option>';
             }
-
 
             // Limpia la vista previa de la imagen al crear
             const imgPreview = document.getElementById('preview-foto');
@@ -339,14 +338,13 @@ document.addEventListener('DOMContentLoaded', function () {
             currentRow = row;
             editForm.reset();
             clearFormState(editForm);
-            fillFormFromRow(editForm, row); // 
+            fillFormFromRow(editForm, row);
             const idEspecieFila = row.getAttribute('data-field-especie');
             const idRazaFila = row.getAttribute('data-field-raza');
             if (typeof cargarRazasParaEdicion === 'function' && idEspecieFila) {
                 cargarRazasParaEdicion(idEspecieFila, idRazaFila);
             }
 
-            editModal.classList.add('admin-crud-edit-mode');
             editModal.classList.add('admin-crud-edit-mode');
             setAction(editForm, editForm.dataset.editAction || 'actualizar');
             if (title)
@@ -379,13 +377,12 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
-            form.addEventListener('submit', function (event) {
+        form.addEventListener('submit', function (event) {
             if (!validateForm(form)) {
                 event.preventDefault();
                 return;
             }
 
-            
             const accionField = form.querySelector('[name="accion"]');
             const esCreacion = accionField && accionField.value === (form.dataset.createAction || 'insertar');
             const fotoInput = document.getElementById('fotoArchivo');
@@ -409,7 +406,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
         });
+    });
 
+    // 🗑️ ABRIR CONFIRMACIÓN DE INACTIVAR (ahora fuera del forEach de formularios)
     document.querySelectorAll('[data-open-delete]').forEach(function (button) {
         button.addEventListener('click', function () {
             if (!currentRow || !confirmModal)
@@ -427,7 +426,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-
+    // 🖼️ VISTA PREVIA DE FOTO AL SELECCIONAR ARCHIVO (también fuera del forEach)
     const fotoInput = document.getElementById('fotoArchivo');
     if (fotoInput) {
         fotoInput.addEventListener('change', function (e) {
@@ -439,5 +438,4 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
-});
 });

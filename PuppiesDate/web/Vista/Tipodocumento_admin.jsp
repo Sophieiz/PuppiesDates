@@ -21,16 +21,15 @@
             <div class="admin-table-card">
                 <div class="admin-crud-toolbar">
                     <h3>Tipo de documento</h3>
-                    <button type="button" class="admin-crud-btn-primary" data-open-create>Nuevo tipo</button>
                 </div>
 
-                <p class="admin-crud-help">Haz clic sobre una fila para modificar o eliminar el registro.</p>
+                <p class="admin-crud-help">Haz clic sobre una fila para inactivar registro.</p>
 
                 <div class="admin-crud-table-wrap">
                     <table class="admin-crud-table">
                         <thead>
                             <tr>
-                                <th>#</th>>
+                                <th>#</th>
                                 <th>Descripción</th>
                             </tr>
                         </thead>
@@ -54,21 +53,18 @@
             </div>
         </div>
 
-        <!-- MODAL DE CREACIÓN / EDICIÓN -->
+        <!-- MODAL DE DETALLE (solo lectura + inactivar) -->
         <div class="admin-crud-modal modal-overlay" id="modal-editar" aria-hidden="true">
             <div class="admin-crud-modal-box">
                 <button type="button" class="admin-modal-cerrar" data-cerrar="modal-editar" aria-label="Cerrar">&times;</button>
-                <h2 class="admin-crud-title" data-modal-title>Nuevo tipo de documento</h2>
+                <h2 class="admin-crud-title" data-modal-title>Tipo de documento</h2>
 
                 <form action="${ctx}/Tipodocumento" method="POST" class="admin-managed-form"
                       data-id-name="idTipo_documento" 
                       data-duplicate-keys="descripcion_doc"
-                      data-create-action="insertar" 
-                      data-edit-action="actualizar"
-                      data-create-title="Nuevo tipo de documento" 
-                      data-edit-title="Modificar tipo de documento">
+                      data-create-title="Tipo de documento" 
+                      data-edit-title="Tipo de documento">
 
-                    <input type="hidden" id="modalAccion" name="accion" value="insertar">
                     <input type="hidden" id="modalId" name="id" value="">
                     <input type="hidden" name="idTipo_documento">
 
@@ -76,14 +72,13 @@
 
                     <div class="admin-crud-field">
                         <label for="descripcion_doc">Descripción:</label>
-                        <input type="text" name="descripcion_doc" id="descripcion_doc" data-label="descripción" data-required-message="La descripción es obligatoria." required>
+                        <input type="text" name="descripcion_doc" id="descripcion_doc" data-label="descripción" readonly>
                         <span class="admin-crud-error"></span>
                     </div>
 
                     <div class="admin-crud-actions">
                         <button type="button" class="admin-crud-btn-danger admin-crud-only-edit" data-open-delete>Inactivar</button>
-                        <button type="button" class="admin-crud-btn-secondary" data-cerrar="modal-editar">Cancelar</button>
-                        <button type="submit" class="admin-crud-btn-primary">Guardar</button>
+                        <button type="button" class="admin-crud-btn-secondary" data-cerrar="modal-editar">Cerrar</button>
                     </div>
                 </form>
             </div>

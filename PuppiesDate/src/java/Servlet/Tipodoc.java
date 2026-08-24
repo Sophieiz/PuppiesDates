@@ -17,43 +17,21 @@ public class Tipodoc extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         String accion = request.getParameter("accion");
         Tipo_documentoDAO dao = new Tipo_documentoDAO();
-
         try {
-            if ("insertar".equalsIgnoreCase(accion)) {
-                String descripcion = request.getParameter("descripcion_doc");
-
-                Tipo_documento doc = new Tipo_documento();
-                doc.setdescripcion_doc(descripcion);
-
-                boolean ok = dao.insertarTipo_documento(doc);
-                request.getSession().setAttribute("mensajeFlash", ok ? "Documento insertado correctamente." : "Error al insertar documento.");
-
-            } else if ("actualizar".equalsIgnoreCase(accion)) {
-                int id = Integer.parseInt(request.getParameter("idTipo_documento")); // solo se usa para actualizar
-                String descripcion = request.getParameter("descripcion_doc");
-
-                Tipo_documento doc = new Tipo_documento();
-                doc.setidTipo_documento(id);
-                doc.setdescripcion_doc(descripcion);
-
-                boolean ok = dao.actualizarTipoDocumento(doc);
-                request.getSession().setAttribute("mensajeFlash", ok ? "Documento actualizado correctamente." : "Error al actualizar documento.");
-
-            } else if ("eliminar".equalsIgnoreCase(accion)) {
+            if ("eliminar".equalsIgnoreCase(accion)) {
                 int id = Integer.parseInt(request.getParameter("idTipo_documento"));
                 boolean ok = dao.eliminarTipoDocumento(id);
-                request.getSession().setAttribute("mensajeFlash", ok ? "Documento eliminado correctamente." : "Error al eliminar documento.");
+                request.getSession().setAttribute("mensajeFlash", ok ? "Documento inactivado correctamente." : "Error al inactivar documento.");
             } else if ("reactivar".equalsIgnoreCase(accion)) {
                 int id = Integer.parseInt(request.getParameter("idTipo_documento"));
                 boolean ok = dao.reactivarTipoDocumento(id);
                 request.getSession().setAttribute("mensajeFlash", ok ? "Documento reactivado correctamente." : "Error al reactivar documento.");
+            } else {
+                request.getSession().setAttribute("mensajeFlash", "Acción no permitida para tipos de documento.");
             }
-
             response.sendRedirect(request.getContextPath() + "/Tipodocumento");
-
         } catch (Exception e) {
             request.getSession().setAttribute("mensajeFlash", "Error en operaciones de TipoDocumento: " + e.getMessage());
             response.sendRedirect(request.getContextPath() + "/Tipodocumento");
