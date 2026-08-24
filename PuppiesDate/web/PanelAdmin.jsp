@@ -73,7 +73,6 @@
             <nav class="navegacionadmin">
                 <a class="admin-nav-home" href="${ctx}/PanelAdmin.jsp">Inicio</a>
                 <details class="admin-nav-group">
-                    <summary>Gestión de Reservas</summary>
                     <details class="admin-nav-group">
                         <summary>Gestión de Reservas</summary>
                         <a href="${ctx}/Actividad">Actividades</a>
