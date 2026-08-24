@@ -659,7 +659,7 @@ body {
     object-position: center 25%;   /* en vez de "top" */
 }
 .card-borde-rosa { border-color: var(--plume-pink); }
-.card-borde-azul { border-color: var(--plume-blue); }
+.card-borde-azul { border-color: var(--pistachio); }
 .card-borde-mostaza { border-color: var(--wild-mustard); }
 
 .tag-edad {
@@ -674,7 +674,7 @@ body {
 }
 
 .bg-tag-rosa { background-color: var(--plume-pink); }
-.bg-tag-azul { background-color: var(--plume-blue); }
+.bg-tag-azul { background-color: var(--pistachio); }
 .bg-tag-mostaza { background-color: var(--wild-mustard); }
 
 .avatar-perrito {

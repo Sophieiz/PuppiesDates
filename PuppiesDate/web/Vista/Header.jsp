@@ -69,4 +69,19 @@
         </nav>
     </header>
     <div class="cloud-wave"></div>
+
+</div>
+
+<div class="logout-modal-shell" id="logoutModal" aria-hidden="true">
+    <div class="logout-modal-backdrop" data-logout-close></div>
+    <section class="logout-modal-box" role="dialog" aria-modal="true" aria-labelledby="logoutModalTitle">
+        <button type="button" class="logout-modal-close" data-logout-close aria-label="Cerrar">&times;</button>
+        <div class="logout-modal-icon"></div>
+        <h3 id="logoutModalTitle">¿Ya te vas?</h3>
+        <p>¿Estás seguro de que deseas cerrar sesión? Te esperamos pronto en Puppies Dates.</p>
+        <div class="logout-modal-actions">
+            <button type="button" class="logout-modal-cancel" data-logout-close>Cancelar</button>
+            <a href="${ctx}/CerrarSesion" class="logout-modal-confirm">Cerrar sesión</a>
+        </div>
+    </section>
 </div>

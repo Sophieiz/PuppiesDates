@@ -145,5 +145,6 @@
 
         <%@ include file="Footer.jsp" %>
         <script src="${ctx}/Vista/JavaScript/validarReg.js"></script>
+        <script src="${ctx}/Vista/JavaScript/interfaz.js"></script>
     </body>
 </html>

@@ -372,3 +372,47 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+
+// Botón "Ir a Iniciar Sesión" del modal de registro exitoso
+document.addEventListener('DOMContentLoaded', function () {
+    const btnIrIniciarSesion = document.getElementById('btnIrIniciarSesion');
+    if (btnIrIniciarSesion) {
+        btnIrIniciarSesion.addEventListener('click', function () {
+            window.location.href = this.dataset.url;
+        });
+    }
+});
+
+// Modal de confirmación al cerrar sesión
+document.addEventListener('DOMContentLoaded', function () {
+    const logoutModal = document.getElementById('logoutModal');
+    if (!logoutModal) {
+        return;
+    }
+
+    const abrirLogoutModal = (event) => {
+        event.preventDefault();
+        logoutModal.classList.add('is-open');
+        logoutModal.setAttribute('aria-hidden', 'false');
+    };
+
+    const cerrarLogoutModal = () => {
+        logoutModal.classList.remove('is-open');
+        logoutModal.setAttribute('aria-hidden', 'true');
+    };
+
+    document.querySelectorAll('.js-logout-link').forEach(function (link) {
+        link.addEventListener('click', abrirLogoutModal);
+    });
+
+    logoutModal.querySelectorAll('[data-logout-close]').forEach(function (btn) {
+        btn.addEventListener('click', cerrarLogoutModal);
+    });
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && logoutModal.classList.contains('is-open')) {
+            cerrarLogoutModal();
+        }
+    });
+});
