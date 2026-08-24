@@ -656,7 +656,7 @@ body {
     width: 100%;
     height: 200px;       
     object-fit: cover;   
-    object-position: top;   /* antes: center */
+    object-position: center 25%;   /* en vez de "top" */
 }
 .card-borde-rosa { border-color: var(--plume-pink); }
 .card-borde-azul { border-color: var(--plume-blue); }
@@ -2829,7 +2829,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     border-radius: 14px;
     height: 260px;
     object-fit: cover;
-    object-position: top;   /* agregar esta línea */
+    object-position: center 25%;   /* en vez de "top" */
     margin-bottom: 15px;
 }
  
