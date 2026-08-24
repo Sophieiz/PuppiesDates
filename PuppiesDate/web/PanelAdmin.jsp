@@ -77,7 +77,7 @@
                     <details class="admin-nav-group">
                         <summary>Gestión de Reservas</summary>
                         <a href="${ctx}/Actividad">Actividades</a>
-                        <a href="${ctx}/Tipoactividad">Tipo de actividad</a>
+                        <a href="${ctx}/Tipoactividad">Tipo de actividad</a>-->
                         <a href="${ctx}/Listaprecios">Lista de precios</a>
                         <a href="${ctx}/Disponibilidaad">Disponibilidad</a>
                         <a href="${ctx}/Horarios">Horario</a>
@@ -93,7 +93,7 @@
                 </details>
                 <details class="admin-nav-group">
                     <summary>Usuarios y permisos</summary>
-                    <a href="${ctx}/Tipodocumento">Tipo de documento</a>
+                   <!-- <a href="${ctx}/Tipodocumento">Tipo de documento</a>-->
                     <a href="${ctx}/UsuarioAdmi">Usuarios</a>
                     <a href="${ctx}/RolesAdmi">Roles</a>
                 </details>
