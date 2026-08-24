@@ -117,5 +117,6 @@
         </div>
 
     <script src="${ctx}/Vista/JavaScript/funciones.js"></script>
+    <script src="${ctx}/Vista/JavaScript/ubicacionAdopcion.js"></script>
     </body>
 </html>
