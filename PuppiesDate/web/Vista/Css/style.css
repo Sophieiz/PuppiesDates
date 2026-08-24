@@ -2799,11 +2799,13 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
  
 .sin-perritos {
     text-align: center;
-    color: var(--white);
+    color: var(--text_dark);
     font-size: 1.1rem;
     padding: 40px;
 }
- 
+ .sin-reservas {
+    color: var(--text-dark);
+}
 /* FORMULARIO DE SOLICITUD DE ADOPCIÓN */
  
 .adopcion-wrap {

@@ -19,8 +19,8 @@
             <h2 class="titulo-apartado">Mis reservas</h2>
 
             <c:choose>
-                <c:when test="${empty listaMisReservas}">
-                    <p class="sin-perritos">Todavía no has hecho ninguna reserva. <a href="${ctx}/ReservaCliente">Reserva una actividad</a>.</p>
+                <c:when test="${empty listaMisReservas}">  
+                    <p class="sin-perritos sin-reservas">Todavía no has hecho ninguna reserva. <a href="${ctx}/ReservaCliente">Reserva una actividad</a>.</p>
                 </c:when>
                 <c:otherwise>
                     <div class="mis-registros-table-wrap">
