@@ -391,8 +391,13 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
+    // Guarda la URL a la que debía navegar el link original (${ctx}/CerrarSesion)
+    // para poder usarla cuando el usuario confirme dentro del modal.
+    let logoutUrl = null;
+
     const abrirLogoutModal = (event) => {
         event.preventDefault();
+        logoutUrl = event.currentTarget.href;
         logoutModal.classList.add('is-open');
         logoutModal.setAttribute('aria-hidden', 'false');
     };
@@ -408,6 +413,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     logoutModal.querySelectorAll('[data-logout-close]').forEach(function (btn) {
         btn.addEventListener('click', cerrarLogoutModal);
+    });
+
+    
+    logoutModal.querySelectorAll('[data-logout-confirm]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            if (logoutUrl) {
+                window.location.href = logoutUrl;
+            }
+        });
     });
 
     document.addEventListener('keydown', function (event) {

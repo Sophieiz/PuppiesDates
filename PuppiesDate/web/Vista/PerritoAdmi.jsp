@@ -85,7 +85,7 @@
                       data-duplicate-keys="microchip"
                       data-create-action="insertar" 
                       data-edit-action="actualizar"
-                      data-create-title="Nuevo perrito" 
+                      data-create-title="Nueva Mascota" 
                       data-edit-title="Modificar perrito">
 
                     <input type="hidden" id="modalAccion" name="accion" value="insertar">
