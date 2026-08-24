@@ -43,16 +43,22 @@ public class PerritoAdmi extends HttpServlet {
             if ("insertar".equalsIgnoreCase(accion)) {
 
                 String microchip = request.getParameter("microchip");
+                Part filePart = request.getPart("fotoArchivo");
+                if (filePart == null || filePart.getSize() == 0) {
+                    request.getSession().setAttribute("mensajeFlash", "Debes subir una foto de la Mascota.");
+                    response.sendRedirect(request.getContextPath() + "/PerritoAdmi");
+                    return;
+                }
 
                 if (dao.existeMicrochip(microchip)) {
-                    request.getSession().setAttribute("mensajeFlash", "Ya existe un perrito registrado con ese microchip.");
+                    request.getSession().setAttribute("mensajeFlash", "Ya existe una mascota registrado con ese microchip.");
                 } else {
                     Perrito perrito = armarPerrito(request, 0);
                     boolean ok = dao.insertarPerrito(perrito);
                     if (ok) {
-                        request.getSession().setAttribute("mensajeFlash", "Perrito registrado correctamente.");
+                        request.getSession().setAttribute("mensajeFlash", "Mascota registrado correctamente.");
                     } else {
-                        request.getSession().setAttribute("mensajeFlash", "Error al registrar el perrito: " + dao.getUltimoError());
+                        request.getSession().setAttribute("mensajeFlash", "Error al registrar la mascota: " + dao.getUltimoError());
                     }
                 }
 
@@ -62,21 +68,21 @@ public class PerritoAdmi extends HttpServlet {
                 String microchip = request.getParameter("microchip");
 
                 if (dao.existeMicrochipEnOtroPerrito(microchip, id)) {
-                    request.getSession().setAttribute("mensajeFlash", "Ese microchip ya pertenece a otro perrito.");
+                    request.getSession().setAttribute("mensajeFlash", "Ese microchip ya pertenece a otra mascota.");
                 } else {
                     Perrito perrito = armarPerrito(request, id);
                     boolean ok = dao.actualizarPerrito(perrito);
-                    request.getSession().setAttribute("mensajeFlash", ok ? "Perrito actualizado correctamente." : "Error al actualizar el perrito.");
+                    request.getSession().setAttribute("mensajeFlash", ok ? "Mascota actualizado correctamente." : "Error al actualizar el Mascota.");
                 }
 
             } else if ("eliminar".equalsIgnoreCase(accion)) {
                 int id = Integer.parseInt(request.getParameter("idPerrito"));
                 boolean ok = dao.eliminarPerrito(id);
-                request.getSession().setAttribute("mensajeFlash", ok ? "Perrito eliminado correctamente." : "Error al eliminar el perrito.");
+                request.getSession().setAttribute("mensajeFlash", ok ? "Mascota eliminado correctamente." : "Error al eliminar el Mascota.");
             } else if ("reactivar".equalsIgnoreCase(accion)) {
                 int id = Integer.parseInt(request.getParameter("idPerrito"));
                 boolean ok = dao.reactivarPerrito(id);
-                request.getSession().setAttribute("mensajeFlash", ok ? "Perrito reactivado correctamente." : "Error al reactivar el perrito.");
+                request.getSession().setAttribute("mensajeFlash", ok ? "Mascota reactivado correctamente." : "Error al reactivar el Mascota.");
             }
 
             response.sendRedirect(request.getContextPath() + "/PerritoAdmi");
@@ -165,6 +171,7 @@ public class PerritoAdmi extends HttpServlet {
         request.setAttribute("listaEspecies", new Controlador.EspecieDAO().listarEspecie());
         request.setAttribute("listaRazas", new Controlador.RazaDAO().listarRaza());
         request.setAttribute("listaSexos", new Controlador.Sexo_perritoDAO().listarSexo_perrito());
+        request.setAttribute("listaEtapasMadurez", new Controlador.EtapaMadurezDAO().listarEtapa_madurez());
         request.getRequestDispatcher("/Vista/PerritoAdmi.jsp").forward(request, response);
     }
 }

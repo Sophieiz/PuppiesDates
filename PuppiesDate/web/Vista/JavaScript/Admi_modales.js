@@ -379,11 +379,36 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
-        form.addEventListener('submit', function (event) {
-            if (!validateForm(form))
+            form.addEventListener('submit', function (event) {
+            if (!validateForm(form)) {
                 event.preventDefault();
+                return;
+            }
+
+            
+            const accionField = form.querySelector('[name="accion"]');
+            const esCreacion = accionField && accionField.value === (form.dataset.createAction || 'insertar');
+            const fotoInput = document.getElementById('fotoArchivo');
+            const fotoOculta = document.getElementById('foto');
+            const errorFoto = document.getElementById('error-foto');
+
+            const tieneArchivoNuevo = fotoInput && fotoInput.files.length > 0;
+            const tieneFotoExistente = fotoOculta && fotoOculta.value.trim() !== '';
+
+            if (esCreacion && !tieneArchivoNuevo) {
+                if (errorFoto) errorFoto.textContent = 'Debes subir una foto del perrito.';
+                if (fotoInput) fotoInput.classList.add('input-error');
+                event.preventDefault();
+                return;
+            }
+
+            if (!esCreacion && !tieneArchivoNuevo && !tieneFotoExistente) {
+                if (errorFoto) errorFoto.textContent = 'Debes subir una foto del perrito.';
+                if (fotoInput) fotoInput.classList.add('input-error');
+                event.preventDefault();
+                return;
+            }
         });
-    });
 
     document.querySelectorAll('[data-open-delete]').forEach(function (button) {
         button.addEventListener('click', function () {
@@ -414,4 +439,5 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+});
 });

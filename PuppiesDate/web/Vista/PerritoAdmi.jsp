@@ -145,32 +145,38 @@
 
                     <div class="admin-crud-field">
                         <label for="etapa_madurez">Etapa de madurez:</label>
-                        <input type="text" name="etapa_madurez" id="etapa_madurez" placeholder="Ej: Cachorro, Adulto, Geronte">
+                        <select name="etapa_madurez" id="etapa_madurez" data-label="etapa de madurez" data-required-message="La etapa de madurez es obligatoria." required>
+                            <option value="">Seleccione...</option>
+                            <c:forEach var="etapaOpcion" items="${listaEtapasMadurez}">
+                                <option value="${etapaOpcion.descripcion}">${etapaOpcion.descripcion}</option>
+                            </c:forEach>
+                        </select>
                         <span class="admin-crud-error"></span>
                     </div>
 
                     <div class="admin-crud-field">
                         <label for="especialidad">Temperamento:</label>
-                        <input type="text" name="especialidad" id="especialidad" placeholder="Ej: NA">
+                        <input type="text" name="especialidad" id="especialidad" placeholder="Ej: Juguetón, tranquilo, sociable con otros perros">
                         <span class="admin-crud-error"></span>
                     </div>
 
                     <div class="admin-crud-field">
                         <label for="condiciones_especiales">Condiciones especiales:</label>
-                        <input type="text" name="condiciones_especiales" id="condiciones_especiales" placeholder="Ej: No aplica">
+                        <input type="text" name="condiciones_especiales" id="condiciones_especiales" placeholder="Ej: Alergia al pollo, requiere medicamento diario, No aplica">
                         <span class="admin-crud-error"></span>
                     </div>
 
 
                     <div class="admin-crud-field">
                         <label for="titulo_historia">Título de la historia:</label>
-                        <input type="text" name="titulo_historia" id="titulo_historia" placeholder="Ej: El milagro de volver a confiar">
+                        <input type="text" name="titulo_historia" id="titulo_historia" placeholder="Ej: El titulo que le quieras colocar a la historia">
                         <span class="admin-crud-error"></span>
                     </div>
 
                     <div class="admin-crud-field">
                         <label for="historia">Historia completa:</label>
-                        <textarea name="historia" id="historia" rows="5" data-label="historia" data-required-message="La historia es obligatoria." required></textarea>
+                        <textarea name="historia" id="historia" rows="5" data-label="historia" data-required-message="La historia es obligatoria." required
+                                  placeholder="Cuenta cómo fue rescatado el perrito y si está al día con sus vacunas y salud general."></textarea>
                         <span class="admin-crud-error"></span>
                     </div>
 
@@ -186,11 +192,10 @@
 
                     <div class="admin-crud-field">
                         <label for="fotoArchivo">Foto del perrito:</label>
-
                         <input type="file" name="fotoArchivo" id="fotoArchivo" class="admin-photo-input" accept="image/*" data-photo-picker data-photo-target="foto" data-photo-preview="preview-foto">
                         <input type="hidden" name="foto" id="foto">
                         <img class="admin-photo-preview" id="preview-foto" alt="Vista previa de la foto" style="max-width: 150px; margin-top: 10px; display: block;">
-                        <span class="admin-crud-error"></span>
+                        <span class="admin-crud-error" id="error-foto"></span>
                     </div>
 
                     <div class="admin-crud-actions">
