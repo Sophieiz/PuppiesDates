@@ -65,20 +65,21 @@
                                     data-field-Actividad_idActividad="${reserva.actividad_idActividad}"
                                     data-field-Pagos_idPagos="${reserva.pagos_idPagos}"
                                     data-duplicate-key="${reserva.num_personas}|${reserva.hora}|${reserva.fecha}|${reserva.usuarios_idUsuarios}|${reserva.disponibilidad_idDisponibilidad}|${reserva.estado_reserva_idEstado_reserva}|${reserva.actividad_idActividad}|${reserva.pagos_idPagos}">
-                                    <td>${reserva.idReserva}</td>
-                                    <td>${reserva.num_personas}</td>
-                                    <td>${reserva.hora}</td>
-                                    <td>${reserva.fecha}</td>
-                                    <td>${reserva.nombreUsuario}</td>
-                                    <td>${reserva.cupoDisponible}/${reserva.cupoTotal} cupos</td>
-                                    <td>${reserva.descripcionEstadoReserva}</td>
-                                    <td>
+
+                                    <td data-label="#">${reserva.idReserva}</td>
+                                    <td data-label="Personas">${reserva.num_personas}</td>
+                                    <td data-label="Hora">${reserva.hora}</td>
+                                    <td data-label="Fecha">${reserva.fecha}</td>
+                                    <td data-label="Usuario">${reserva.nombreUsuario}</td>
+                                    <td data-label="Disponibilidad">${reserva.cupoDisponible}/${reserva.cupoTotal} cupos</td>
+                                    <td data-label="Estado">${reserva.descripcionEstadoReserva}</td>
+                                    <td data-label="Actividad">
                                         <details class="detalle-actividad" onclick="event.stopPropagation()">
                                             <summary>Ver actividad</summary>
                                             <p>${reserva.nombreActividad}</p>
                                         </details>
                                     </td>
-                                    <td>${reserva.estadoPago}</td>
+                                    <td data-label="Pago">${reserva.estadoPago}</td>
                                 </tr>
                             </c:forEach>
                         </tbody>

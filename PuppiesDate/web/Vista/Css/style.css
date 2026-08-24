@@ -4516,3 +4516,77 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     border-collapse: collapse;
     min-width: 800px; /* Este valor obliga a la tabla a tener un ancho mínimo. Ajustalo si es necesario */
 }
+
+
+/* ==========================================================
+   MODO TARJETAS RESPONSIVO (MÓVIL / TABLET)
+   ========================================================== */
+@media screen and (max-width: 768px) {
+
+    /* 1. Ocultar los encabezados superiores de la tabla */
+    .admin-crud-table thead {
+        display: none;
+    }
+
+    /* 2. Convertir la estructura de la tabla a bloques verticales */
+    .admin-crud-table, 
+    .admin-crud-table tbody, 
+    .admin-crud-table tr, 
+    .admin-crud-table td {
+        display: block;
+        width: 100%;
+    }
+
+    /* 3. Convertir cada fila (tr) en una tarjeta independiente */
+    .admin-crud-table tr {
+        background-color: #ffffff;
+        margin-bottom: 16px;
+        border: 1px solid #ebd2dc;
+        border-radius: 16px;
+        padding: 14px 18px;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        box-sizing: border-box;
+    }
+
+    .admin-crud-table tr:hover,
+    .admin-crud-table tr:focus {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+    }
+
+    /* 4. Alinear cada celda (etiqueta a la izquierda, valor a la derecha) */
+    .admin-crud-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px dashed #f3e2e8;
+        text-align: right;
+        font-size: 0.95rem;
+        word-break: break-word;
+    }
+
+    .admin-crud-table td:last-child {
+        border-bottom: none;
+    }
+
+    /* 5. Inyectar el texto del data-label a la izquierda */
+    .admin-crud-table td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        color: #8c536f;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 0.5px;
+        margin-right: 12px;
+        text-align: left;
+        flex-shrink: 0;
+    }
+
+    /* Ajuste especial para el elemento de detalles en móvil */
+    .admin-crud-table td .detalle-actividad {
+        text-align: right;
+    }
+}
