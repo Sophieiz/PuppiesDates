@@ -1995,7 +1995,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 }
 
 .admin-body {
-    display: grid !important;
+    display: grid;
     grid-template-columns: 260px minmax(0, 1fr);
     grid-template-rows: 1fr auto; 
     min-height: 100vh;

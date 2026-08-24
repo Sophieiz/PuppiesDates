@@ -440,3 +440,29 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+
+document.addEventListener('DOMContentLoaded', () => {
+    const modalEditar = document.getElementById('modal-editar');
+    const btnNuevo = document.querySelector('[data-open-create]');
+    const btnsCerrar = document.querySelectorAll('[data-cerrar]');
+
+    // Abrir modal para crear
+    if (btnNuevo && modalEditar) {
+        btnNuevo.addEventListener('click', () => {
+            modalEditar.setAttribute('aria-hidden', 'false');
+            modalEditar.classList.add('is-active'); // O la clase de visibilidad que uses
+        });
+    }
+
+    // Cerrar modales
+    btnsCerrar.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const modalId = btn.getAttribute('data-cerrar');
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.setAttribute('aria-hidden', 'true');
+                modal.classList.remove('is-active');
+            }
+        });
+    });
+});
