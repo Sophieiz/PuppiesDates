@@ -72,11 +72,10 @@
 
             <nav class="navegacionadmin">
                 <a class="admin-nav-home" href="${ctx}/PanelAdmin.jsp">Inicio</a>
-                <details class="admin-nav-group">
                     <details class="admin-nav-group">
                         <summary>Gestión de Reservas</summary>
                         <a href="${ctx}/Actividad">Actividades</a>
-                        <a href="${ctx}/Tipoactividad">Tipo de actividad</a>-->
+                        <a href="${ctx}/Tipoactividad">Tipo de actividad</a>
                         <a href="${ctx}/Listaprecios">Lista de precios</a>
                         <a href="${ctx}/Disponibilidaad">Disponibilidad</a>
                         <a href="${ctx}/Horarios">Horario</a>
