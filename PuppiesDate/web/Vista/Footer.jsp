@@ -31,3 +31,12 @@
         </div>
     </section>
 </div>
+<!-- Modal de éxito al enviar una solicitud de adopción (compartido) -->
+<div class="modal-exito-shell" id="modalExitoAdopcion" aria-hidden="true">
+    <div class="modal-exito-backdrop" data-cerrar-exito></div>
+    <section class="modal-exito-box" role="dialog" aria-modal="true" aria-labelledby="modalExitoAdopcionTitle">
+        <h3 class="modal-exito-titulo" id="modalExitoAdopcionTitle">¡Solicitud enviada!</h3>
+        <p class="modal-exito-texto">La fundación revisará tu información y te contactará pronto.</p>
+        <button type="button" class="modal-exito-btn" data-cerrar-exito>Entendido</button>
+    </section>
+</div>

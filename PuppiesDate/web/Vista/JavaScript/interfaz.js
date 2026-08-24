@@ -82,6 +82,63 @@ function configurarModalAdopcion() {
             }
         });
     });
+
+    // Interceptar el envío del formulario de adopción para que no navegue
+    // fuera del modal (el form se inyecta dinámicamente, por eso usamos
+    // delegación de eventos sobre "content" en vez de buscar el form directo).
+    content.addEventListener("submit", async (event) => {
+        const form = event.target;
+        if (!form.matches('form[action*="SolicitudAdopcionCliente"]')) {
+            return;
+        }
+
+        event.preventDefault();
+
+        if (typeof validarSolicitudAdopcion === "function" && !validarSolicitudAdopcion()) {
+            return;
+        }
+
+        const boton = form.querySelector('button[type="submit"]');
+        if (boton) {
+            boton.disabled = true;
+            boton.textContent = "Enviando...";
+        }
+
+        try {
+            const response = await fetch(form.action, {
+                method: "POST",
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest"
+                },
+                body: new FormData(form)
+            });
+
+            const html = await response.text();
+
+            if (html.includes("mensaje-exito")) {
+                mostrarModalExito();
+                cerrarModal();
+            } else {
+                content.innerHTML = html;
+                if (content.querySelector(".adopcion-wrap") && typeof inicializarUbicacionAdopcion === "function") {
+                    inicializarUbicacionAdopcion();
+                }
+            }
+        } catch (error) {
+            console.error("Error al enviar la solicitud:", error);
+            if (boton) {
+                boton.disabled = false;
+                boton.textContent = "Enviar solicitud";
+            }
+        }
+    });
+
+    function mostrarModalExito() {
+        const modalExito = document.getElementById("modalExitoAdopcion");
+        if (modalExito) {
+            modalExito.classList.add("is-open");
+        }
+    }
 }
 
 
@@ -270,6 +327,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 userMenu.classList.remove('is-open');
                 userToggle.setAttribute('aria-expanded', 'false');
             }
+        });
+    }
+});
+
+// Cerrar el modal de éxito al enviar una solicitud de adopción
+document.addEventListener('DOMContentLoaded', function () {
+    const modalExito = document.getElementById('modalExitoAdopcion');
+    if (modalExito) {
+        modalExito.querySelectorAll('[data-cerrar-exito]').forEach(function (el) {
+            el.addEventListener('click', function () {
+                modalExito.classList.remove('is-open');
+            });
         });
     }
 });
