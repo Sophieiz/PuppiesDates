@@ -29,7 +29,8 @@ public class SolicitudAdopcionCliente extends HttpServlet {
             return;
         }
 
-        cargarFormularioYRedirigir(request, response);
+        String idPerritoStr = request.getParameter("idPerrito");
+        cargarFormularioYRedirigir(request, response, idPerritoStr);
     }
 
     @Override
@@ -37,9 +38,9 @@ public class SolicitudAdopcionCliente extends HttpServlet {
             throws ServletException, IOException {
 
         request.setCharacterEncoding("UTF-8");
+        String idPerritoStr = request.getParameter("idPerrito");
 
         try {
-            String idPerritoStr = request.getParameter("idPerrito");
             String direccion = request.getParameter("direccion");
             String departamentoIdStr = request.getParameter("departamentoId");
             String ubicacionIdStr = request.getParameter("ubicacionId");
@@ -61,7 +62,7 @@ public class SolicitudAdopcionCliente extends HttpServlet {
                     || tipoViviendaIdStr == null || tipoViviendaIdStr.trim().isEmpty()
                     || nucleoFamiliar == null || nucleoFamiliar.trim().isEmpty()) {
                 request.setAttribute("resultado", "Error: Todos los campos son obligatorios.");
-                cargarFormularioYRedirigir(request, response);
+                cargarFormularioYRedirigir(request, response, idPerritoStr);
                 return;
             }
 
@@ -78,7 +79,7 @@ public class SolicitudAdopcionCliente extends HttpServlet {
             HttpSession sesion = request.getSession(false);
             if (sesion == null || sesion.getAttribute("idUsuario") == null) {
                 request.setAttribute("resultado", "Debes iniciar sesión para solicitar una adopción.");
-                cargarFormularioYRedirigir(request, response);
+                cargarFormularioYRedirigir(request, response, idPerritoStr);
                 return;
             }
             int idUsuario = (int) sesion.getAttribute("idUsuario");
@@ -88,13 +89,13 @@ public class SolicitudAdopcionCliente extends HttpServlet {
 
             if (perrito == null) {
                 request.setAttribute("resultado", "Error: El perrito seleccionado no existe.");
-                cargarFormularioYRedirigir(request, response);
+                cargarFormularioYRedirigir(request, response, idPerritoStr);
                 return;
             }
 
             if (!"Disponible".equals(perrito.getDescripcionEstado_perrito())) {
                 request.setAttribute("resultado", "Este perrito ya no está disponible para adopción.");
-                cargarFormularioYRedirigir(request, response);
+                cargarFormularioYRedirigir(request, response, idPerritoStr);
                 return;
             }
 
@@ -103,7 +104,7 @@ public class SolicitudAdopcionCliente extends HttpServlet {
             if (solicitudDao.existeSolicitudActiva(idUsuario, idPerrito)) {
                 request.setAttribute("resultado", "Ya tienes una solicitud activa para este perrito. "
                         + "Espera la respuesta de la fundación antes de enviar otra.");
-                cargarFormularioYRedirigir(request, response);
+                cargarFormularioYRedirigir(request, response, idPerritoStr);
                 return;
             }
 
@@ -132,7 +133,6 @@ public class SolicitudAdopcionCliente extends HttpServlet {
 
             if (idSolicitudGenerada != -1) {
 
-                // Protegemos el envío de correos para que un fallo de red o SMTP no rompa la pantalla
                 try {
                     Solicitud_adopcion solicitudCompleta = solicitudDao.ConsultarSolicitud_adopcion(idSolicitudGenerada);
                     CorreoUtil.enviarCorreoNuevaSolicitud(solicitudCompleta, perrito);
@@ -156,17 +156,17 @@ public class SolicitudAdopcionCliente extends HttpServlet {
             request.setAttribute("resultado", "Error inesperado: " + e.getMessage());
         }
 
-        cargarFormularioYRedirigir(request, response);
+        cargarFormularioYRedirigir(request, response, idPerritoStr);
     }
 
-    private void cargarFormularioYRedirigir(HttpServletRequest request, HttpServletResponse response)
+    private void cargarFormularioYRedirigir(HttpServletRequest request, HttpServletResponse response, String idPerritoStr)
             throws ServletException, IOException {
         try {
-            String idPerritoStr = request.getParameter("idPerrito");
             if (idPerritoStr != null && !idPerritoStr.trim().isEmpty()) {
                 try {
                     PerritoDAO perritoDao = new PerritoDAO();
-                    request.setAttribute("perrito", perritoDao.ConsultarPerrito(Integer.parseInt(idPerritoStr)));
+                    Perrito perrito = perritoDao.ConsultarPerrito(Integer.parseInt(idPerritoStr));
+                    request.setAttribute("perrito", perrito);
                 } catch (NumberFormatException ignored) {
                 }
             }
