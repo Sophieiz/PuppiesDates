@@ -85,7 +85,7 @@
                 </details>
                 <details class="admin-nav-group">
                     <summary>Gestión de Adopciones</summary>
-                    <a href="${ctx}/PerritoAdmi">Perritos</a>
+                    <a href="${ctx}/PerritoAdmi">Mascotas</a>
                     <a href="${ctx}/SolicitudAdopcionAdmi">Solicitudes de adopción</a>
                 </details>
                 <details class="admin-nav-group">
@@ -132,7 +132,7 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Perrito</th>
+                                <th>Mascotas</th>
                                 <th>Solicitante</th>
                                 <th>Fecha</th>
                                 <th>Estado</th>
@@ -153,7 +153,7 @@
                                     <td colspan="5" class="admin-empty-state">
                                         <div class="admin-empty-illustration"></div>
                                         <p>Todavía no hay solicitudes de adopción.</p>
-                                        <span>Cuando alguien solicite adoptar un perrito, aparecerá aquí.</span>
+                                        <span>Cuando alguien solicite adoptar un gatito o perrito, aparecerá aquí.</span>
                                     </td>
                                 </tr>
                             </c:if>

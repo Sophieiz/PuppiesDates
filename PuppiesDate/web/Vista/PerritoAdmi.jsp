@@ -5,7 +5,7 @@
 <html lang="es">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Admin - Perritos</title>
+        <title>Admin - Mascotas</title>
         <link rel="stylesheet" href="${ctx}/Vista/Css/style.css">
         <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">    </head>
     <body class="admin-form-body">
@@ -20,8 +20,8 @@
         <div class="admin-form-wrap">
             <div class="admin-table-card">
                 <div class="admin-crud-toolbar">
-                    <h3>Perritos</h3>
-                    <button type="button" class="admin-crud-btn-primary" data-open-create>Nuevo perrito</button>
+                    <h3>Mascotas</h3>
+                    <button type="button" class="admin-crud-btn-primary" data-open-create>Nueva Mascota</button>
                 </div>
 
                 <p class="admin-crud-help">Haz clic sobre una fila para modificar o eliminar el registro.</p>
@@ -78,7 +78,7 @@
         <div class="admin-crud-modal modal-overlay" id="modal-editar" aria-hidden="true">
             <div class="admin-crud-modal-box">
                 <button type="button" class="admin-modal-cerrar" data-cerrar="modal-editar" aria-label="Cerrar">&times;</button>
-                <h2 class="admin-crud-title" data-modal-title>Nuevo perrito</h2>
+                <h2 class="admin-crud-title" data-modal-title>Nueva Mascota</h2>
 
                 <form action="${ctx}/PerritoAdmi" method="POST" enctype="multipart/form-data" class="admin-managed-form"
                       data-id-name="idPerrito" 
@@ -218,7 +218,7 @@
         </div>
 
         <script>window.contextPath = "${ctx}";</script>
-        <script src="${ctx}/Vista/JavaScript/razaAdmin.js"></script>
+        <script src="${ctx}/Vista/JavaScript/razaAdmi.js"></script>
         <script src="${ctx}/Vista/JavaScript/Admi_modales.js"></script>
         <script src="${ctx}/Vista/JavaScript/interfaz.js"></script>
 

@@ -14,7 +14,7 @@
         <c:set var="activePage" value="adopta" scope="request"/>
         <%@ include file="Header.jsp" %>
 
-        <h2 class="titulo-seccion">Perritos en adopción</h2>
+        <h2 class="titulo-seccion">Mascotas en adopción</h2>
         <p class="subtitulo-seccion">Cada uno tiene una historia distinta. Conoce la suya y dale un nuevo hogar.</p>
 
         <div class="filtro-catalogo">

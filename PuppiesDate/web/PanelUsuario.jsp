@@ -51,7 +51,7 @@
                 <section class="hero-section">
                     <div class="hero-left">
                         <h2 class="hero-title">Bienvenid@ ${sessionScope.nombreUsuario}</h2>
-                        <p class="hero-subtitle">Descubre un concepto único diseñado para interactuar, pasear y conectar con hermosos perritos rescatados.</p>
+                        <p class="hero-subtitle">Descubre un concepto único diseñado para interactuar, pasear y conectar con hermosos perritos y gatitos rescatados.</p>
                         <a href="${ctx}/ReservaCliente" class="btn-cta-ingresa">¡Reserva tu Cita!</a>
                     </div>
                     <div class="hero-right">
@@ -60,8 +60,8 @@
                                 <div class="imagen-contenedor" id="carrusel">
                                     <img src="${ctx}/Vista/Imagenes/Perrito5.jpg" alt="Perrito 5">
                                     <img src="${ctx}/Vista/Imagenes/Perrito2.jpg" alt="Perrito 2">
-                                    <img src="${ctx}/Vista/Imagenes/perrito3_1.jpg" alt="perrito 3">
-                                    <img src="${ctx}/Vista/Imagenes/Perrito4.jpg" alt="Perrito 4">
+                                    <img src="${ctx}/Vista/Imagenes/Gatito2.jpg" alt="Gatito 2">
+                                    <img src="${ctx}/Vista/Imagenes/Gatito1.jpg" alt="Gatito 1">
                                 </div>
                                 <button type="button" class="btn-carrusel-nav prev" id="left">&#10094;</button>
                                 <button type="button" class="btn-carrusel-nav next" id="right">&#10095;</button>
@@ -79,7 +79,7 @@
                 <h2 class="titulo-apartado">Conoce a nuestros amigos</h2>
                 <c:choose>
                     <c:when test="${empty listaPerritosPanel}">
-                        <p class="sin-perritos">Por ahora no hay perritos disponibles para adopción. ¡Vuelve pronto!</p>
+                        <p class="sin-perritos">Por ahora no hay Mascotas disponibles para adopción. ¡Vuelve pronto!</p>
                     </c:when>
                     <c:otherwise>
                         <div class="grid-adopcion grid-adopcion-catalogo">
@@ -126,7 +126,7 @@
                     <div class="tarjeta-video">
                         <div class="contenedor-video-real">
                             <iframe src="https://www.youtube.com/embed/4JiT3WrqhCM" 
-                                    title="Yoga con perritos" 
+                                    title="Yoga con perritos  o gatitos" 
                                     frameborder="0" 
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                                     allowfullscreen>
@@ -154,7 +154,7 @@
 
         <section class="seccion-actividades">
             <div class="main-container">
-                <h2 class="titulo-apartado">Actividades con perritos</h2>
+                <h2 class="titulo-apartado">Actividades con perritos y gatitos</h2>
                 <p class="subtitulo-seccion">Reserva una experiencia creativa o tranquila para compartir con nuestros peluditos.</p>
                 <c:set var="imagenesActividad" value="Perrito3.jpg,Perrito4.jpg,Perrito5.jpg,Perrito6.jpg,Perrito7.jpg,Gatito1.jpg,Gatito2.jpg,Gatito3.jpg,Gatito4.jpg,Gatito5.jpg,Gatito6.jpg"/>
                 <c:set var="listaImagenesActividad" value="${fn:split(imagenesActividad, ',')}"/>
@@ -204,18 +204,18 @@
             <div class="main-container">
                 <h2 class="titulo-apartado">Quiénes somos</h2>
                 <p class="subtitulo-seccion">
-                    Puppies Dates nació con un propósito simple: darle una segunda oportunidad a los perritos rescatados y crear un espacio donde las personas puedan conocerlos, cuidarlos y, si lo desean, adoptarlos. Desde el primer paseo hasta la primera sesión de yoga con nuestros peluditos, cada actividad está pensada para acercar a las personas al bienestar animal.
+                    Puppies Dates nació con un propósito simple: darle una segunda oportunidad a los perritos y gatitos rescatados y crear un espacio donde las personas puedan conocerlos, cuidarlos y, si lo desean, adoptarlos. Desde el primer paseo hasta la primera sesión de yoga con nuestros peluditos, cada actividad está pensada para acercar a las personas al bienestar animal.
                 </p>
                 <div class="grid-actividades">
                     <div class="bloque-actividad bloque-azul">
                         <div class="icono-actividad"></div>
                         <h3>Nuestra Misión</h3>
-                        <p>Conectar a personas y perritos rescatados a través de actividades y experiencias que promuevan el bienestar animal y faciliten procesos de adopción responsable.</p>
+                        <p>Conectar a personas y mascotas rescatados a través de actividades y experiencias que promuevan el bienestar animal y faciliten procesos de adopción responsable.</p>
                     </div>
                     <div class="bloque-actividad bloque-rosa">
                         <div class="icono-actividad"></div>
                         <h3>Nuestra Visión</h3>
-                        <p>Ser la comunidad de referencia en adopción y cuidado responsable de perritos, construyendo un entorno donde cada peludito encuentre un hogar amoroso.</p>
+                        <p>Ser la comunidad de referencia en adopción y cuidado responsable de perritos y gatitos, construyendo un entorno donde cada peludito encuentre un hogar amoroso.</p>
                     </div>
                 </div>
             </div>
