@@ -25,8 +25,6 @@ public class SolicitudAdopcionCliente extends HttpServlet {
 
         HttpSession sesion = request.getSession(false);
         if (sesion == null || sesion.getAttribute("idUsuario") == null) {
-            
-            
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
@@ -134,11 +132,15 @@ public class SolicitudAdopcionCliente extends HttpServlet {
 
             if (idSolicitudGenerada != -1) {
 
-                Solicitud_adopcion solicitudCompleta = solicitudDao.ConsultarSolicitud_adopcion(idSolicitudGenerada);
-
-                CorreoUtil.enviarCorreoNuevaSolicitud(solicitudCompleta, perrito);
-
-                CorreoUtil.enviarCorreoConfirmacionSolicitudUsuario(solicitudCompleta, perrito);
+                // Protegemos el envío de correos para que un fallo de red o SMTP no rompa la pantalla
+                try {
+                    Solicitud_adopcion solicitudCompleta = solicitudDao.ConsultarSolicitud_adopcion(idSolicitudGenerada);
+                    CorreoUtil.enviarCorreoNuevaSolicitud(solicitudCompleta, perrito);
+                    CorreoUtil.enviarCorreoConfirmacionSolicitudUsuario(solicitudCompleta, perrito);
+                } catch (Exception exCorreo) {
+                    System.err.println("Error enviando correos de adopción: " + exCorreo.getMessage());
+                    exCorreo.printStackTrace();
+                }
 
                 request.setAttribute("resultado", "¡Solicitud de adopción enviada! "
                         + "La fundación revisará tu información y te contactará pronto.");
@@ -147,8 +149,10 @@ public class SolicitudAdopcionCliente extends HttpServlet {
             }
 
         } catch (NumberFormatException e) {
+            e.printStackTrace();
             request.setAttribute("resultado", "Error: Datos inválidos en el formulario.");
         } catch (Exception e) {
+            e.printStackTrace();
             request.setAttribute("resultado", "Error inesperado: " + e.getMessage());
         }
 
@@ -159,7 +163,7 @@ public class SolicitudAdopcionCliente extends HttpServlet {
             throws ServletException, IOException {
         try {
             String idPerritoStr = request.getParameter("idPerrito");
-            if (idPerritoStr != null) {
+            if (idPerritoStr != null && !idPerritoStr.trim().isEmpty()) {
                 try {
                     PerritoDAO perritoDao = new PerritoDAO();
                     request.setAttribute("perrito", perritoDao.ConsultarPerrito(Integer.parseInt(idPerritoStr)));
@@ -177,9 +181,9 @@ public class SolicitudAdopcionCliente extends HttpServlet {
             request.setAttribute("listaTipoVivienda", tipoViviendaDao.listarActivos());
 
         } catch (Exception e) {
+            e.printStackTrace();
             request.setAttribute("resultado", "Error al cargar datos: " + e.getMessage());
         }
-
 
         String requestedWith = request.getHeader("X-Requested-With");
         boolean esPeticionAjax = "XMLHttpRequest".equals(requestedWith);
