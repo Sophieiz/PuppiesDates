@@ -26,24 +26,31 @@ public class CatalogoPerritos extends HttpServlet {
         procesarSolicitud(request, response);
     }
 
-    private void procesarSolicitud(HttpServletRequest request, HttpServletResponse response)
+      private void procesarSolicitud(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         PerritoDAO dao = new PerritoDAO();
         List<Perrito> listaPerritos = dao.listarPerritoDisponible();
 
-        // Razas únicas presentes en el catálogo actual, ordenadas alfabéticamente,
-        // para poblar el <select> de filtro sin depender de una tabla aparte.
+     
+        java.util.Map<String, java.util.TreeSet<String>> razasPorEspecie = new java.util.LinkedHashMap<>();
         TreeSet<String> razasUnicas = new TreeSet<>();
+
         for (Perrito p : listaPerritos) {
-            if (p.getDescripcionRaza() != null && !p.getDescripcionRaza().isBlank()) {
-                razasUnicas.add(p.getDescripcionRaza());
+            String especie = p.getDescripcionEspecie();
+            String raza = p.getDescripcionRaza();
+
+            if (raza != null && !raza.isBlank()) {
+                razasUnicas.add(raza);
+            }
+
+            if (especie != null && !especie.isBlank() && raza != null && !raza.isBlank()) {
+                razasPorEspecie.computeIfAbsent(especie, k -> new TreeSet<>()).add(raza);
             }
         }
 
         request.setAttribute("listaPerritos", listaPerritos);
         request.setAttribute("listaRazas", razasUnicas);
-
+        request.setAttribute("razasPorEspecie", razasPorEspecie);
         request.getRequestDispatcher("/Vista/Catalogo.jsp").forward(request, response);
     }
 }

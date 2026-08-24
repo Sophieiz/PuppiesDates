@@ -185,18 +185,6 @@
                         <a href="${ctx}/Actividades" class="btn-menu btn-verde-activo">Ver más</a>
                     </div>
                 </c:if>
-                <div class="grid-actividades">
-                    <div class="bloque-actividad bloque-azul">
-                        <div class="icono-actividad"></div>
-                        <h3>Paseos y Socialización</h3>
-                        <p>Acompaña a nuestros perritos en caminatas guiadas al aire libre para mejorar su confianza con el entorno.</p>
-                    </div>
-                    <div class="bloque-actividad bloque-rosa">
-                        <div class="icono-actividad"></div>
-                        <h3>Tarde de Juegos y Mimos</h3>
-                        <p>Disfruta de un espacio cerrado repleto de juguetes interactivos donde podrás cepillarlos y darles snacks.</p>
-                    </div>
-                </div>
             </div> 
         </section>
         <div class="divisor-nube divisor-a-quienes"></div>
@@ -208,12 +196,12 @@
                 </p>
                 <div class="grid-actividades">
                     <div class="bloque-actividad bloque-azul">
-                        <div class="icono-actividad"></div>
+                        <div class="icono-actividad icono-mision"></div>
                         <h3>Nuestra Misión</h3>
                         <p>Conectar a personas y mascotas rescatados a través de actividades y experiencias que promuevan el bienestar animal y faciliten procesos de adopción responsable.</p>
                     </div>
                     <div class="bloque-actividad bloque-rosa">
-                        <div class="icono-actividad"></div>
+                        <div class="icono-actividad icono-vision"></div>
                         <h3>Nuestra Visión</h3>
                         <p>Ser la comunidad de referencia en adopción y cuidado responsable de perritos y gatitos, construyendo un entorno donde cada peludito encuentre un hogar amoroso.</p>
                     </div>

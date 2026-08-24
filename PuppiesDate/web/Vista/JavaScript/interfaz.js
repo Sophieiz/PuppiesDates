@@ -211,6 +211,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 (function () {
+    var filtroEspecie = document.getElementById('filtroEspecie');
     var filtroRaza = document.getElementById('filtroRaza');
     var tarjetas = document.querySelectorAll('#gridPerritos .tarjeta-perrito');
     var mensajeVacio = document.getElementById('sinResultadosFiltro');
@@ -219,12 +220,32 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
-    filtroRaza.addEventListener('change', function () {
+    var opcionesRazaOriginales = Array.from(filtroRaza.options);
+
+    function repoblarRazas(especieSeleccionada) {
+        var razasValidas = null;
+        if (especieSeleccionada !== 'todas' && window.razasPorEspecie) {
+            razasValidas = window.razasPorEspecie[especieSeleccionada] || [];
+        }
+
+        filtroRaza.innerHTML = '';
+        opcionesRazaOriginales.forEach(function (opcion) {
+            if (opcion.value === 'todas' || razasValidas === null || razasValidas.indexOf(opcion.value) !== -1) {
+                filtroRaza.appendChild(opcion.cloneNode(true));
+            }
+        });
+        filtroRaza.value = 'todas';
+    }
+
+    function aplicarFiltros() {
+        var especieSeleccionada = filtroEspecie ? filtroEspecie.value : 'todas';
         var razaSeleccionada = filtroRaza.value;
         var visibles = 0;
 
         tarjetas.forEach(function (tarjeta) {
-            var coincide = razaSeleccionada === 'todas' || tarjeta.dataset.raza === razaSeleccionada;
+            var coincideEspecie = especieSeleccionada === 'todas' || tarjeta.dataset.especie === especieSeleccionada;
+            var coincideRaza = razaSeleccionada === 'todas' || tarjeta.dataset.raza === razaSeleccionada;
+            var coincide = coincideEspecie && coincideRaza;
             tarjeta.style.display = coincide ? '' : 'none';
             if (coincide) {
                 visibles++;
@@ -234,7 +255,16 @@ document.addEventListener('DOMContentLoaded', function () {
         if (mensajeVacio) {
             mensajeVacio.style.display = visibles === 0 ? 'block' : 'none';
         }
-    });
+    }
+
+    if (filtroEspecie) {
+        filtroEspecie.addEventListener('change', function () {
+            repoblarRazas(filtroEspecie.value);
+            aplicarFiltros();
+        });
+    }
+
+    filtroRaza.addEventListener('change', aplicarFiltros);
 })();
 
 // Precio dinámico al seleccionar actividad

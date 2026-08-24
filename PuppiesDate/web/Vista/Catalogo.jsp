@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="${ctx}/Vista/Css/style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">    <body>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">    <body>
         <c:set var="activePage" value="adopta" scope="request"/>
         <%@ include file="Header.jsp" %>
 
@@ -18,7 +18,15 @@
         <p class="subtitulo-seccion">Cada uno tiene una historia distinta. Conoce la suya y dale un nuevo hogar.</p>
 
         <div class="filtro-catalogo">
-            <label for="filtroRaza" class="filtro-etiqueta">Filtrar por raza:</label>
+            <label for="filtroEspecie" class="filtro-etiqueta">Especie:</label>
+            <select id="filtroEspecie" class="filtro-select">
+                <option value="todas">Todas</option>
+                <c:forEach var="entry" items="${razasPorEspecie}">
+                    <option value="${fn:toLowerCase(entry.key)}">${entry.key}</option>
+                </c:forEach>
+            </select>
+
+            <label for="filtroRaza" class="filtro-etiqueta">Raza:</label>
             <select id="filtroRaza" class="filtro-select">
                 <option value="todas">Todas las razas</option>
                 <c:forEach var="raza" items="${listaRazas}">
@@ -36,7 +44,7 @@
                     <c:forEach var="perrito" items="${listaPerritos}" varStatus="i">
                         <c:set var="colorBorde" value="${i.index % 3 == 0 ? 'card-borde-rosa' : (i.index % 3 == 1 ? 'card-borde-verde' : 'card-borde-mostaza')}"/>
                         <c:set var="colorTag" value="${i.index % 3 == 0 ? 'bg-tag-rosa' : (i.index % 3 == 1 ? 'bg-tag-verde' : 'bg-tag-mostaza')}"/>
-                        <div class="tarjeta-perrito ${colorBorde}" data-raza="${fn:toLowerCase(perrito.descripcionRaza)}">
+                        <div class="tarjeta-perrito ${colorBorde}" data-raza="${fn:toLowerCase(perrito.descripcionRaza)}" data-especie="${fn:toLowerCase(perrito.descripcionEspecie)}">
 
                             <!-- 1. CONTENEDOR DE IMAGEN -->
                             <div class="contenedor-foto-catalogo">
@@ -86,7 +94,19 @@
                 </div>
             </section>
         </div>
+
         <script>window.ctxApp = "${ctx}";</script>
+        <script>
+            window.razasPorEspecie = {
+            <c:forEach var="entry" items="${razasPorEspecie}" varStatus="loopEspecie">
+            "${fn:toLowerCase(entry.key)}": [
+                <c:forEach var="raza" items="${entry.value}" varStatus="loopRaza">
+            "${fn:toLowerCase(raza)}"<c:if test="${!loopRaza.last}">,</c:if>
+                </c:forEach>
+            ]<c:if test="${!loopEspecie.last}">,</c:if>
+            </c:forEach>
+            };
+        </script>
         <script src="${ctx}/Vista/JavaScript/interfaz.js"></script>
         <script src="${ctx}/Vista/JavaScript/funciones.js"></script>
         <script src="${ctx}/Vista/JavaScript/ubicacionAdopcion.js"></script>
