@@ -430,3 +430,32 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const menuToggleAdmin = document.getElementById('menuToggleAdmin');
+    const sidebarAdmin = document.getElementById('sidebarAdmin');
+
+    if (menuToggleAdmin && sidebarAdmin) {
+        menuToggleAdmin.addEventListener('click', function (e) {
+            e.stopPropagation();
+            
+            // Alternar estado visible del sidebar
+            sidebarAdmin.classList.toggle('is-open');
+            
+            // Actualizar atributo de accesibilidad
+            const isOpen = sidebarAdmin.classList.contains('is-open');
+            menuToggleAdmin.setAttribute('aria-expanded', isOpen);
+        });
+
+        // Cerrar menú al hacer clic fuera de él en pantallas móviles
+        document.addEventListener('click', function (e) {
+            if (window.innerWidth <= 768 && 
+                sidebarAdmin.classList.contains('is-open') && 
+                !sidebarAdmin.contains(e.target)) {
+                sidebarAdmin.classList.remove('is-open');
+                menuToggleAdmin.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
+});

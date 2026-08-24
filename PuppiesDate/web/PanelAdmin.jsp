@@ -61,8 +61,11 @@
         <link rel="stylesheet" href="${ctx}/Vista/Css/style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">    <body class="admin-body">
-        <aside class="barrainicioadmin">
+        <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">   
+    </head>
+    
+    <body class="admin-body">
+        <aside class="barrainicioadmin" id="sidebarAdmin">
             <div class="logotitulosoftadmin">
                 <div class="logocortoadmin">
                     <img src="${ctx}/Vista/Imagenes/image.png" alt="Puppies Dates">
@@ -70,6 +73,7 @@
                 <h1>Puppies Dates</h1>
             </div>
 
+            <!-- Botón Hamburguesa -->
             <button type="button" class="menu-toggle" id="menuToggleAdmin" aria-label="Abrir menú" aria-expanded="false" aria-controls="sidebarAdmin">
                 <span></span>
                 <span></span>
@@ -89,7 +93,7 @@
                     <!-- <a href="${ctx}/PagosAdmi">Pagos</a> -->
                     <!-- <a href="${ctx}/EstadoReservaAdmi">Estado reserva</a> -->
                 </details>
-                </details>
+
                 <details class="admin-nav-group">
                     <summary>Gestión de Adopciones</summary>
                     <a href="${ctx}/PerritoAdmi">Mascotas</a>

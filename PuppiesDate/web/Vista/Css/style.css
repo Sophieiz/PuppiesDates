@@ -4590,3 +4590,66 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
         text-align: right;
     }
 }
+
+/* ==========================================================
+   MENÚ HAMBURGUESA Y RESPONSIVO - PANEL ADMIN
+   ========================================================== */
+
+/* En pantalla grande (PC), ocultar el botón hamburguesa */
+.barrainicioadmin .menu-toggle {
+    display: none;
+}
+
+/* Reglas exclusivamente para dispositivos móviles / tablets */
+@media screen and (max-width: 768px) {
+    /* Muestra el botón hamburguesa en celular */
+    .barrainicioadmin .menu-toggle {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 38px;
+        height: 38px;
+        padding: 8px;
+        background-color: #c0d860; /* Color verde */
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 1002;
+    }
+
+    .barrainicioadmin .menu-toggle span {
+        display: block;
+        width: 100%;
+        height: 3px;
+        background-color: #4a3443;
+        border-radius: 2px;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    /* Ocultar las opciones de navegación por defecto en móvil */
+    .barrainicioadmin .navegacionadmin {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height 0.4s ease, opacity 0.3s ease;
+        width: 100%;
+    }
+
+    /* Cuando el usuario hace clic (se activa .is-open), se despliegan las opciones */
+    .barrainicioadmin.is-open .navegacionadmin {
+        max-height: 800px; /* Expande la lista */
+        opacity: 1;
+        margin-top: 15px;
+    }
+
+    /* Animación del icono de hamburguesa a X */
+    .barrainicioadmin.is-open .menu-toggle span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+    }
+    .barrainicioadmin.is-open .menu-toggle span:nth-child(2) {
+        opacity: 0;
+    }
+    .barrainicioadmin.is-open .menu-toggle span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+    }
+}
