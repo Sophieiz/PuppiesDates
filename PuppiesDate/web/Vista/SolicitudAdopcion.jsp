@@ -10,11 +10,15 @@
         <link rel="stylesheet" href="${ctx}/Vista/Css/style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">    <body>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">    <body>
         <c:set var="activePage" value="adopta" scope="request"/>
         <%@ include file="Header.jsp" %>
 
         <a href="${ctx}/CatalogoPerritos" class="btn-volver-inicio">&larr;</a>
+
+        <c:if test="${not empty resultado}">
+            <p style="background:#fee;color:red;padding:10px;border:2px solid red;">DEBUG: ${resultado}</p>
+        </c:if>
 
         <c:choose>
             <c:when test="${empty perrito}">
