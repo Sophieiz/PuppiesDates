@@ -3,6 +3,11 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 
+<c:if test="${not empty resultado}">
+    <p style="background:#fee;color:red;padding:10px;border:2px solid red;">DEBUG: ${resultado}</p>
+</c:if>
+
+
 <c:choose>
     <c:when test="${empty perrito}">
         <p class="sin-perritos">No encontramos ese perrito. <a href="${ctx}/CatalogoPerritos">Vuelve al catálogo</a>.</p>
