@@ -23,6 +23,8 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 @WebServlet(name = "ApiServlet", urlPatterns = {"/api/*"})
 public class ApiServlet extends HttpServlet {
 
@@ -63,7 +65,6 @@ public class ApiServlet extends HttpServlet {
         }
     }
 
-  
     @Override
     protected void doOptions(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -73,51 +74,69 @@ public class ApiServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
-
-    private void handleLogin(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
+    private void handleLogin(HttpServletRequest request,
+            HttpServletResponse response) throws IOException {
 
         String correo = request.getParameter("correo");
         String clave = request.getParameter("clave");
 
-        if (correo == null || clave == null || correo.trim().isEmpty() || clave.trim().isEmpty()) {
+        if (correo == null || clave == null
+                || correo.trim().isEmpty()
+                || clave.trim().isEmpty()) {
+
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+
             try (PrintWriter out = response.getWriter()) {
-                out.print("{\"success\":false,\"mensaje\":\"Correo y clave son obligatorios\"}");
+                out.print("{\"success\":false,"
+                        + "\"mensaje\":\"Correo y clave son obligatorios\"}");
             }
             return;
         }
 
-        String sql = "SELECT idUsuarios, nombre, apellido FROM usuarios "
-                + "WHERE correo = ? AND clave = ? AND activo = 1";
+        String sql = "SELECT idUsuarios, nombre, apellido, clave "
+                + "FROM usuarios "
+                + "WHERE correo = ? AND activo = 1";
 
         try (Connection con = new Conexion().getConn(); PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, correo);
-            ps.setString(2, clave);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    int idUsuario = rs.getInt("idUsuarios");
-                    String nombre = rs.getString("nombre");
-                    String apellido = rs.getString("apellido");
 
-                    try (PrintWriter out = response.getWriter()) {
-                        out.print("{\"success\":true,"
-                                + "\"idUsuario\":" + idUsuario + ","
-                                + "\"nombre\":\"" + escapar(nombre) + "\","
-                                + "\"apellido\":\"" + escapar(apellido) + "\"}");
-                    }
-                } else {
-                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    try (PrintWriter out = response.getWriter()) {
-                        out.print("{\"success\":false,\"mensaje\":\"Correo o clave incorrectos\"}");
+            ps.setString(1, correo.trim());
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+                    String hashGuardado = rs.getString("clave");
+
+                    if (BCrypt.checkpw(clave, hashGuardado)) {
+                        int idUsuario = rs.getInt("idUsuarios");
+                        String nombre = rs.getString("nombre");
+                        String apellido = rs.getString("apellido");
+
+                        try (PrintWriter out = response.getWriter()) {
+                            out.print("{\"success\":true,"
+                                    + "\"idUsuario\":" + idUsuario + ","
+                                    + "\"nombre\":\"" + escapar(nombre) + "\","
+                                    + "\"apellido\":\"" + escapar(apellido) + "\"}");
+                        }
+                        return;
                     }
                 }
+
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+
+                try (PrintWriter out = response.getWriter()) {
+                    out.print("{\"success\":false,"
+                            + "\"mensaje\":\"Correo o clave incorrectos\"}");
+                }
             }
+
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+
             try (PrintWriter out = response.getWriter()) {
-                out.print("{\"success\":false,\"mensaje\":\"Error del servidor\"}");
+                out.print("{\"success\":false,"
+                        + "\"mensaje\":\"Error del servidor\"}");
             }
+
             System.out.println("Error en /api/login: " + e.getMessage());
         }
     }
@@ -191,7 +210,6 @@ public class ApiServlet extends HttpServlet {
         }
     }
 
-    
     private void prepararRespuesta(HttpServletResponse response) {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
