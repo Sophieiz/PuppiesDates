@@ -40,6 +40,22 @@ public class SolicitudAdopcionCliente extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String idPerritoStr = request.getParameter("idPerrito");
 
+      
+
+        System.out.println("=== DEBUG SOLICITUD ===");
+        System.out.println("Content-Type: " + request.getContentType());
+        System.out.println("idPerrito=[" + idPerritoStr + "]");
+        System.out.println("direccion=[" + request.getParameter("direccion") + "]");
+        System.out.println("departamentoId=[" + request.getParameter("departamentoId") + "]");
+        System.out.println("ubicacionId=[" + request.getParameter("ubicacionId") + "]");
+        System.out.println("tipoDivision=[" + request.getParameter("tipoDivision") + "]");
+        System.out.println("barrio=[" + request.getParameter("barrio") + "]");
+        System.out.println("profesion=[" + request.getParameter("profesion") + "]");
+        System.out.println("viveEnId=[" + request.getParameter("viveEnId") + "]");
+        System.out.println("tipoViviendaId=[" + request.getParameter("tipoViviendaId") + "]");
+        System.out.println("nucleo_familiar=[" + request.getParameter("nucleo_familiar") + "]");
+        System.out.println("=======================");
+
         try {
             String direccion = request.getParameter("direccion");
             String departamentoIdStr = request.getParameter("departamentoId");
