@@ -51,42 +51,40 @@ document.addEventListener("DOMContentLoaded", () => {
         reiniciarAutoplay();
     });
 
-    document.addEventListener('DOMContentLoaded', function () {
-        var modal = document.getElementById('modal-cambiar-estado');
+    var modal = document.getElementById('modal-cambiar-estado');
 
-        document.querySelectorAll('[data-abrir-cambio]').forEach(function (fila) {
-            fila.addEventListener('click', function () {
-                document.getElementById('idSolicitudModal').value = fila.getAttribute('data-id');
-                document.getElementById('nombrePerritoModal').textContent = fila.getAttribute('data-perrito');
-                document.getElementById('idEstado_solicitud').value = fila.getAttribute('data-estado-actual');
-                modal.classList.add('activo');
-                modal.setAttribute('aria-hidden', 'false');
-            });
+    document.querySelectorAll('[data-abrir-cambio]').forEach(function (fila) {
+        fila.addEventListener('click', function () {
+            document.getElementById('idSolicitudModal').value = fila.getAttribute('data-id');
+            document.getElementById('nombrePerritoModal').textContent = fila.getAttribute('data-perrito');
+            document.getElementById('idEstado_solicitud').value = fila.getAttribute('data-estado-actual');
+            modal.classList.add('activo');
+            modal.setAttribute('aria-hidden', 'false');
         });
+    });
 
-        document.querySelectorAll('[data-cerrar="modal-cambiar-estado"]').forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                modal.classList.remove('activo');
-                modal.setAttribute('aria-hidden', 'true');
-            });
+    document.querySelectorAll('[data-cerrar="modal-cambiar-estado"]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            modal.classList.remove('activo');
+            modal.setAttribute('aria-hidden', 'true');
         });
+    });
 
-        var modalEntrevista = document.getElementById('modal-programar-entrevista');
+    var modalEntrevista = document.getElementById('modal-programar-entrevista');
 
-        document.querySelectorAll('[data-abrir-entrevista]').forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                document.getElementById('idSolicitudEntrevistaModal').value = btn.getAttribute('data-id');
-                document.getElementById('nombrePerritoEntrevistaModal').textContent = btn.getAttribute('data-perrito');
-                modalEntrevista.classList.add('activo');
-                modalEntrevista.setAttribute('aria-hidden', 'false');
-            });
+    document.querySelectorAll('[data-abrir-entrevista]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            document.getElementById('idSolicitudEntrevistaModal').value = btn.getAttribute('data-id');
+            document.getElementById('nombrePerritoEntrevistaModal').textContent = btn.getAttribute('data-perrito');
+            modalEntrevista.classList.add('activo');
+            modalEntrevista.setAttribute('aria-hidden', 'false');
         });
+    });
 
-        document.querySelectorAll('[data-cerrar="modal-programar-entrevista"]').forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                modalEntrevista.classList.remove('activo');
-                modalEntrevista.setAttribute('aria-hidden', 'true');
-            });
+    document.querySelectorAll('[data-cerrar="modal-programar-entrevista"]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            modalEntrevista.classList.remove('activo');
+            modalEntrevista.setAttribute('aria-hidden', 'true');
         });
     });
 });
