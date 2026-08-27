@@ -38,6 +38,7 @@
                             </thead>
                             <tbody>
                                 <c:forEach var="s" items="${listaMisSolicitudes}">
+                                    <c:set var="estadoConComas" value=",${s.descripcionEstado_solicitud},"/>
                                     <tr>
                                         <td data-label="Perrito">${s.nombrePerrito}</td>
                                         <td data-label="Fecha de solicitud"><fmt:formatDate value="${s.fecha_solicitud}" pattern="dd/MM/yyyy 'a las' HH:mm"/></td>
@@ -45,7 +46,7 @@
                                             <span class="estado-badge estado-${fn:toLowerCase(fn:replace(s.descripcionEstado_solicitud, ' ', '-'))}">${s.descripcionEstado_solicitud}</span>
                                         </td>
                                         <td data-label="Acciones">
-                                            <c:if test="${fn:contains(estadosCancelables, concat(',', s.descripcionEstado_solicitud, ','))}">
+                                            <c:if test="${fn:contains(estadosCancelables, estadoConComas)}">
                                                 <form action="${ctx}/MisSolicitudes" method="POST"
                                                       onsubmit="return confirm('¿Seguro que quieres cancelar tu solicitud de adopción para ${s.nombrePerrito}? Esta acción no se puede deshacer.');">
                                                     <input type="hidden" name="accion" value="cancelar">
