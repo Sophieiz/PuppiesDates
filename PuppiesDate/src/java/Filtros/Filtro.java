@@ -71,22 +71,22 @@ public class Filtro implements Filter {
         }
 
         if (path.endsWith("index.jsp")
-            || path.endsWith("InicioSesion.jsp")
-            || path.endsWith("Registrarse.jsp")
-            || path.endsWith("Actividad.jsp")
-            || path.endsWith("Historia.jsp")
-            || path.endsWith("Menu.jsp")
-            || path.endsWith("Reserva.jsp")
-            || path.endsWith("Catalogo.jsp")
-            || path.endsWith("SolicitudAdopcion.jsp")
-            || path.contains("CargarRegistro")
-            || path.contains("Registrarse")
-            || path.contains("Iniciar")
-            || path.contains("CerrarSesion")
-            || path.contains("RecuperarClave")
-            || path.contains("RestablecerClave")
-            || path.contains("CatalogoPerritos")
-            || path.contains("SolicitudAdopcionCliente")) {
+                || path.endsWith("InicioSesion.jsp")
+                || path.endsWith("Registrarse.jsp")
+                || path.endsWith("Actividad.jsp")
+                || path.endsWith("Historia.jsp")
+                || path.endsWith("Menu.jsp")
+                || path.endsWith("Reserva.jsp")
+                || path.endsWith("Catalogo.jsp")
+                || path.endsWith("SolicitudAdopcion.jsp")
+                || path.contains("CargarRegistro")
+                || path.contains("Registrarse")
+                || path.contains("Iniciar")
+                || path.contains("CerrarSesion")
+                || path.contains("RecuperarClave")
+                || path.contains("RestablecerClave")
+                || path.contains("CatalogoPerritos")
+                || path.contains("SolicitudAdopcionCliente")) {
             chain.doFilter(request, response);
             return;
         }
@@ -107,8 +107,12 @@ public class Filtro implements Filter {
         }
 
         if (esRutaAdmin) {
-            Object perfil = session.getAttribute("perfil");
-            boolean esAdmin = perfil != null && perfil.toString().equals("1");
+            Object perfilObj = session.getAttribute("perfil");
+            int rol = (perfilObj instanceof Integer)
+                    ? (Integer) perfilObj
+                    : Integer.parseInt(perfilObj.toString());
+
+            boolean esAdmin = rol == 1;
             if (!esAdmin) {
                 res.sendRedirect(req.getContextPath() + "/PanelUsuario.jsp");
                 return;

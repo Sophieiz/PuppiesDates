@@ -57,8 +57,8 @@ public class InicioSesion extends HttpServlet {
             }
 
             // Login exitoso
-            request.getSession().invalidate(); 
-            HttpSession sesion = request.getSession(true); 
+            request.getSession().invalidate();
+            HttpSession sesion = request.getSession(true);
             sesion.setAttribute("nombreUsuario", usuarioBD.getnombre());
             sesion.setAttribute("perfil", usuarioBD.getRoles_idRoles());
             sesion.setAttribute("idUsuario", usuarioBD.getidUsuarios());
@@ -75,6 +75,16 @@ public class InicioSesion extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/Vista/InicioSesion.jsp").forward(request, response);
+        HttpSession sesion = request.getSession(false);
+        if (sesion != null && sesion.getAttribute("perfil") != null) {
+            int rol = Integer.parseInt(sesion.getAttribute("perfil").toString());
+            if (rol == 1) {
+                request.getRequestDispatcher("/PanelAdmin.jsp").forward(request, response);
+            } else {
+                request.getRequestDispatcher("/PanelUsuario.jsp").forward(request, response);
+            }
+        } else {
+            request.getRequestDispatcher("/Vista/InicioSesion.jsp").forward(request, response);
+        }
     }
 }
