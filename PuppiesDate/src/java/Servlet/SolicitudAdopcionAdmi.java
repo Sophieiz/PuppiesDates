@@ -7,6 +7,7 @@ import Controlador.PerritoDAO;
 import Controlador.Solicitud_adopcionDAO;
 import Modelo.Entrevista;
 import Modelo.Solicitud_adopcion;
+import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -46,15 +47,15 @@ public class SolicitudAdopcionAdmi extends HttpServlet {
                 boolean ok = dao.actualizarEstadoSolicitud(idSolicitud, idEstadoNuevo, observacion);
 
                 if (ok && solicitud != null) {
-                    // Sincronizar el estado del perrito según el nuevo estado de la solicitud
+                    // El perrito sigue "Disponible" en el catálogo durante todo el proceso
+                    // (varios usuarios pueden solicitarlo a la vez). Solo cambia de estado
+                    // cuando alguien firma documentos y se le entrega la mascota.
                     String nuevoEstadoTexto = obtenerDescripcionEstado(idEstadoNuevo);
-                    PerritoDAO perritoDao = new PerritoDAO();
                     if ("Aprobado".equalsIgnoreCase(nuevoEstadoTexto)) {
-                        perritoDao.actualizarEstadoPerrito(solicitud.getPerrito_idPerrito(), ESTADO_PERRITO_ADOPTADO);
-                    } else if ("Pendiente".equalsIgnoreCase(nuevoEstadoTexto) || "En proceso".equalsIgnoreCase(nuevoEstadoTexto)) {
-                        perritoDao.actualizarEstadoPerrito(solicitud.getPerrito_idPerrito(), ESTADO_PERRITO_EN_PROCESO);
-                    } else if ("Rechazado".equalsIgnoreCase(nuevoEstadoTexto)) {
-                        perritoDao.actualizarEstadoPerrito(solicitud.getPerrito_idPerrito(), ESTADO_PERRITO_DISPONIBLE);
+                        // Firmó documentos y se le entregó: el perrito queda Adoptado y se cierra
+                        // el proceso a todos los demás que también lo habían pedido.
+                        new PerritoDAO().actualizarEstadoPerrito(solicitud.getPerrito_idPerrito(), ESTADO_PERRITO_ADOPTADO);
+                        cerrarProcesoACompetidores(dao, solicitud);
                     }
 
                     // Avisar al solicitante por correo
@@ -102,9 +103,6 @@ public class SolicitudAdopcionAdmi extends HttpServlet {
                         dao.actualizarEstadoSolicitud(idSolicitud, idEstadoEntrevista,
                                 "Entrevista programada para " + fechaTexto + " a las " + horaTexto);
 
-                        // El perrito pasa a "en proceso" mientras se define esta solicitud
-                        new PerritoDAO().actualizarEstadoPerrito(solicitud.getPerrito_idPerrito(), ESTADO_PERRITO_EN_PROCESO);
-
                         CorreoUtil.enviarCorreoEntrevista(
                                 solicitud.getCorreoUsuario(),
                                 solicitud.getNombreUsuario(),
@@ -140,6 +138,27 @@ public class SolicitudAdopcionAdmi extends HttpServlet {
 
         cargarListas(request);
         request.getRequestDispatcher("/Vista/SolicitudAdopcionAdmi.jsp").forward(request, response);
+    }
+
+ 
+    private void cerrarProcesoACompetidores(Solicitud_adopcionDAO dao, Solicitud_adopcion solicitudGanadora) {
+        int idNoSeleccionado = obtenerIdEstadoPorDescripcion("No seleccionado");
+        if (idNoSeleccionado == -1) {
+            System.out.println("Falta crear el estado 'No seleccionado' en la tabla estado_solicitud.");
+            return;
+        }
+
+        List<Solicitud_adopcion> competidoras = dao.listarSolicitudesActivasPorPerrito(
+                solicitudGanadora.getPerrito_idPerrito(), solicitudGanadora.getIdSolicitud_adopcion());
+
+        for (Solicitud_adopcion competidora : competidoras) {
+            dao.actualizarEstadoSolicitud(competidora.getIdSolicitud_adopcion(), idNoSeleccionado,
+                    "El perrito fue adoptado por otra persona.");
+            CorreoUtil.enviarCorreoCambioEstado(
+                    competidora.getCorreoUsuario(),
+                    competidora.getNombrePerrito(),
+                    "No seleccionado");
+        }
     }
 
     private String obtenerDescripcionEstado(int idEstado) {

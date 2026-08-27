@@ -3,6 +3,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
+<c:set var="estadosCancelables" value=",Pendiente,Entrevista," />
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -11,7 +12,7 @@
         <title>Mis Solicitudes - Puppies Dates</title>
         <link rel="stylesheet" href="${ctx}/Vista/Css/style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">    <body>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">    <body>
         <c:set var="activePage" value="inicio" scope="request"/>
         <%@ include file="Header.jsp" %>
 
@@ -27,10 +28,13 @@
                         <table class="mis-registros-table">
                             <thead>
                                 <tr>
+
                                     <th>Perrito</th>
                                     <th>Fecha de solicitud</th>
                                     <th>Estado</th>
+                                    <th>Acciones</th>
                                 </tr>
+
                             </thead>
                             <tbody>
                                 <c:forEach var="s" items="${listaMisSolicitudes}">
@@ -40,7 +44,18 @@
                                         <td data-label="Estado">
                                             <span class="estado-badge estado-${fn:toLowerCase(fn:replace(s.descripcionEstado_solicitud, ' ', '-'))}">${s.descripcionEstado_solicitud}</span>
                                         </td>
+                                        <td data-label="Acciones">
+                                            <c:if test="${fn:contains(estadosCancelables, concat(',', s.descripcionEstado_solicitud, ','))}">
+                                                <form action="${ctx}/MisSolicitudes" method="POST"
+                                                      onsubmit="return confirm('¿Seguro que quieres cancelar tu solicitud de adopción para ${s.nombrePerrito}? Esta acción no se puede deshacer.');">
+                                                    <input type="hidden" name="accion" value="cancelar">
+                                                    <input type="hidden" name="idSolicitud_adopcion" value="${s.idSolicitud_adopcion}">
+                                                    <button type="submit" class="btn-cancelar-solicitud">Cancelar solicitud</button>
+                                                </form>
+                                            </c:if>
+                                        </td>
                                     </tr>
+
                                 </c:forEach>
                             </tbody>
                         </table>

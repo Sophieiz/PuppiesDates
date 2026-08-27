@@ -2915,16 +2915,40 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     white-space: nowrap;
 }
  
-.estado-pendiente { background: #F8B553; }
-.estado-en-proceso { background: #94B2ED; }
-.estado-aprobado { background: #C9CE67; }
-.estado-rechazado { background: #6D3A52; }
- 
-
-.estado-reserva-badge {
-    background: var(--plume-blue);
+.estado-pendiente {
+    background: #F8B553;
 }
 
+.estado-entrevista {
+    background: #94B2ED;
+}
+
+.estado-no-seleccionado {
+    background: #B0AFAF;
+}
+
+.estado-rechazado,
+.estado-rechazada,
+.estado-cancelada,
+.estado-cancelado {
+    background: #6D3A52;
+}
+
+
+.btn-cancelar-solicitud {
+    background: #6D3A52;
+    color: #fff;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-cancelar-solicitud:hover {
+    opacity: 0.85;
+}
 /* AJUSTES DE INTERFAZ PUPPIES DATES */
 :root {
     --coffee-brown: #6D3A52;

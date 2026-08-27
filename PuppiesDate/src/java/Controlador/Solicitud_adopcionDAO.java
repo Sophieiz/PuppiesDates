@@ -21,8 +21,7 @@ public class Solicitud_adopcionDAO {
                 + "Estado_solicitud_idEstado_solicitud) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         Conexion conexion = new Conexion();
-        try (Connection con = conexion.getConn();
-             PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+        try (Connection con = conexion.getConn(); PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
             ps.setString(1, solicitud.getDireccion());
             ps.setInt(2, solicitud.getDepartamentoId());
@@ -68,8 +67,7 @@ public class Solicitud_adopcionDAO {
         String sql = sqlBaseConJoins() + " WHERE s.idSolicitud_adopcion = ?";
 
         Conexion conexion = new Conexion();
-        try (Connection con = conexion.getConn();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = conexion.getConn(); PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, idSolicitud_adopcion);
             try (ResultSet rs = ps.executeQuery()) {
@@ -89,9 +87,7 @@ public class Solicitud_adopcionDAO {
         String sql = sqlBaseConJoins() + " WHERE s.activo = 1 ORDER BY s.fecha_solicitud DESC";
 
         Conexion conexion = new Conexion();
-        try (Connection con = conexion.getConn();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection con = conexion.getConn(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 lista.add(mapearSolicitud(rs));
@@ -110,8 +106,7 @@ public class Solicitud_adopcionDAO {
                 + " ORDER BY s.fecha_solicitud DESC";
 
         Conexion conexion = new Conexion();
-        try (Connection con = conexion.getConn();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = conexion.getConn(); PreparedStatement ps = con.prepareStatement(sql)) {
 
             String comodin = "%" + textoBusqueda + "%";
             ps.setString(1, comodin);
@@ -136,8 +131,7 @@ public class Solicitud_adopcionDAO {
         String sql = sqlBaseConJoins() + " WHERE s.activo = 1 AND s.Usuarios_idUsuarios = ? ORDER BY s.fecha_solicitud DESC";
 
         Conexion conexion = new Conexion();
-        try (Connection con = conexion.getConn();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = conexion.getConn(); PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, idUsuarios);
             try (ResultSet rs = ps.executeQuery()) {
@@ -151,16 +145,14 @@ public class Solicitud_adopcionDAO {
         return lista;
     }
 
-    // Valida que el usuario no tenga ya una solicitud activa (En revisión o En entrevista) para ese mismo perrito
     public boolean existeSolicitudActiva(int idUsuarios, int idPerrito) {
         String sql = "SELECT s.idSolicitud_adopcion FROM solicitud_adopcion s "
                 + "INNER JOIN estado_solicitud e ON s.Estado_solicitud_idEstado_solicitud = e.idEstado_solicitud "
                 + "WHERE s.Usuarios_idUsuarios = ? AND s.Perrito_idPerrito = ? "
-                + "AND e.descripcion_estado IN ('Pendiente', 'En proceso')";
+                + "AND e.descripcion_estado IN ('Pendiente', 'Entrevista')";
 
         Conexion conexion = new Conexion();
-        try (Connection con = conexion.getConn();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = conexion.getConn(); PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, idUsuarios);
             ps.setInt(2, idPerrito);
@@ -172,6 +164,29 @@ public class Solicitud_adopcionDAO {
             return false;
         }
     }
+    
+      public List<Solicitud_adopcion> listarSolicitudesActivasPorPerrito(int idPerrito, int idSolicitudExcluir) {
+        List<Solicitud_adopcion> lista = new ArrayList<>();
+        String sql = sqlBaseConJoins()
+                + " WHERE s.activo = 1 AND s.Perrito_idPerrito = ? AND s.idSolicitud_adopcion <> ? "
+                + " AND e.descripcion_estado IN ('Pendiente', 'Entrevista')";
+
+        Conexion conexion = new Conexion();
+        try (Connection con = conexion.getConn();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, idPerrito);
+            ps.setInt(2, idSolicitudExcluir);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearSolicitud(rs));
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error al listar solicitudes activas del perrito: " + e.getMessage());
+        }
+        return lista;
+    }
 
     // Cambia el estado de la solicitud Y deja registro en Historial_estado_solicitud
     public boolean actualizarEstadoSolicitud(int idSolicitud_adopcion, int idEstado_solicitud, String observacion) {
@@ -179,8 +194,7 @@ public class Solicitud_adopcionDAO {
         String sql = "UPDATE solicitud_adopcion SET Estado_solicitud_idEstado_solicitud = ? WHERE idSolicitud_adopcion = ?";
 
         Conexion conexion = new Conexion();
-        try (Connection con = conexion.getConn();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = conexion.getConn(); PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, idEstado_solicitud);
             ps.setInt(2, idSolicitud_adopcion);
@@ -206,8 +220,7 @@ public class Solicitud_adopcionDAO {
         String sql = "UPDATE solicitud_adopcion SET activo = 0 WHERE idSolicitud_adopcion = ?";
 
         Conexion conexion = new Conexion();
-        try (Connection con = conexion.getConn();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = conexion.getConn(); PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, id);
             if (ps.executeUpdate() > 0) {
@@ -225,9 +238,7 @@ public class Solicitud_adopcionDAO {
         String sql = sqlBaseConJoins() + " WHERE s.activo = 0 ORDER BY s.fecha_solicitud DESC";
 
         Conexion conexion = new Conexion();
-        try (Connection con = conexion.getConn();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection con = conexion.getConn(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 lista.add(mapearSolicitud(rs));
@@ -243,8 +254,7 @@ public class Solicitud_adopcionDAO {
         String sql = "UPDATE solicitud_adopcion SET activo = 1 WHERE idSolicitud_adopcion = ?";
 
         Conexion conexion = new Conexion();
-        try (Connection con = conexion.getConn();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = conexion.getConn(); PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, id);
             reactivado = ps.executeUpdate() > 0;
@@ -260,8 +270,7 @@ public class Solicitud_adopcionDAO {
                 + "Estado_solicitud_idEstado_solicitud) VALUES (?, ?, ?)";
 
         Conexion conexion = new Conexion();
-        try (Connection con = conexion.getConn();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = conexion.getConn(); PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, historial.getObservacion());
             ps.setInt(2, historial.getSolicitud_adopcion_idSolicitud_adopcion());
@@ -286,8 +295,7 @@ public class Solicitud_adopcionDAO {
                 + "ORDER BY h.fecha_cambio ASC";
 
         Conexion conexion = new Conexion();
-        try (Connection con = conexion.getConn();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = conexion.getConn(); PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, idSolicitud_adopcion);
             try (ResultSet rs = ps.executeQuery()) {
