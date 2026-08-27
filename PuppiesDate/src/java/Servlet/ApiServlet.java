@@ -232,7 +232,7 @@ public class ApiServlet extends HttpServlet {
                 || ("https".equals(request.getScheme()) && request.getServerPort() == 443);
     }
 
-    // Devuelve lo que viene despues de /api  (ej: "/login", "/solicitudes")
+    
     private String obtenerRuta(HttpServletRequest request) {
         String pathInfo = request.getPathInfo();
         return pathInfo == null ? "" : pathInfo;
@@ -245,7 +245,7 @@ public class ApiServlet extends HttpServlet {
         }
     }
 
-    // El enum de Flutter (EstadoSolicitud) espera: pendiente, enProceso, aprobado, rechazado
+
     private String mapearEstado(String descripcionEstadoBD) {
         if (descripcionEstadoBD == null) {
             return "pendiente";
@@ -271,7 +271,7 @@ public class ApiServlet extends HttpServlet {
         return FORMATO_FECHA.format(fecha);
     }
 
-    // Escapa comillas/backslashes/saltos de linea para que el texto no rompa el JSON
+
     private String jsonString(String valor) {
         if (valor == null) {
             return "\"\"";

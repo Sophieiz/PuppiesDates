@@ -49,7 +49,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach var="s" items="${listaSolicitudes}">
+                            <c:forEach var="s" items="${listaSolicitudes}" varStatus="i">
                                 <tr class="admin-crud-row" 
                                     data-abrir-cambio
                                     data-id="${s.idSolicitud_adopcion}"
@@ -57,13 +57,20 @@
                                     data-estado-actual="${s.estado_solicitud_idEstado_solicitud}"
                                     tabindex="0">
                                     
-                                    <td>${s.idSolicitud_adopcion}</td>
+                                    <td>${i.count}</td>
                                     <td>${s.nombrePerrito}</td>
                                     <td>${s.nombreUsuario} ${s.apellidoUsuario}</td>
                                     <td>${s.correoUsuario}</td>
                                     <td><fmt:formatDate value="${s.fecha_solicitud}" pattern="dd/MM/yyyy HH:mm"/></td>
                                     <td>${s.descripcionEstado_solicitud}</td>
                                     <td>
+                                        <button type="button" class="admin-crud-btn-primary admin-crud-btn-sm"
+                                                data-abrir-entrevista
+                                                data-id="${s.idSolicitud_adopcion}"
+                                                data-perrito="${s.nombrePerrito}"
+                                                onclick="event.stopPropagation();">
+                                            Programar entrevista
+                                        </button>
                                         <form action="${ctx}/SolicitudAdopcionAdmi" method="POST"
                                               onsubmit="return confirm('¿Está seguro de inactivar esta solicitud? No se eliminará, solo dejará de estar disponible.');">
                                             <input type="hidden" name="accion" value="eliminar">
@@ -111,6 +118,38 @@
                     <div class="admin-crud-actions">
                         <button type="button" class="admin-crud-btn-secondary" data-cerrar="modal-cambiar-estado">Cancelar</button>
                         <button type="submit" class="admin-crud-btn-primary">Guardar y notificar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="admin-crud-modal modal-overlay" id="modal-programar-entrevista" aria-hidden="true">
+            <div class="admin-crud-modal-box">
+                <button type="button" class="admin-modal-cerrar" data-cerrar="modal-programar-entrevista" aria-label="Cerrar">&times;</button>
+                <h2 class="admin-crud-title">Programar entrevista (<span id="nombrePerritoEntrevistaModal"></span>)</h2>
+
+                <form action="${ctx}/SolicitudAdopcionAdmi" method="POST">
+                    <input type="hidden" name="accion" value="programarEntrevista">
+                    <input type="hidden" name="idSolicitud_adopcion" id="idSolicitudEntrevistaModal">
+
+                    <div class="admin-crud-field">
+                        <label for="fecha">Fecha:</label>
+                        <input type="date" name="fecha" id="fecha" required>
+                    </div>
+
+                    <div class="admin-crud-field">
+                        <label for="hora">Hora:</label>
+                        <input type="time" name="hora" id="hora" required>
+                    </div>
+
+                    <div class="admin-crud-field">
+                        <label for="observaciones">Observaciones (opcional):</label>
+                        <textarea name="observaciones" id="observaciones" rows="3" placeholder="Ej: Traer cédula y comprobante de domicilio..."></textarea>
+                    </div>
+
+                    <div class="admin-crud-actions">
+                        <button type="button" class="admin-crud-btn-secondary" data-cerrar="modal-programar-entrevista">Cancelar</button>
+                        <button type="submit" class="admin-crud-btn-primary">Programar y notificar</button>
                     </div>
                 </form>
             </div>

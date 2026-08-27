@@ -2,8 +2,10 @@ package Servlet;
 
 import Controlador.CorreoUtil;
 import Controlador.Estado_solicitudDAO;
+import Controlador.EntrevistaDAO;
 import Controlador.PerritoDAO;
 import Controlador.Solicitud_adopcionDAO;
+import Modelo.Entrevista;
 import Modelo.Solicitud_adopcion;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -68,6 +70,56 @@ public class SolicitudAdopcionAdmi extends HttpServlet {
             } catch (NumberFormatException e) {
                 request.setAttribute("mensaje", "Datos inválidos.");
             }
+        } else if ("programarEntrevista".equalsIgnoreCase(accion)) {
+            try {
+                int idSolicitud = Integer.parseInt(request.getParameter("idSolicitud_adopcion"));
+                String fechaTexto = request.getParameter("fecha");
+                String horaTexto = request.getParameter("hora");
+                String observaciones = request.getParameter("observaciones");
+
+                Solicitud_adopcion solicitud = dao.ConsultarSolicitud_adopcion(idSolicitud);
+
+                if (solicitud == null) {
+                    request.setAttribute("mensaje", "No se encontró la solicitud.");
+                } else if (fechaTexto == null || fechaTexto.trim().isEmpty()
+                        || horaTexto == null || horaTexto.trim().isEmpty()) {
+                    request.setAttribute("mensaje", "Debes indicar fecha y hora para la entrevista.");
+                } else {
+                    // El input type="time" del navegador manda "HH:MM", java.sql.Time necesita "HH:MM:SS"
+                    String horaCompleta = horaTexto.length() == 5 ? horaTexto + ":00" : horaTexto;
+
+                    Entrevista entrevista = new Entrevista();
+                    entrevista.setSolicitud_adopcion_idSolicitud_adopcion(idSolicitud);
+                    entrevista.setFecha(java.sql.Date.valueOf(fechaTexto));
+                    entrevista.setHora(java.sql.Time.valueOf(horaCompleta));
+                    entrevista.setObservaciones(observaciones);
+
+                    EntrevistaDAO entrevistaDao = new EntrevistaDAO();
+                    int idEntrevista = entrevistaDao.insertarEntrevista(entrevista);
+
+                    if (idEntrevista != -1) {
+                        int idEstadoEntrevista = obtenerIdEstadoPorDescripcion("Entrevista");
+                        dao.actualizarEstadoSolicitud(idSolicitud, idEstadoEntrevista,
+                                "Entrevista programada para " + fechaTexto + " a las " + horaTexto);
+
+                        // El perrito pasa a "en proceso" mientras se define esta solicitud
+                        new PerritoDAO().actualizarEstadoPerrito(solicitud.getPerrito_idPerrito(), ESTADO_PERRITO_EN_PROCESO);
+
+                        CorreoUtil.enviarCorreoEntrevista(
+                                solicitud.getCorreoUsuario(),
+                                solicitud.getNombreUsuario(),
+                                solicitud.getNombrePerrito(),
+                                fechaTexto,
+                                horaTexto
+                        );
+                        request.setAttribute("mensaje", "Entrevista programada y usuario notificado por correo.");
+                    } else {
+                        request.setAttribute("mensaje", "Error al registrar la entrevista.");
+                    }
+                }
+            } catch (IllegalArgumentException e) {
+                request.setAttribute("mensaje", "Datos inválidos para la entrevista.");
+            }
         } else if ("eliminar".equalsIgnoreCase(accion)) {
             try {
                 int idSolicitud = Integer.parseInt(request.getParameter("idSolicitud_adopcion"));
@@ -97,6 +149,16 @@ public class SolicitudAdopcionAdmi extends HttpServlet {
             }
         }
         return "";
+    }
+
+    // Busca el id a partir del texto (evita "hardcodear" el id 5, por si algún día cambia)
+    private int obtenerIdEstadoPorDescripcion(String descripcion) {
+        for (Modelo.Estado_solicitud estado : new Estado_solicitudDAO().listarEstado_solicitud()) {
+            if (estado.getDescripcion_estado().equalsIgnoreCase(descripcion)) {
+                return estado.getIdEstado_solicitud();
+            }
+        }
+        return -1;
     }
 
     private void cargarListas(HttpServletRequest request) {

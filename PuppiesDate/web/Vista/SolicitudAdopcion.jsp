@@ -16,9 +16,6 @@
 
         <a href="${ctx}/CatalogoPerritos" class="btn-volver-inicio">&larr;</a>
 
-        <c:if test="${not empty resultado}">
-            <p style="background:#fee;color:red;padding:10px;border:2px solid red;">DEBUG: ${resultado}</p>
-        </c:if>
 
         <c:choose>
             <c:when test="${empty perrito}">

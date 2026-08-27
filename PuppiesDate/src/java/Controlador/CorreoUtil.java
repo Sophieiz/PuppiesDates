@@ -177,6 +177,39 @@ public class CorreoUtil {
         return enviar(correoDestino, asunto, html, "cambio de estado");
     }
 
+    public static boolean enviarCorreoEntrevista(String correoDestino, String nombreUsuario,
+            String nombrePerrito, String fecha, String hora) {
+        if (correoDestino == null || correoDestino.trim().isEmpty()) {
+            return false;
+        }
+        String nombre = escapar(nombreUsuario);
+        String perrito = escapar(nombrePerrito);
+        String fechaEsc = escapar(fecha);
+        String horaEsc = escapar(hora);
+
+        String asunto = "Entrevista de adopción programada - " + limpiar(nombrePerrito);
+
+        String cuerpo = "<p>Hola <strong>" + nombre + "</strong>,</p>"
+                + "<p>Tu solicitud de adopción para <strong>" + perrito + "</strong> avanzó a la etapa de entrevista. "
+                + "Aquí están los datos:</p>"
+                + "<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" "
+                + "style=\"margin-top:16px;background-color:#ffffff;border-radius:14px;border:2px dashed " + COLOR_ROSA + ";\">"
+                + "<tr><td style=\"padding:18px 20px;\">"
+                + "<p style=\"margin:0 0 10px;text-align:center;font-size:13px;letter-spacing:2px;color:#b03a5b;text-transform:uppercase;\">Entrevista de adopción &middot; Puppies Dates</p>"
+                + "<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">"
+                + filaDato("Mascota", perrito)
+                + filaDato("Fecha", fechaEsc)
+                + filaDato("Hora", horaEsc)
+                + "</table>"
+                + "</td></tr>"
+                + "</table>"
+                + "<p style=\"margin-top:18px;\">Por favor llega puntual. Si tienes algún inconveniente con la fecha u hora, "
+                + "puedes contactarnos respondiendo este correo.</p>";
+
+        String html = plantilla(COLOR_ROSA, "¡Ya tienes entrevista programada!", cuerpo);
+        return enviar(correoDestino, asunto, html, "entrevista programada - usuario");
+    }
+
     public static boolean enviarCorreoRecuperacion(String correoDestino, String nombreUsuario, String linkRestablecer) {
         String nombre = escapar(nombreUsuario);
 
