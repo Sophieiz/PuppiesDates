@@ -4420,12 +4420,19 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 .aviso-fechas-mini {
     display: flex;
     align-items: center;
-    gap: 20px;
+    justify-content: space-between; 
+    width: 100%;                 
+    box-sizing: border-box;      
+    gap: 10px;                    
     margin-bottom: 14px;
-    flex-wrap: wrap; 
 }
 
 .modal-contenido { 
+    max-width: 100%;
+    overflow-x: hidden; 
+}
+
+.modal {
     max-width: 100%;
     overflow-x: hidden; 
 }
