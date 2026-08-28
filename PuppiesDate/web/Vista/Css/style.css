@@ -4677,3 +4677,12 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
         transform: translateY(-7px) rotate(-45deg);
     }
 }
+
+
+.admin-users-wrap .admin-crud-table td {
+    white-space: normal;
+}
+
+.admin-users-wrap .admin-crud-table th {
+    white-space: nowrap;
+}

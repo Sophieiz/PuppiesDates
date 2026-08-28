@@ -18,7 +18,7 @@
             </div>
         </c:if>
 
-        <div class="admin-form-wrap">
+        <div class="admin-form-wrap admin-users-wrap">
             <div class="admin-table-card">
                 <div class="admin-crud-toolbar">
                     <h3>Solicitudes de adopción</h3>
