@@ -220,7 +220,7 @@
                                 <tbody>
                                     <c:forEach var="reserva" items="${reservasPanelAdmin}">
                                         <tr>
-                                            <td>${reserva.idReserva}</td>
+                                            
                                             <td>${reserva.num_personas}</td>
                                             <td>${reserva.hora}</td>
                                             <td>${reserva.fecha}</td>

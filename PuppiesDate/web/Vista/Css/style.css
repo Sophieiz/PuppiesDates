@@ -4739,10 +4739,10 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 
 #tablaActividades th:nth-child(1),
 #tablaActividades td:nth-child(1) {
-    width: 60px;
+    width: 70%;
 }
 
 #tablaActividades th:nth-child(2),
 #tablaActividades td:nth-child(2) {
-    width: 55%;
+    width: 150px;
 }
