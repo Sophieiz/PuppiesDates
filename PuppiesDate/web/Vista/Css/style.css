@@ -4425,6 +4425,16 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     flex-wrap: wrap; 
 }
 
+.modal-contenido { 
+    max-width: 100%;
+    overflow-x: hidden; 
+}
+
+table {
+    width: 100%;
+    table-layout: fixed; 
+}
+
 .btn-circulo-info {
     flex-shrink: 0;
     width: 28px;
