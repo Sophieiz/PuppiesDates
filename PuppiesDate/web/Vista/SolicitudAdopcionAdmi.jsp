@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html lang="es">
@@ -35,59 +36,74 @@
 
                 <p class="admin-crud-help">Haz clic sobre una fila para cambiar el estado de la solicitud. El solicitante recibirá un correo automático avisándole del cambio.</p>
 
-                <div class="admin-crud-table-wrap">
-                    <table class="admin-crud-table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Perrito</th>
-                                <th>Solicitante</th>
-                                <th>Correo</th>
-                                <th>Fecha</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach var="s" items="${listaSolicitudes}" varStatus="i">
-                                <tr class="admin-crud-row" 
-                                    data-abrir-cambio
-                                    data-id="${s.idSolicitud_adopcion}"
-                                    data-perrito="${s.nombrePerrito}"
-                                    data-estado-actual="${s.estado_solicitud_idEstado_solicitud}"
-                                    tabindex="0">
-                                    
-                                    <td>${i.count}</td>
-                                    <td>${s.nombrePerrito}</td>
-                                    <td>${s.nombreUsuario} ${s.apellidoUsuario}</td>
-                                    <td>${s.correoUsuario}</td>
-                                    <td><fmt:formatDate value="${s.fecha_solicitud}" pattern="dd/MM/yyyy HH:mm"/></td>
-                                    <td>${s.descripcionEstado_solicitud}</td>
-                                    <td>
-                                        <button type="button" class="admin-crud-btn-primary admin-crud-btn-sm"
-                                                data-abrir-entrevista
-                                                data-id="${s.idSolicitud_adopcion}"
-                                                data-perrito="${s.nombrePerrito}"
-                                                onclick="event.stopPropagation();">
-                                            Programar entrevista
-                                        </button>
-                                        <form action="${ctx}/SolicitudAdopcionAdmi" method="POST"
-                                              onsubmit="return confirm('¿Está seguro de inactivar esta solicitud? No se eliminará, solo dejará de estar disponible.');">
-                                            <input type="hidden" name="accion" value="eliminar">
-                                            <input type="hidden" name="idSolicitud_adopcion" value="${s.idSolicitud_adopcion}">
-                                            <button type="submit" class="admin-crud-btn-danger admin-crud-btn-sm" onclick="event.stopPropagation();">Inactivar</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                            <c:if test="${empty listaSolicitudes}">
-                                <tr>
-                                    <td colspan="7" class="admin-empty">Todavía no hay solicitudes de adopción.</td>
-                                </tr>
-                            </c:if>
-                        </tbody>
-                    </table>
-                </div>
+                <c:set var="perritosProcesados" value="," />
+
+                <c:forEach var="s" items="${listaSolicitudes}">
+                    <c:set var="marcadorPerrito" value=",${s.nombrePerrito}," />
+
+                    <c:if test="${not fn:contains(perritosProcesados, marcadorPerrito)}">
+                        <c:set var="perritosProcesados" value="${perritosProcesados}${s.nombrePerrito}," />
+
+                        <div class="admin-perrito-card">
+                            <h4 class="admin-perrito-card-title">${s.nombrePerrito}</h4>
+
+                            <div class="admin-crud-table-wrap">
+                                <table class="admin-crud-table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Solicitante</th>
+                                            <th>Correo</th>
+                                            <th>Fecha</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach var="s2" items="${listaSolicitudes}" varStatus="i">
+                                            <c:if test="${s2.nombrePerrito == s.nombrePerrito}">
+                                                <tr class="admin-crud-row"
+                                                    data-abrir-cambio
+                                                    data-id="${s2.idSolicitud_adopcion}"
+                                                    data-perrito="${s2.nombrePerrito}"
+                                                    data-estado-actual="${s2.estado_solicitud_idEstado_solicitud}"
+                                                    tabindex="0">
+
+                                                    <td data-label="#">${i.count}</td>
+                                                    <td data-label="Solicitante">${s2.nombreUsuario} ${s2.apellidoUsuario}</td>
+                                                    <td data-label="Correo">${s2.correoUsuario}</td>
+                                                    <td data-label="Fecha"><fmt:formatDate value="${s2.fecha_solicitud}" pattern="dd/MM/yyyy HH:mm"/></td>
+                                                    <td data-label="Estado">${s2.descripcionEstado_solicitud}</td>
+                                                    <td data-label="Acciones">
+                                                        <div class="admin-crud-acciones">
+                                                            <button type="button" class="admin-crud-btn-primary admin-crud-btn-sm"
+                                                                    data-abrir-entrevista
+                                                                    data-id="${s2.idSolicitud_adopcion}"
+                                                                    data-perrito="${s2.nombrePerrito}"
+                                                                    onclick="event.stopPropagation();">
+                                                                Entrevista
+                                                            </button>
+                                                            <form action="${ctx}/SolicitudAdopcionAdmi" method="POST"
+                                                                  onsubmit="return confirm('¿Está seguro de inactivar esta solicitud? No se eliminará, solo dejará de estar disponible.');">
+                                                                <input type="hidden" name="accion" value="eliminar">
+                                                                <input type="hidden" name="idSolicitud_adopcion" value="${s2.idSolicitud_adopcion}">
+                                                                <button type="submit" class="admin-crud-btn-danger admin-crud-btn-sm" onclick="event.stopPropagation();">Inactivar</button>
+                                                            </form>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </c:if>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </c:if>
+                </c:forEach>
+
+                <c:if test="${empty listaSolicitudes}">
+                    <div class="admin-empty">Todavía no hay solicitudes de adopción.</div>
+                </c:if>
             </div>
         </div>
 
