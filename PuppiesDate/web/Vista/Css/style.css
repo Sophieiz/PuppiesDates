@@ -4420,8 +4420,9 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 .aviso-fechas-mini {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 20px;
     margin-bottom: 14px;
+    flex-wrap: wrap; 
 }
 
 .btn-circulo-info {
