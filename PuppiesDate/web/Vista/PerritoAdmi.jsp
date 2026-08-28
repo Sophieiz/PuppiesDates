@@ -156,20 +156,33 @@
 
                     <div class="admin-crud-field">
                         <label for="especialidad">Temperamento:</label>
-                        <input type="text" name="especialidad" id="especialidad" placeholder="Ej: Juguetón, tranquilo, sociable con otros perros">
+                        <input type="text" name="especialidad" id="especialidad" data-label="temperamento" data-required-message="El temperamento es obligatorio." placeholder="Ej: Juguetón, tranquilo, sociable con otros perros" required>
                         <span class="admin-crud-error"></span>
                     </div>
 
                     <div class="admin-crud-field">
-                        <label for="condiciones_especiales">Condiciones especiales:</label>
-                        <input type="text" name="condiciones_especiales" id="condiciones_especiales" placeholder="Ej: Alergia al pollo, requiere medicamento diario, No aplica">
+                        <label for="condiciones_especiales">Observaciones:</label>
+                        <input 
+                            type="text" 
+                            name="condiciones_especiales" 
+                            id="condiciones_especiales" 
+                            data-label="condiciones especiales" 
+                            data-required-message="Las condiciones especiales son obligatorias." 
+                            placeholder="Ej: Alergia al pollo, requiere medicamento diario, No aplica" 
+                            required>
                         <span class="admin-crud-error"></span>
                     </div>
-
 
                     <div class="admin-crud-field">
                         <label for="titulo_historia">Título de la historia:</label>
-                        <input type="text" name="titulo_historia" id="titulo_historia" placeholder="Ej: El titulo que le quieras colocar a la historia">
+                        <input 
+                            type="text" 
+                            name="titulo_historia" 
+                            id="titulo_historia" 
+                            data-label="título de la historia" 
+                            data-required-message="El título de la historia es obligatorio." 
+                            placeholder="Ej: El titulo que le quieras colocar a la historia" 
+                            required>
                         <span class="admin-crud-error"></span>
                     </div>
 

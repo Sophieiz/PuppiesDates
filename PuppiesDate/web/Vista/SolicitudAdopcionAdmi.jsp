@@ -107,19 +107,21 @@
             </div>
         </div>
 
-        
+
         <div class="admin-crud-modal modal-overlay" id="modal-cambiar-estado" aria-hidden="true">
             <div class="admin-crud-modal-box">
                 <button type="button" class="admin-modal-cerrar" data-cerrar="modal-editar" aria-label="Cerrar">&times;</button>
                 <h2 class="admin-crud-title">Cambiar estado de la solicitud (<span id="nombrePerritoModal"></span>)</h2>
-                
-                <form action="${ctx}/SolicitudAdopcionAdmi" method="POST">
+
+                <form action="${ctx}/SolicitudAdopcionAdmi" method="POST" class="admin-managed-form">
                     <input type="hidden" name="accion" value="actualizarEstado">
                     <input type="hidden" name="idSolicitud_adopcion" id="idSolicitudModal">
+                    <div class="admin-crud-alert" data-form-alert></div>
 
                     <div class="admin-crud-field">
                         <label for="idEstado_solicitud">Nuevo estado:</label>
-                        <select name="idEstado_solicitud" id="idEstado_solicitud" required>
+                        <select name="idEstado_solicitud" id="idEstado_solicitud"
+                                data-label="nuevo estado" data-required-message="Debes seleccionar un nuevo estado." required>
                             <c:forEach var="estado" items="${listaEstadosSolicitud}">
                                 <option value="${estado.idEstado_solicitud}">${estado.descripcion_estado}</option>
                             </c:forEach>
@@ -171,7 +173,7 @@
             </div>
         </div>
 
-    <script src="${ctx}/Vista/JavaScript/funciones.js"></script>
-    <script src="${ctx}/Vista/JavaScript/ubicacionAdopcion.js"></script>
+        <script src="${ctx}/Vista/JavaScript/funciones.js"></script>
+        <script src="${ctx}/Vista/JavaScript/ubicacionAdopcion.js"></script>
     </body>
 </html>

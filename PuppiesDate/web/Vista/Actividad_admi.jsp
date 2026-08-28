@@ -18,7 +18,7 @@
             </div>
         </c:if>
 
-        <div class="admin-form-wrap">
+        <div class="admin-form-wrap admin-users-wrap">
             <!-- TABLA PRINCIPAL DE ACTIVIDADES -->
             <div class="admin-table-card">
                 <div class="admin-crud-toolbar">
@@ -29,7 +29,7 @@
                 <p class="admin-crud-help">Haz clic sobre una fila para modificar o eliminar el registro.</p>
 
                 <div class="admin-crud-table-wrap">
-                    <table class="admin-crud-table">
+                    <table class="admin-crud-table" id="tablaActividades">
                         <thead>
                             <tr>
                                 <th> # </th>
@@ -50,16 +50,16 @@
                                     data-field-listaPrecioAct="${actividad.lista_Precios_idLista_Precios}"
                                     data-duplicate-key="${actividad.descripcion_actividad}|${actividad.tipo_Actividad_idTipo_Actividad}|${actividad.lista_Precios_idLista_Precios}">
 
-                                    <td>${actividad.idActividad}</td>
-                                    <td>${actividad.descripcion_actividad}</td>
-                                    <td>
+                                    <td data-label="#">${actividad.idActividad}</td>
+                                    <td data-label="Descripción">${actividad.descripcion_actividad}</td>
+                                    <td data-label="Tipo">
                                         <c:forEach var="tipo" items="${listaTiposActividad}">
                                             <c:if test="${actividad.tipo_Actividad_idTipo_Actividad == tipo.idTipo_Actividad}">
                                                 ${tipo.nombre_activi}
                                             </c:if>
                                         </c:forEach>
                                     </td>
-                                    <td>
+                                    <td data-label="Precio">
                                         <c:forEach var="precio" items="${listaPrecios}">
                                             <c:if test="${actividad.lista_Precios_idLista_Precios == precio.idLista_Precio}">
                                                 ${precio.descrip_precio}

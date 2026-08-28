@@ -48,7 +48,7 @@
                                     data-field-cupoTotalDisp="${disp.cupo_total}"
                                     data-field-cupoDisponibleDisp="${disp.cupo_disponible}"
                                     data-field-horarioIdDisp="${disp.horarios_idHorarios}">
-                                    
+
                                     <td>${disp.idDisponibilidad}</td>
                                     <td>${disp.fecha}</td>
                                     <td>${disp.cupo_total}</td>
@@ -95,12 +95,28 @@
 
                     <div class="campo-grupo admin-crud-field">
                         <label for="cupoTotalDisp">Cupo total:</label>
-                        <input type="number" name="cupoTotalDisp" id="cupoTotalDisp" min="0" data-label="cupo total" required>
+                        <input type="number" 
+                               name="cupoTotalDisp" 
+                               id="cupoTotalDisp" 
+                               min="10" 
+                               max="30" 
+                               data-label="cupo total" 
+                               data-required-message="El cupo total es obligatorio." 
+                               data-range-message="El cupo total debe estar entre 10 y 30 personas." 
+                               required>
                     </div>
 
                     <div class="campo-grupo admin-crud-field">
                         <label for="cupoDisponibleDisp">Cupo disponible:</label>
-                        <input type="number" name="cupoDisponibleDisp" id="cupoDisponibleDisp" min="0" data-label="cupo disponible" required>
+                        <input type="number" 
+                               name="cupoDisponibleDisp" 
+                               id="cupoDisponibleDisp" 
+                               min="10" 
+                               max= "30" 
+                               data-label="cupo disponible" 
+                               data-required-message="El cupo total es obligatorio." 
+                               data-range-message="El cupo total debe estar entre 10 y 30 personas." 
+                               required>
                     </div>
 
                     <div class="campo-grupo admin-crud-field">

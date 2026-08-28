@@ -4731,3 +4731,18 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 .admin-perrito-card .admin-crud-table {
     margin: 0;
 }
+
+/*Tabla admi actiividad*/
+.admin-users-wrap .admin-crud-table td {
+    white-space: normal;
+}
+
+#tablaActividades th:nth-child(1),
+#tablaActividades td:nth-child(1) {
+    width: 60px;
+}
+
+#tablaActividades th:nth-child(2),
+#tablaActividades td:nth-child(2) {
+    width: 55%;
+}
