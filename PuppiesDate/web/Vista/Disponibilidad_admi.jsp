@@ -29,7 +29,7 @@
                     <table class="tabla-lista-admin" id="tablaDisponibilidad">
                         <thead>
                             <tr>
-                                <th> # </th>
+                                
                                 <th>Fecha</th>
                                 <th>Cupo total</th>
                                 <th>Cupo disponible</th>
@@ -49,7 +49,7 @@
                                     data-field-cupoDisponibleDisp="${disp.cupo_disponible}"
                                     data-field-horarioIdDisp="${disp.horarios_idHorarios}">
 
-                                    <td>${disp.idDisponibilidad}</td>
+                                    
                                     <td>${disp.fecha}</td>
                                     <td>${disp.cupo_total}</td>
                                     <td>${disp.cupo_disponible}</td>

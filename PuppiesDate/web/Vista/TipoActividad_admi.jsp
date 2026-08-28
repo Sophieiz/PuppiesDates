@@ -30,7 +30,7 @@
                     <table class="admin-crud-table">
                         <thead>
                             <tr>
-                                <th>#</th>>
+                                
                                 <th>Nombre</th>
                             </tr>
                         </thead>
@@ -44,7 +44,7 @@
                                     data-field-nombreActivi="${tipo.nombre_activi}"
                                     data-duplicate-key="${tipo.nombre_activi}">
 
-                                    <td>${tipo.idTipo_Actividad}</td>
+                                    
                                     <td>${tipo.nombre_activi}</td>
                                 </tr>
                             </c:forEach>

@@ -32,7 +32,7 @@
                     <table class="admin-crud-table" id="tablaActividades">
                         <thead>
                             <tr>
-                                <th> # </th>
+                               
                                 <th>Descripción</th>
                                 <th>Tipo</th>
                                 <th>Precio</th>
@@ -50,7 +50,7 @@
                                     data-field-listaPrecioAct="${actividad.lista_Precios_idLista_Precios}"
                                     data-duplicate-key="${actividad.descripcion_actividad}|${actividad.tipo_Actividad_idTipo_Actividad}|${actividad.lista_Precios_idLista_Precios}">
 
-                                    <td data-label="#">${actividad.idActividad}</td>
+                                    
                                     <td data-label="Descripción">${actividad.descripcion_actividad}</td>
                                     <td data-label="Tipo">
                                         <c:forEach var="tipo" items="${listaTiposActividad}">

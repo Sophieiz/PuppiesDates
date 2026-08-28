@@ -23,7 +23,7 @@
                         <table class="admin-crud-table">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                   
                                     <th>Hora inicio</th>
                                     <th>Hora fin</th>
                                 </tr>
@@ -36,7 +36,7 @@
                                     data-field-hora_ini="${horario.hora_ini}"
                                     data-field-hora_fin="${horario.hora_fin}"
                                     data-duplicate-key="${horario.hora_ini}|${horario.hora_fin}">
-                                    <td>${horario.idHorarios}</td>
+                                    
                                     <td>${horario.hora_ini}</td>
                                     <td>${horario.hora_fin}</td>
                                 </tr>

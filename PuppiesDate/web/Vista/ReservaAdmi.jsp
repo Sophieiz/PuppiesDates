@@ -39,7 +39,7 @@
                         <thead>
                             <tr>
 
-                                <th> # </th>
+                                
                                 <th>Personas</th>
                                 <th>Hora</th>
                                 <th>Fecha</th>
@@ -66,7 +66,7 @@
                                     data-field-Pagos_idPagos="${reserva.pagos_idPagos}"
                                     data-duplicate-key="${reserva.num_personas}|${reserva.hora}|${reserva.fecha}|${reserva.usuarios_idUsuarios}|${reserva.disponibilidad_idDisponibilidad}|${reserva.estado_reserva_idEstado_reserva}|${reserva.actividad_idActividad}|${reserva.pagos_idPagos}">
 
-                                    <td data-label="#">${reserva.idReserva}</td>
+                                    
                                     <td data-label="Personas">${reserva.num_personas}</td>
                                     <td data-label="Hora">${reserva.hora}</td>
                                     <td data-label="Fecha">${reserva.fecha}</td>

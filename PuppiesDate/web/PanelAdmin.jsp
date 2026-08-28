@@ -103,7 +103,7 @@
                     <summary>Usuarios y permisos</summary>
                    <!-- <a href="${ctx}/Tipodocumento">Tipo de documento</a>-->
                     <a href="${ctx}/UsuarioAdmi">Usuarios</a>
-                    <a href="${ctx}/RolesAdmi">Roles</a>
+                    <!--<a href="${ctx}/RolesAdmi">Roles</a>-->
                 </details>
 
                 <a class="admin-nav-papeleria" href="${ctx}/PapeleraAdmi">Papelera</a>
@@ -124,7 +124,7 @@
                     <p class="panel-admin-kicker">Puppies Dates</p>
                     <h3>Resumen del dia</h3>
                     <p>Controla reservas, cupos, actividades y usuarios desde un panel limpio y rapido.</p>
-                    <p class="panel-admin-motivacional">Gracias por liderar el cambio y encontrar un hogar para cada huellita hoy </p>
+                  
                 </div>
                 <img src="${ctx}/Vista/Imagenes/image.png" alt="Logo Puppies Dates">
             </section>
@@ -142,7 +142,7 @@
                     <table class="admin-reservas-table admin-solicitudes-table">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                
                                 <th>Mascotas</th>
                                 <th>Solicitante</th>
                                 <th>Fecha</th>
@@ -152,7 +152,7 @@
                         <tbody>
                             <c:forEach var="solicitud" items="${solicitudesPanelAdmin}">
                                 <tr>
-                                    <td>#${solicitud.idSolicitud_adopcion}</td>
+                                    
                                     <td>${solicitud.nombrePerrito}</td>
                                     <td>${solicitud.nombreUsuario} ${solicitud.apellidoUsuario}</td>
                                     <td><fmt:formatDate value="${solicitud.fecha_solicitud}" pattern="dd/MM/yyyy HH:mm"/></td>
@@ -207,13 +207,14 @@
                             <table class="admin-reservas-table">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>Fecha</th>
-                                        <th>Hora</th>
+                                        
                                         <th>Personas</th>
+                                        <th>Hora</th>
+                                        <th>Fecha</th>
                                         <th>Usuario</th>
-                                        <th>Actividad</th>
+                                        <th>Cupo</th>
                                         <th>Estado</th>
+                                        <th>Actividad</th>
                                     </tr>
                                 </thead>
                                 <tbody>

@@ -30,7 +30,7 @@
                     <table class="admin-crud-table">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                
                                 <th>Nombre</th>
                                 <th>Raza</th>
                                 <th>Sexo</th>
@@ -60,7 +60,7 @@
                                     data-field-Estado_perrito_idEstado_perrito="${perrito.estado_perrito_idEstado_perrito}"
                                     data-duplicate-key="${perrito.microchip}">
 
-                                    <td>${perrito.idPerrito}</td>
+                                    
                                     <td>${perrito.nombre}</td>
                                     <td>${perrito.descripcionRaza}</td>
                                     <td>${perrito.descripcionSexo}</td>
