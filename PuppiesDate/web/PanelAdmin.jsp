@@ -233,7 +233,6 @@
                                                     <p>${reserva.nombreActividad}</p>
                                                 </details>
                                             </td>
-                                            <td>${reserva.estadoPago}</td>
                                         </tr>
                                     </c:forEach>
                                     <c:if test="${empty reservasPanelAdmin}">

@@ -4417,29 +4417,33 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     white-space: nowrap;
 }
 
+
 .aviso-fechas-mini {
     display: flex;
     align-items: center;
-    justify-content: space-between; 
-    width: 100%;                 
-    box-sizing: border-box;      
-    gap: 10px;                    
+    gap: 12px;
     margin-bottom: 14px;
+    width: auto;
 }
 
-.modal-contenido { 
-    max-width: 100%;
-    overflow-x: hidden; 
+.aviso-fechas-mini span {
+    font-size: 14px;
 }
 
-.modal {
-    max-width: 100%;
-    overflow-x: hidden; 
+#fechasModal .admin-modal-caja {
+    max-width: 90vw;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
-table {
+#fechasModalContent {
     width: 100%;
-    table-layout: fixed; 
+    overflow-x: hidden;
+}
+
+#fechasModalContent table {
+    width: 100%;
+    table-layout: fixed;
 }
 
 .btn-circulo-info {
