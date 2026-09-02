@@ -99,5 +99,7 @@
         </div>
         <%@ include file="Footer.jsp" %>
         <script src="${ctx}/Vista/JavaScript/interfaz.js"></script>
+        <script src="${ctx}/Vista/JavaScript/validarReserva.js"></script>
+        
     </body>
 </html>

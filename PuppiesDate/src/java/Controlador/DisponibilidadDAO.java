@@ -199,7 +199,6 @@ public class DisponibilidadDAO {
         return actualizado;
     }
 
-
     public boolean existeDisponibilidad(java.sql.Date fecha, int horarioId) {
         String sql = "SELECT 1 FROM disponibilidad WHERE fecha = ? AND Horarios_idHorarios = ? AND activo = 1";
 
@@ -214,19 +213,20 @@ public class DisponibilidadDAO {
             return false;
         }
     }
-    
-        public List<Disponibilidad> listarFechasDisponiblesFuturas() {
+
+    public List<Disponibilidad> listarFechasDisponiblesFuturas() {
         List<Disponibilidad> lista = new ArrayList<>();
         String sql = "SELECT d.idDisponibilidad, d.fecha, d.cupo_total, d.cupo_disponible, "
                 + "d.Horarios_idHorarios, h.hora_ini, h.hora_fin "
                 + "FROM disponibilidad d "
                 + "INNER JOIN horarios h ON d.Horarios_idHorarios = h.idHorarios "
-                + "WHERE d.activo = 1 AND d.cupo_disponible > 0 AND d.fecha >= CURDATE() "
+                + "WHERE d.activo = 1 \n"
+                + "  AND d.cupo_disponible > 0 \n"
+                + "  AND d.fecha >= CURDATE()\n"
+                + "  AND (d.fecha > CURDATE() OR h.hora_fin >= CURTIME()) "
                 + "ORDER BY d.fecha ASC, h.hora_ini ASC";
 
-        try (Connection con = new Conexion().getConn();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection con = new Conexion().getConn(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Disponibilidad dispo = new Disponibilidad();
                 dispo.setidDisponibilidad(rs.getInt(1));
@@ -242,5 +242,21 @@ public class DisponibilidadDAO {
             System.out.println("Error al listar fechas disponibles: " + e.getMessage());
         }
         return lista;
+    }
+    
+ 
+    public boolean reponerCupo(int idDisponibilidad) {
+        boolean actualizado = false;
+        String sql = "UPDATE disponibilidad SET cupo_disponible = cupo_disponible + 1 "
+                + "WHERE idDisponibilidad = ? AND cupo_disponible < cupo_total";
+
+        try (Connection con = new Conexion().getConn(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idDisponibilidad);
+            actualizado = ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("Error al reponer cupo: " + e.getMessage());
+        }
+
+        return actualizado;
     }
 }

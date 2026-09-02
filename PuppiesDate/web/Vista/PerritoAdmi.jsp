@@ -30,7 +30,7 @@
                     <table class="admin-crud-table">
                         <thead>
                             <tr>
-                                
+
                                 <th>Nombre</th>
                                 <th>Raza</th>
                                 <th>Sexo</th>
@@ -60,7 +60,7 @@
                                     data-field-Estado_perrito_idEstado_perrito="${perrito.estado_perrito_idEstado_perrito}"
                                     data-duplicate-key="${perrito.microchip}">
 
-                                    
+
                                     <td>${perrito.nombre}</td>
                                     <td>${perrito.descripcionRaza}</td>
                                     <td>${perrito.descripcionSexo}</td>
@@ -122,7 +122,18 @@
 
                     <div class="admin-crud-field">
                         <label for="fecha_nacimiento">Fecha de nacimiento:</label>
-                        <input type="date" name="fecha_nacimiento" id="fecha_nacimiento">
+                        <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" max="">
+                        <span class="admin-crud-error"></span>
+                    </div>
+
+                    <div class="admin-crud-field">
+                        <label for="etapa_madurez">Etapa de madurez:</label>
+                        <select name="etapa_madurez" id="etapa_madurez" data-label="etapa de madurez" data-required-message="La etapa de madurez es obligatoria." required>
+                            <option value="">Seleccione...</option>
+                            <c:forEach var="etapaOpcion" items="${listaEtapasMadurez}">
+                                <option value="${etapaOpcion.descripcion}">${etapaOpcion.descripcion}</option>
+                            </c:forEach>
+                        </select>
                         <span class="admin-crud-error"></span>
                     </div>
 
@@ -143,16 +154,7 @@
                         <span class="admin-crud-error"></span>
                     </div>
 
-                    <div class="admin-crud-field">
-                        <label for="etapa_madurez">Etapa de madurez:</label>
-                        <select name="etapa_madurez" id="etapa_madurez" data-label="etapa de madurez" data-required-message="La etapa de madurez es obligatoria." required>
-                            <option value="">Seleccione...</option>
-                            <c:forEach var="etapaOpcion" items="${listaEtapasMadurez}">
-                                <option value="${etapaOpcion.descripcion}">${etapaOpcion.descripcion}</option>
-                            </c:forEach>
-                        </select>
-                        <span class="admin-crud-error"></span>
-                    </div>
+
 
                     <div class="admin-crud-field">
                         <label for="especialidad">Temperamento:</label>

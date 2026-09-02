@@ -23,7 +23,7 @@
                         <table class="admin-crud-table">
                             <thead>
                                 <tr>
-                                   
+
                                     <th>Hora inicio</th>
                                     <th>Hora fin</th>
                                 </tr>
@@ -36,7 +36,7 @@
                                     data-field-hora_ini="${horario.hora_ini}"
                                     data-field-hora_fin="${horario.hora_fin}"
                                     data-duplicate-key="${horario.hora_ini}|${horario.hora_fin}">
-                                    
+
                                     <td>${horario.hora_ini}</td>
                                     <td>${horario.hora_fin}</td>
                                 </tr>
@@ -59,16 +59,18 @@
                     <input type="hidden" id="modalId" name="id" value="">
                     <input type="hidden" name="idHorarios">
                     <div class="admin-crud-alert" data-form-alert></div>
+
                     <div class="admin-crud-field">
                         <label for="hora_ini">Hora inicio:</label>
-                        <input type="time" name="hora_ini" id="hora_ini" data-label="hora inicio" data-article="La" data-required-message="La hora inicio es obligatoria." required>
+                        <input type="time" name="hora_ini" id="hora_ini" min="08:00" max="17:00" data-label="hora inicio" data-article="La" data-required-message="La hora inicio es obligatoria." required>
                         <span class="admin-crud-error"></span>
                     </div>
                     <div class="admin-crud-field">
                         <label for="hora_fin">Hora fin:</label>
-                        <input type="time" name="hora_fin" id="hora_fin" data-label="hora fin" data-article="La" data-required-message="La hora fin es obligatoria." required>
+                        <input type="time" name="hora_fin" id="hora_fin" min="08:00" max="17:00" data-label="hora fin" data-article="La" data-required-message="La hora fin es obligatoria." required>
                         <span class="admin-crud-error"></span>
                     </div>
+                    
                     <div class="admin-crud-actions">
                         <button type="button" class="admin-crud-btn-danger admin-crud-only-edit" data-open-delete>Inactivar</button>
                         <button type="button" class="admin-crud-btn-secondary" data-cerrar="modal-editar">Cancelar</button>

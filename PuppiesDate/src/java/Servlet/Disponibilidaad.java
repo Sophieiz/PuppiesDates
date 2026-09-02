@@ -82,7 +82,11 @@ public class Disponibilidaad extends HttpServlet {
         }
 
         Disponibilidad disponibilidad = new Disponibilidad();
-        disponibilidad.setfecha(java.sql.Date.valueOf(fechaStr));
+        java.sql.Date fecha = java.sql.Date.valueOf(fechaStr);
+        if (fecha.toLocalDate().isBefore(java.time.LocalDate.now())) {
+            throw new IllegalArgumentException("No se permiten fechas anteriores a hoy.");
+        }
+        disponibilidad.setfecha(fecha);
         disponibilidad.setcupo_total(Integer.parseInt(cupoTotalStr));
         disponibilidad.setcupo_disponible(Integer.parseInt(cupoDisponibleStr));
         disponibilidad.setHorarios_idHorarios(Integer.parseInt(horarioIdStr));

@@ -18,6 +18,27 @@ document.addEventListener('DOMContentLoaded', function () {
             error: document.getElementById('error_actividad')
         }
     };
+    
+        // --- Helpers de fecha/hora ---
+    function hoyString() {
+        const hoy = new Date();
+        const yyyy = hoy.getFullYear();
+        const mm = String(hoy.getMonth() + 1).padStart(2, '0');
+        const dd = String(hoy.getDate()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd}`;
+    }
+
+    function horaActualString() {
+        const ahora = new Date();
+        const hh = String(ahora.getHours()).padStart(2, '0');
+        const mm = String(ahora.getMinutes()).padStart(2, '0');
+        return `${hh}:${mm}`;
+    }
+
+    // Bloquea fechas anteriores directamente en el calendario del navegador
+    if (campos.fecha.input) {
+        campos.fecha.input.setAttribute('min', hoyString());
+    }
 
     function mostrarError(campo, mensaje) {
         campo.error.textContent = mensaje;
@@ -39,8 +60,12 @@ document.addEventListener('DOMContentLoaded', function () {
             mostrarError(campos.num_personas, 'El número de personas es obligatorio.');
             return false;
         }
-        const numero = parseInt(valor);
-        if (isNaN(numero) || numero < 1) {
+        if (!/^\d+$/.test(valor)) {
+            mostrarError(campos.num_personas, 'Ingresa un número entero válido (sin decimales ni símbolos).');
+            return false;
+        }
+        const numero = parseInt(valor, 10);
+        if (numero < 1) {
             mostrarError(campos.num_personas, 'Debe ser al menos 1 persona.');
             return false;
         }
@@ -52,20 +77,20 @@ document.addEventListener('DOMContentLoaded', function () {
         return true;
     }
 
-    function validarFecha() {
+     function validarFecha() {
         const valor = campos.fecha.input.value;
         if (valor === '') {
             mostrarError(campos.fecha, 'La fecha es obligatoria.');
             return false;
         }
-        const hoy = new Date();
-        hoy.setHours(0, 0, 0, 0);
-        const fechaSeleccionada = new Date(valor + 'T00:00:00');
-        if (fechaSeleccionada < hoy) {
+        if (valor < hoyString()) {
             mostrarError(campos.fecha, 'No puedes reservar en una fecha pasada.');
             return false;
         }
         limpiarError(campos.fecha);
+        if (campos.hora.input.value !== '') {
+            validarHora();
+        }
         return true;
     }
 
@@ -81,6 +106,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const fin = 17 * 60;
         if (totalMinutos < inicio || totalMinutos > fin) {
             mostrarError(campos.hora, 'El horario de atención es de 8:00 AM a 5:00 PM.');
+            return false;
+        }
+        if (campos.fecha.input.value === hoyString() && valor < horaActualString()) {
+            mostrarError(campos.hora, 'Esa hora ya pasó. Elige una hora posterior a la actual.');
             return false;
         }
         limpiarError(campos.hora);

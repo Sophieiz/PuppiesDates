@@ -90,6 +90,9 @@ public class PerritoAdmi extends HttpServlet {
         } catch (NumberFormatException e) {
             request.getSession().setAttribute("mensajeFlash", "Datos inválidos en el formulario.");
             response.sendRedirect(request.getContextPath() + "/PerritoAdmi");
+        } catch (IllegalArgumentException e) {
+            request.getSession().setAttribute("mensajeFlash", e.getMessage());
+            response.sendRedirect(request.getContextPath() + "/PerritoAdmi");
         }
     }
 
@@ -119,7 +122,11 @@ public class PerritoAdmi extends HttpServlet {
 
         String fechaNac = request.getParameter("fecha_nacimiento");
         if (fechaNac != null && !fechaNac.trim().isEmpty()) {
-            perrito.setFecha_nacimiento(Date.valueOf(fechaNac));
+            java.sql.Date fechaNacimiento = Date.valueOf(fechaNac);
+            if (fechaNacimiento.toLocalDate().isAfter(java.time.LocalDate.now())) {
+                throw new IllegalArgumentException("La fecha de nacimiento no puede ser futura.");
+            }
+            perrito.setFecha_nacimiento(fechaNacimiento);
         }
 
         perrito.setSexo_perrito_idSexo_perrito(Integer.parseInt(request.getParameter("sexo")));

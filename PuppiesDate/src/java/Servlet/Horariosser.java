@@ -27,6 +27,9 @@ public class Horariosser extends HttpServlet {
             if ("insertar".equalsIgnoreCase(accion)) {
                 Time horaIni = parseTime(request.getParameter("hora_ini"));
                 Time horaFin = parseTime(request.getParameter("hora_fin"));
+                if (!horaFin.after(horaIni)) {                                          // ← NUEVO
+                    throw new IllegalArgumentException("La hora de fin debe ser posterior a la hora de inicio."); // ← NUEVO
+                }
                 Horarios horario = new Horarios();
                 horario.sethora_ini(horaIni);
                 horario.sethora_fin(horaFin);
@@ -36,6 +39,9 @@ public class Horariosser extends HttpServlet {
                 int id = parseId(request.getParameter("idHorarios"));
                 Time horaIni = parseTime(request.getParameter("hora_ini"));
                 Time horaFin = parseTime(request.getParameter("hora_fin"));
+                if (!horaFin.after(horaIni)) {                                          // ← NUEVO
+                    throw new IllegalArgumentException("La hora de fin debe ser posterior a la hora de inicio."); // ← NUEVO
+                }
                 Horarios horario = new Horarios();
                 horario.setidHorarios(id);
                 horario.sethora_ini(horaIni);
@@ -77,7 +83,14 @@ public class Horariosser extends HttpServlet {
         if (value == null || value.trim().isEmpty()) {
             throw new IllegalArgumentException("La hora no puede estar vacía.");
         }
-        return Time.valueOf(value.length() == 5 ? value + ":00" : value);
+        Time hora = Time.valueOf(value.length() == 5 ? value + ":00" : value);
+        Time apertura = Time.valueOf("08:00:00");
+        Time cierre = Time.valueOf("17:00:00");
+        if (hora.before(apertura) || hora.after(cierre)) {
+            throw new IllegalArgumentException("La hora debe estar entre 8:00 AM y 5:00 PM.");
+        }
+        return hora;
+
     }
 
     private int parseId(String value) {

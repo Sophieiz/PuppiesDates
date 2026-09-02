@@ -46,7 +46,7 @@
                     </div>
 
                     <div class="adopcion-form">
-                        <form action="${ctx}/SolicitudAdopcionCliente" method="post" onsubmit="return validarSolicitudAdopcion()" novalidate>
+                        <form action="${ctx}/SolicitudAdopcionCliente" method="post" onsubmit="return validarSolicitudAdopcionCompleta()" novalidate>
                             <div class="Formulario">
                                 <c:if test="${not empty resultado}">
                                     <p class="mensaje ${resultado.startsWith('¡') ? 'mensaje-exito' : 'mensaje-error'}">${resultado}</p>
