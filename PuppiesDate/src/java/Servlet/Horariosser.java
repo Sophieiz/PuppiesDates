@@ -57,9 +57,9 @@ public class Horariosser extends HttpServlet {
                 boolean ok = dao.reactivarHorario(id);
                 request.getSession().setAttribute("mensajeFlash", ok ? "Horario reactivado correctamente." : "Error al reactivar horario.");
             }
-            response.sendRedirect(request.getContextPath() + "/Horarios");
+
         } catch (SQLException | IllegalArgumentException e) {
-            request.getSession().setAttribute("mensajeFlash", "Error: revisa los datos ingresados.");
+            request.getSession().setAttribute("mensajeFlash", "Error: " + e.getMessage());
             response.sendRedirect(request.getContextPath() + "/Horarios");
         }
     }

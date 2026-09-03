@@ -1,6 +1,7 @@
 package Servlet;
 
 import Controlador.ReservaDAO;
+import Controlador.Estado_reservaDAO;
 import Modelo.Reserva;
 import java.io.IOException;
 import java.sql.Time;
@@ -26,6 +27,11 @@ public class ReservaAdmi extends HttpServlet {
                 Reserva reserva = crearReserva(request);
                 boolean resultado = reservaDao.actualizarReserva(reserva);
                 request.getSession().setAttribute("mensajeFlash", resultado ? "Reserva modificada exitosamente." : "Error al modificar la reserva.");
+            } else if ("actualizarEstado".equalsIgnoreCase(accion)) {
+                int idReserva = Integer.parseInt(request.getParameter("idReserva"));
+                int idEstadoNuevo = Integer.parseInt(request.getParameter("Estado_reserva_idEstado_reserva"));
+                boolean resultado = reservaDao.actualizarEstadoReserva(idReserva, idEstadoNuevo);
+                request.getSession().setAttribute("mensajeFlash", resultado ? "Estado de la reserva actualizado." : "Error al actualizar el estado.");
             } else if ("eliminar".equalsIgnoreCase(accion)) {
                 int idReserva = Integer.parseInt(request.getParameter("idReserva"));
                 boolean resultado = reservaDao.eliminarReserva(idReserva);
@@ -80,6 +86,7 @@ public class ReservaAdmi extends HttpServlet {
             request.setAttribute("listaReservas", reservaDao.listarReserva());
         }
         request.setAttribute("listaReservasInactivas", reservaDao.listarInactivas());
+        request.setAttribute("listaEstadosReserva", new Estado_reservaDAO().Estado_reserva());
     }
 
     private Time parseTime(String value) {

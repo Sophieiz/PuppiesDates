@@ -39,7 +39,7 @@
                         <thead>
                             <tr>
 
-                                
+
                                 <th>Personas</th>
                                 <th>Hora</th>
                                 <th>Fecha</th>
@@ -48,6 +48,7 @@
                                 <th>Estado</th>
                                 <th>Actividad</th>
                                 <th>Pago</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -66,7 +67,7 @@
                                     data-field-Pagos_idPagos="${reserva.pagos_idPagos}"
                                     data-duplicate-key="${reserva.num_personas}|${reserva.hora}|${reserva.fecha}|${reserva.usuarios_idUsuarios}|${reserva.disponibilidad_idDisponibilidad}|${reserva.estado_reserva_idEstado_reserva}|${reserva.actividad_idActividad}|${reserva.pagos_idPagos}">
 
-                                    
+
                                     <td data-label="Personas">${reserva.num_personas}</td>
                                     <td data-label="Hora">${reserva.hora}</td>
                                     <td data-label="Fecha">${reserva.fecha}</td>
@@ -80,6 +81,15 @@
                                         </details>
                                     </td>
                                     <td data-label="Pago">${reserva.estadoPago}</td>
+                                    <td data-label="Acciones">
+                                        <button type="button" class="admin-crud-btn-primary admin-crud-btn-sm"
+                                                data-abrir-cambio-estado-reserva
+                                                data-id="${reserva.idReserva}"
+                                                data-estado-actual="${reserva.estado_reserva_idEstado_reserva}"
+                                                onclick="event.stopPropagation();">
+                                            Cambiar estado
+                                        </button>
+                                    </td>
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -168,6 +178,32 @@
                     <div class="admin-crud-actions">
                         <button type="button" class="admin-modal-cerrar" data-cerrar="modal-editar" aria-label="Cerrar">&times;</button>
                         <button type="submit" class="admin-crud-btn-danger">Sí</button>
+                    </div>
+
+                    <div class="admin-crud-modal modal-overlay" id="modal-cambiar-estado-reserva" aria-hidden="true">
+                        <div class="admin-crud-modal-box">
+                            <button type="button" class="admin-modal-cerrar" data-cerrar-estado-reserva aria-label="Cerrar">&times;</button>
+                            <h2 class="admin-crud-title">Cambiar estado de la reserva</h2>
+
+                            <form action="${ctx}/ReservaAdmi" method="POST">
+                                <input type="hidden" name="accion" value="actualizarEstado">
+                                <input type="hidden" name="idReserva" id="idReservaEstadoModal">
+
+                                <div class="admin-crud-field">
+                                    <label for="Estado_reserva_idEstado_reserva_modal">Nuevo estado:</label>
+                                    <select name="Estado_reserva_idEstado_reserva" id="Estado_reserva_idEstado_reserva_modal" required>
+                                        <c:forEach var="estado" items="${listaEstadosReserva}">
+                                            <option value="${estado.idEstado_reserva}">${estado.descripcion_esta}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+
+                                <div class="admin-crud-actions">
+                                    <button type="button" class="admin-crud-btn-secondary" data-cerrar-estado-reserva>Cancelar</button>
+                                    <button type="submit" class="admin-crud-btn-primary">Guardar</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </form>
             </div>

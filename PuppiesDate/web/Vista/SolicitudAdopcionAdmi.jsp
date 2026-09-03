@@ -146,23 +146,21 @@
                 <button type="button" class="admin-modal-cerrar" data-cerrar="modal-programar-entrevista" aria-label="Cerrar">&times;</button>
                 <h2 class="admin-crud-title">Programar entrevista (<span id="nombrePerritoEntrevistaModal"></span>)</h2>
 
-                <form action="${ctx}/SolicitudAdopcionAdmi" method="POST">
+                <form action="${ctx}/SolicitudAdopcionAdmi" method="POST" onsubmit="return validarEntrevista()">
                     <input type="hidden" name="accion" value="programarEntrevista">
                     <input type="hidden" name="idSolicitud_adopcion" id="idSolicitudEntrevistaModal">
+
 
                     <div class="admin-crud-field">
                         <label for="fecha">Fecha:</label>
                         <input type="date" name="fecha" id="fecha" required>
+                        <span class="admin-crud-error" id="error_fecha"></span>
                     </div>
 
                     <div class="admin-crud-field">
                         <label for="hora">Hora:</label>
-                        <input type="time" name="hora" id="hora" required>
-                    </div>
-
-                    <div class="admin-crud-field">
-                        <label for="observaciones">Observaciones (opcional):</label>
-                        <textarea name="observaciones" id="observaciones" rows="3" placeholder="Ej: Traer cédula y comprobante de domicilio..."></textarea>
+                        <input type="time" name="hora" id="hora" min="08:00" max="17:00" required>
+                        <span class="admin-crud-error" id="error_hora"></span>
                     </div>
 
                     <div class="admin-crud-actions">

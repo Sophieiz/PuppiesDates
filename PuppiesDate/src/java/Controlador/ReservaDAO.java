@@ -242,4 +242,21 @@ public class ReservaDAO {
         reserva.setNombreActividad(rs.getString("nombreActividad"));
         return reserva;
     }
+
+
+public boolean actualizarEstadoReserva(int idReserva, int idEstadoNuevo) {
+    boolean actualizado = false;
+    String sql = "UPDATE reserva SET Estado_reserva_idEstado_reserva=? WHERE idReserva=?";
+
+    try (Connection con = new Conexion().getConn(); PreparedStatement ps = con.prepareStatement(sql)) {
+        ps.setInt(1, idEstadoNuevo);
+        ps.setInt(2, idReserva);
+        if (ps.executeUpdate() > 0) {
+            actualizado = true;
+        }
+    } catch (SQLException e) {
+        System.out.println("Error al actualizar estado de reserva: " + e.getMessage());
+    }
+    return actualizado;
+}
 }

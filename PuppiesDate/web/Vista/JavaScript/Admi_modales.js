@@ -131,34 +131,29 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (valid && max !== null)
                     valid = numberValue <= max;
                 message = input.dataset.rangeMessage || ('El ' + (input.dataset.label || input.name) + ' tiene un valor incorrecto.');
+            } else if (input.type === 'date') {
+                valid = !Number.isNaN(new Date(value + 'T00:00:00').getTime());
+                message = 'La ' + (input.dataset.label || 'fecha') + ' no es válida.';
+                if (valid && input.min) {
+                    valid = value >= input.min;
+                    message = 'La ' + (input.dataset.label || 'fecha') + ' no puede ser anterior a hoy.';
+                }
+                if (valid && input.max) {
+                    valid = value <= input.max;
+                    message = 'La ' + (input.dataset.label || 'fecha') + ' no puede ser posterior a hoy.';
+                }
+            } else if (input.type === 'time') {
+                valid = /^([01]\d|2[0-3]):[0-5]\d(:[0-5]\d)?$/.test(value);
+                message = 'La ' + (input.dataset.label || 'hora') + ' no es válida.';
+                if (valid && input.min) {
+                    valid = value >= input.min;
+                    message = 'La ' + (input.dataset.label || 'hora') + ' debe ser igual o posterior a ' + input.min + '.';
+                }
+                if (valid && input.max) {
+                    valid = value <= input.max;
+                    message = 'La ' + (input.dataset.label || 'hora') + ' debe ser igual o anterior a ' + input.max + '.';
+                }
             }
-        } else if (input.type === 'date') {
-            valid = !Number.isNaN(new Date(value + 'T00:00:00').getTime());
-            message = 'La ' + (input.dataset.label || 'fecha') + ' no es válida.';
-            if (valid && input.min) {
-                valid = value >= input.min;
-                message = 'La ' + (input.dataset.label || 'fecha') + ' no puede ser anterior a hoy.';
-            }
-            if (valid && input.max) {
-                valid = value <= input.max;
-                message = 'La ' + (input.dataset.label || 'fecha') + ' no puede ser posterior a hoy.';
-            }
-        } else if (input.type === 'time') {
-            valid = /^([01]\d|2[0-3]):[0-5]\d(:[0-5]\d)?$/.test(value);
-            message = 'La ' + (input.dataset.label || 'hora') + ' no es válida.';
-            if (valid && input.min) {
-                valid = value >= input.min;
-                message = 'La ' + (input.dataset.label || 'hora') + ' debe ser igual o posterior a ' + input.min + '.';
-            }
-            if (valid && input.max) {
-                valid = value <= input.max;
-                message = 'La ' + (input.dataset.label || 'hora') + ' debe ser igual o anterior a ' + input.max + '.';
-            }
-        }
-
-        if (valid && input.dataset.pattern) {
-            valid = new RegExp(input.dataset.pattern).test(value);
-            message = input.dataset.patternMessage || ('El ' + (input.dataset.label || input.name) + ' tiene un formato incorrecto.');
         }
 
         if (valid && input.dataset.pattern) {
@@ -179,8 +174,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 message = input.dataset.rangeMessage || ('El ' + (input.dataset.label || input.name) + ' debe estar entre ' + min + ' y ' + max + '.');
             }
         }
-
-
 
         setFieldState(input, valid, message, showMessage);
         return valid;
@@ -209,6 +202,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return normalizeValue(row.getAttribute('data-duplicate-key')) === key && rowId !== currentId;
         });
     }
+
     function validateAfterFields(form) {
         let valid = true;
         form.querySelectorAll('[data-after]').forEach(function (input) {
@@ -224,11 +218,12 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         return valid;
     }
+
     function validateForm(form) {
         let valid = true;
         clearAlert(form);
 
-           form.querySelectorAll('input, select, textarea').forEach(function (field) {
+        form.querySelectorAll('input, select, textarea').forEach(function (field) {
             if (!validateField(field, true))
                 valid = false;
         });
@@ -437,7 +432,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const fotoOculta = document.getElementById('foto');
             const errorFoto = document.getElementById('error-foto');
 
-            // SE CORRIGE AQUÍ: Solo validar la foto si el input existe en este formulario
             if (fotoInput) {
                 const tieneArchivoNuevo = fotoInput.files.length > 0;
                 const tieneFotoExistente = fotoOculta && fotoOculta.value.trim() !== '';
@@ -491,10 +485,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-// Agregar este bloque a Admi_modales.js (o a un <script> al final de PerritoAdmi.jsp).
-// Calcula automáticamente la etapa de madurez del perrito según su fecha de
-// nacimiento, cada vez que el admin cambia esa fecha en el formulario.
-
 document.addEventListener('DOMContentLoaded', function () {
     const inputFechaNacimiento = document.getElementById('fecha_nacimiento');
     const selectEtapaMadurez = document.getElementById('etapa_madurez');
@@ -503,14 +493,12 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
-    // Bloquea fechas futuras directamente en el calendario del navegador
     const hoy = new Date();
     const yyyy = hoy.getFullYear();
     const mm = String(hoy.getMonth() + 1).padStart(2, '0');
     const dd = String(hoy.getDate()).padStart(2, '0');
     inputFechaNacimiento.setAttribute('max', `${yyyy}-${mm}-${dd}`);
 
-    // Calcula la edad en meses completos a partir de la fecha de nacimiento
     function calcularEdadEnMeses(fechaNacStr) {
         const nacimiento = new Date(fechaNacStr + 'T00:00:00');
         const ahora = new Date();
@@ -518,7 +506,6 @@ document.addEventListener('DOMContentLoaded', function () {
         let meses = (ahora.getFullYear() - nacimiento.getFullYear()) * 12
                 + (ahora.getMonth() - nacimiento.getMonth());
 
-        // Si todavía no ha llegado el "día" del mes, resta un mes
         if (ahora.getDate() < nacimiento.getDate()) {
             meses--;
         }
@@ -526,8 +513,6 @@ document.addEventListener('DOMContentLoaded', function () {
         return Math.max(meses, 0);
     }
 
-    // Traduce meses de edad a la etapa correspondiente
-    // Cachorro: 0-1 año | Joven: 1-3 años | Adulto: 3-8 años | Senior: 8+ años
     function calcularEtapaMadurez(meses) {
         if (meses < 12)
             return 'Cachorro';
@@ -547,7 +532,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const meses = calcularEdadEnMeses(valor);
         const etapaCalculada = calcularEtapaMadurez(meses);
 
-        // Selecciona automáticamente la opción que coincide con el texto calculado
         for (const opcion of selectEtapaMadurez.options) {
             if (opcion.value === etapaCalculada) {
                 selectEtapaMadurez.value = etapaCalculada;
@@ -558,8 +542,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     inputFechaNacimiento.addEventListener('change', actualizarEtapaMadurez);
 
-    // Si el modal se abre en modo "editar" con una fecha ya cargada,
-    // recalcula la etapa apenas se llene el campo (ver nota abajo).
     const observer = new MutationObserver(actualizarEtapaMadurez);
     observer.observe(inputFechaNacimiento, {attributes: true, attributeFilter: ['value']});
 });

@@ -71,6 +71,7 @@ public class SolicitudAdopcionAdmi extends HttpServlet {
             } catch (NumberFormatException e) {
                 request.setAttribute("mensaje", "Datos inválidos.");
             }
+            // DESPUÉS
         } else if ("programarEntrevista".equalsIgnoreCase(accion)) {
             try {
                 int idSolicitud = Integer.parseInt(request.getParameter("idSolicitud_adopcion"));
@@ -85,6 +86,11 @@ public class SolicitudAdopcionAdmi extends HttpServlet {
                 } else if (fechaTexto == null || fechaTexto.trim().isEmpty()
                         || horaTexto == null || horaTexto.trim().isEmpty()) {
                     request.setAttribute("mensaje", "Debes indicar fecha y hora para la entrevista.");
+                } else if (java.time.LocalDate.parse(fechaTexto).isBefore(java.time.LocalDate.now())) {
+                    request.setAttribute("mensaje", "La fecha de la entrevista no puede ser anterior a hoy.");
+                } else if (java.time.LocalTime.parse(horaTexto).isBefore(java.time.LocalTime.of(8, 0))
+                        || java.time.LocalTime.parse(horaTexto).isAfter(java.time.LocalTime.of(17, 0))) {
+                    request.setAttribute("mensaje", "La hora de la entrevista debe estar entre las 8:00 a.m. y las 5:00 p.m.");
                 } else {
                     // El input type="time" del navegador manda "HH:MM", java.sql.Time necesita "HH:MM:SS"
                     String horaCompleta = horaTexto.length() == 5 ? horaTexto + ":00" : horaTexto;
@@ -140,7 +146,6 @@ public class SolicitudAdopcionAdmi extends HttpServlet {
         request.getRequestDispatcher("/Vista/SolicitudAdopcionAdmi.jsp").forward(request, response);
     }
 
- 
     private void cerrarProcesoACompetidores(Solicitud_adopcionDAO dao, Solicitud_adopcion solicitudGanadora) {
         int idNoSeleccionado = obtenerIdEstadoPorDescripcion("No seleccionado");
         if (idNoSeleccionado == -1) {
