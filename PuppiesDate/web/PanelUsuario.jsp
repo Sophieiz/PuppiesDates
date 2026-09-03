@@ -32,7 +32,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>PUPPIES DATES - Panel Principal</title>
+        <title>SOUL PAWS - Panel Principal</title>
         <link rel="stylesheet" href="${ctx}/Vista/Css/style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -192,7 +192,7 @@
             <div class="main-container">
                 <h2 class="titulo-apartado">Quiénes somos</h2>
                 <p class="subtitulo-seccion">
-                    Puppies Dates nació con un propósito simple: darle una segunda oportunidad a los perritos y gatitos rescatados y crear un espacio donde las personas puedan conocerlos, cuidarlos y, si lo desean, adoptarlos. Desde el primer paseo hasta la primera sesión de yoga con nuestros peluditos, cada actividad está pensada para acercar a las personas al bienestar animal.
+                    SOUL PAWS nació con un propósito simple: darle una segunda oportunidad a los perritos y gatitos rescatados y crear un espacio donde las personas puedan conocerlos, cuidarlos y, si lo desean, adoptarlos. Desde el primer paseo hasta la primera sesión de yoga con nuestros peluditos, cada actividad está pensada para acercar a las personas al bienestar animal.
                 </p>
                 <div class="grid-actividades">
                     <div class="bloque-actividad bloque-azul">

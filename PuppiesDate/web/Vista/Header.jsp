@@ -7,15 +7,15 @@
 <c:set var="urlInicio" value="${not empty sessionScope.nombreUsuario ? (sessionScope.perfil == 1 ? ctx.concat('/PanelAdmin.jsp') : ctx.concat('/PanelUsuario.jsp')) : ctx.concat('/index.jsp')}"/>
 
 <!-- Franja promocional superior -->
-<div class="promo-bar">¡Encuentra a tu nuevo mejor amigo hoy en Puppies Dates!</div>
+<div class="promo-bar">¡Encuentra a tu nuevo mejor amigo hoy en Soul Paws!</div>
 
 <div class="header-cloud-wrapper">
     <header class="barrainicio barrainicio-centrado main-container">
 
         <!-- Logo central -->
         <div class="brand-container-centro">
-            <a href="${urlInicio}" class="logocorto logocorto-grande" aria-label="Puppies Dates - Inicio">
-                <img src="${ctx}/Vista/Imagenes/image.png" alt="Logo Puppies Dates">
+            <a href="${urlInicio}" class="logocorto logocorto-grande" aria-label="SOUL PAWS- Inicio">
+                <img src="${ctx}/Vista/Imagenes/image.png" alt="Logo SOUL PAWS">
             </a>
         </div>
 
@@ -78,7 +78,7 @@
         <button type="button" class="logout-modal-close" data-logout-close aria-label="Cerrar">&times;</button>
         <div class="logout-modal-icon"></div>
         <h3 id="logoutModalTitle">¿Ya te vas?</h3>
-        <p>¿Estás seguro de que deseas cerrar sesión? Te esperamos pronto en Puppies Dates.</p>
+        <p>¿Estás seguro de que deseas cerrar sesión? Te esperamos pronto en SOUL PAWS.</p>
         <div class="logout-modal-actions">
             <button type="button" class="logout-modal-cancel" data-logout-close>Cancelar</button>
             <a href="${ctx}/CerrarSesion" class="logout-modal-confirm">Cerrar sesión</a>

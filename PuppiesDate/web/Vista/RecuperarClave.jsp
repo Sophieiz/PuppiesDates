@@ -5,7 +5,7 @@
 <html lang="es">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Puppies Dates - Recuperar contraseña</title>
+        <title>SOUL PAWS - Recuperar contraseña</title>
         <link rel="stylesheet" href="${ctx}/Vista/Css/style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

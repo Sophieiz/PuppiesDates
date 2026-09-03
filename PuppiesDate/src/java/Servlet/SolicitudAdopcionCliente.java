@@ -91,13 +91,13 @@ public class SolicitudAdopcionCliente extends HttpServlet {
             Perrito perrito = perritoDao.ConsultarPerrito(idPerrito);
 
             if (perrito == null) {
-                request.setAttribute("resultado", "Error: El perrito seleccionado no existe.");
+                request.setAttribute("resultado", "Error: La mascota seleccionado no existe.");
                 cargarFormularioYRedirigir(request, response, idPerritoStr);
                 return;
             }
 
             if (!"Disponible".equals(perrito.getDescripcionEstado_perrito())) {
-                request.setAttribute("resultado", "Este perrito ya no está disponible para adopción.");
+                request.setAttribute("resultado", "Esta mascota ya no está disponible para adopción.");
                 cargarFormularioYRedirigir(request, response, idPerritoStr);
                 return;
             }
@@ -105,7 +105,7 @@ public class SolicitudAdopcionCliente extends HttpServlet {
             Solicitud_adopcionDAO solicitudDao = new Solicitud_adopcionDAO();
 
             if (solicitudDao.existeSolicitudActiva(idUsuario, idPerrito)) {
-                request.setAttribute("resultado", "Ya tienes una solicitud activa para este perrito. "
+                request.setAttribute("resultado", "Ya tienes una solicitud activa para este Mascota. "
                         + "Espera la respuesta de la fundación antes de enviar otra.");
                 cargarFormularioYRedirigir(request, response, idPerritoStr);
                 return;

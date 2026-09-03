@@ -14,7 +14,7 @@
             <a href="https://www.tiktok.com/@puppiesdates?lang=es" aria-label="TikTok" target="_blank" rel="noopener">TikTok</a>
         </div>
         <hr class="footer-minimal-divider">
-        <p class="footer-minimal-copy">&copy; 2026 Puppies Dates. Todos los derechos reservados.</p>
+        <p class="footer-minimal-copy">&copy; 2026 Soul Paws. Todos los derechos reservados.</p>
     </div>
 </footer>
 <!-- Modal de confirmación de cierre de sesión (compartido) -->

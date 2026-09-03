@@ -57,7 +57,7 @@
 <html lang="es">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Panel Admin - Puppies Dates</title>
+        <title>Panel Admin - SOUL PAWS</title>
         <link rel="stylesheet" href="${ctx}/Vista/Css/style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -68,9 +68,9 @@
         <aside class="barrainicioadmin" id="sidebarAdmin">
             <div class="logotitulosoftadmin">
                 <div class="logocortoadmin">
-                    <img src="${ctx}/Vista/Imagenes/image.png" alt="Puppies Dates">
+                    <img src="${ctx}/Vista/Imagenes/image.png" alt="SOUL PAWS">
                 </div>
-                <h1>Puppies Dates</h1>
+                <h1>SOUL PAWS</h1>
             </div>
 
             <!-- Botón Hamburguesa -->
@@ -121,12 +121,12 @@
 
             <section class="panel-admin-hero">
                 <div class="panel-admin-welcome">
-                    <p class="panel-admin-kicker">Puppies Dates</p>
+                    <p class="panel-admin-kicker">SOUL PAWS</p>
                     <h3>Resumen del dia</h3>
                     <p>Controla reservas, cupos, actividades y usuarios desde un panel limpio y rapido.</p>
                   
                 </div>
-                <img src="${ctx}/Vista/Imagenes/image.png" alt="Logo Puppies Dates">
+                <img src="${ctx}/Vista/Imagenes/image.png" alt="Logo SOUL PAWS">
             </section>
 
             <section class="admin-section admin-adoption-requests-section">
@@ -252,7 +252,7 @@
 
                 <aside class="panel-admin-side">
                     <section class="admin-profile-card">
-                        <img src="${ctx}/Vista/Imagenes/Perrito1.jpg" alt="Perrito Puppies Dates">
+                        <img src="${ctx}/Vista/Imagenes/Perrito1.jpg" alt="Perrito SOUL PAWS">
                         <h3>${adminNombre}</h3>
                         <p>Administrador</p>
                         <a href="${ctx}/UsuarioAdmi">Gestionar usuarios</a>
@@ -264,10 +264,10 @@
         <footer class="footer-aesthetic footer-minimal footer-minimal-admin">
             <div class="footer-minimal-inner">
                 <div class="footer-minimal-logo">
-                    <img src="${ctx}/Vista/Imagenes/image.png" alt="Logo Puppies Dates">
+                    <img src="${ctx}/Vista/Imagenes/image.png" alt="Logo SOUL PAWS">
                 </div>
-                <p class="footer-minimal-nombre">Puppies Dates</p>
-                <p class="footer-minimal-copy">&copy; 2026 Puppies Dates. Todos los derechos reservados.</p>
+                <p class="footer-minimal-nombre">SOUL PAWS</p>
+                <p class="footer-minimal-copy">&copy; 2026 SOUL PAWS. Todos los derechos reservados.</p>
             </div>
         </footer>
         <div class="logout-modal-shell" id="logoutModal" aria-hidden="true">
@@ -275,7 +275,7 @@
             <section class="logout-modal-box" role="dialog" aria-modal="true" aria-labelledby="logoutModalTitle">
                 <div class="logout-modal-icon"></div>
                 <h3 id="logoutModalTitle">¿Ya te vas?</h3>
-                <p>¿Estás seguro de que deseas cerrar sesión? Te esperamos pronto en Puppies Dates.</p>
+                <p>¿Estás seguro de que deseas cerrar sesión? Te esperamos pronto en SOUL PAWS.</p>
                 <div class="logout-modal-actions">
                     <button type="button" class="logout-modal-cancel" data-logout-close>Cancelar</button>
                     <button type="button" class="logout-modal-confirm" data-logout-confirm>Cerrar sesión</button>
