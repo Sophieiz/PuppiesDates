@@ -555,3 +555,49 @@ document.addEventListener('DOMContentLoaded', function () {
     const dd = String(hoy.getDate()).padStart(2, '0');
     inputFecha.setAttribute('min', `${yyyy}-${mm}-${dd}`);
 });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const modalEstado = document.getElementById('modal-cambiar-estado-reserva');
+    const idInput = document.getElementById('idReservaEstadoModal');
+    const selectEstado = document.getElementById('Estado_reserva_idEstado_reserva_modal');
+
+    if (!modalEstado || !idInput || !selectEstado) {
+        return;
+    }
+
+    function abrirModalEstado(modal) {
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-abierto');
+    }
+
+    function cerrarModalEstado(modal) {
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-abierto');
+    }
+
+    document.querySelectorAll('[data-abrir-cambio-estado-reserva]').forEach(function (boton) {
+        boton.addEventListener('click', function () {
+            idInput.value = boton.dataset.id;
+            const estadoActual = boton.dataset.estadoActual;
+            if (estadoActual) {
+                selectEstado.value = estadoActual;
+            }
+            abrirModalEstado(modalEstado);
+        });
+    });
+
+    document.querySelectorAll('[data-cerrar-estado-reserva]').forEach(function (boton) {
+        boton.addEventListener('click', function () {
+            cerrarModalEstado(modalEstado);
+        });
+    });
+
+    modalEstado.addEventListener('click', function (event) {
+        if (event.target === modalEstado) {
+            cerrarModalEstado(modalEstado);
+        }
+    });
+});

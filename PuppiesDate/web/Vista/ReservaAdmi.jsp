@@ -184,20 +184,9 @@
                         <div class="admin-crud-modal-box">
                             <button type="button" class="admin-modal-cerrar" data-cerrar-estado-reserva aria-label="Cerrar">&times;</button>
                             <h2 class="admin-crud-title">Cambiar estado de la reserva</h2>
-
                             <form action="${ctx}/ReservaAdmi" method="POST">
                                 <input type="hidden" name="accion" value="actualizarEstado">
                                 <input type="hidden" name="idReserva" id="idReservaEstadoModal">
-
-                                <div class="admin-crud-field">
-                                    <label for="Estado_reserva_idEstado_reserva_modal">Nuevo estado:</label>
-                                    <select name="Estado_reserva_idEstado_reserva" id="Estado_reserva_idEstado_reserva_modal" required>
-                                        <c:forEach var="estado" items="${listaEstadosReserva}">
-                                            <option value="${estado.idEstado_reserva}">${estado.descripcion_esta}</option>
-                                        </c:forEach>
-                                    </select>
-                                </div>
-
                                 <div class="admin-crud-actions">
                                     <button type="button" class="admin-crud-btn-secondary" data-cerrar-estado-reserva>Cancelar</button>
                                     <button type="submit" class="admin-crud-btn-primary">Guardar</button>
