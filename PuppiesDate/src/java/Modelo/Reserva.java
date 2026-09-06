@@ -2,6 +2,8 @@ package Modelo;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class Reserva {
 
@@ -154,4 +156,30 @@ public class Reserva {
     public void setEstadoPago(String estadoPago) {
         this.estadoPago = estadoPago;
     }
+
+
+public boolean isCancelada() {
+    return getEstado_reserva_idEstado_reserva() == 3;
+}
+
+public boolean isRealizada() {
+    if (getEstado_reserva_idEstado_reserva() == 4) {
+        return true;
+    }
+    if (getFecha() == null) {
+        return false;
+    }
+    return getFecha().toLocalDate().isBefore(LocalDate.now());
+}
+
+public boolean isModificable() {
+    if (isCancelada() || isRealizada()) {
+        return false;
+    }
+    if (getFecha() == null) {
+        return false;
+    }
+    long diasRestantes = ChronoUnit.DAYS.between(LocalDate.now(), getFecha().toLocalDate());
+    return diasRestantes >= 7;
+}
 }

@@ -459,3 +459,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+      function abrirModalCancelar(idReserva) {
+                document.getElementById('idReservaCancelar').value = idReserva;
+                document.getElementById('modalCancelar').style.display = 'flex';
+            }
+            function cerrarModalCancelar() {
+                document.getElementById('modalCancelar').style.display = 'none';
+            }
