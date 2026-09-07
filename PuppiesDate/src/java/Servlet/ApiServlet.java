@@ -4,10 +4,17 @@
  */
 package Servlet;
 
-import Controlador.Conexion;
+import Controlador.CorreoUtil;
+import Controlador.EntrevistaDAO;
+import Controlador.PasswordUtil;
+import Controlador.PerritoDAO;
 import Controlador.Solicitud_adopcionDAO;
+import Controlador.UsuariosDAO;
+import Modelo.Entrevista;
+import Modelo.Perrito;
 import Modelo.Solicitud_adopcion;
 import Modelo.Historial_estado_solicitud;
+import Modelo.Usuarios;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,13 +24,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.List;
-
-import org.mindrot.jbcrypt.BCrypt;
 
 @WebServlet(name = "ApiServlet", urlPatterns = {"/api/*"})
 public class ApiServlet extends HttpServlet {
@@ -59,6 +61,9 @@ public class ApiServlet extends HttpServlet {
             case "/login":
                 handleLogin(request, response);
                 break;
+            case "/solicitudes":
+                handleCrearSolicitud(request, response);
+                break;
             default:
                 enviar404(response);
                 break;
@@ -74,6 +79,10 @@ public class ApiServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
+    // Misma validación que el servlet web /Iniciar (UsuariosDAO + PasswordUtil), con la misma
+    // estructura simple que handleSolicitudes: usa el DAO, sin manejar conexiones SQL a mano.
+    // Las contraseñas en la BD están encriptadas con BCrypt; PasswordUtil.verificarPassword
+    // ya sabe compararlas correctamente contra el hash guardado.
     private void handleLogin(HttpServletRequest request,
             HttpServletResponse response) throws IOException {
 
@@ -93,40 +102,46 @@ public class ApiServlet extends HttpServlet {
             return;
         }
 
-        String sql = "SELECT idUsuarios, nombre, apellido, clave "
-                + "FROM usuarios "
-                + "WHERE correo = ? AND activo = 1";
+        try {
+            UsuariosDAO usuariosDao = new UsuariosDAO();
+            Usuarios usuarioBD = usuariosDao.ConsultarUsuarioPorCorreo(correo.trim());
 
-        try (Connection con = new Conexion().getConn(); PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setString(1, correo.trim());
-
-            try (ResultSet rs = ps.executeQuery()) {
-
-                if (rs.next()) {
-                    String hashGuardado = rs.getString("clave");
-
-                    if (BCrypt.checkpw(clave, hashGuardado)) {
-                        int idUsuario = rs.getInt("idUsuarios");
-                        String nombre = rs.getString("nombre");
-                        String apellido = rs.getString("apellido");
-
-                        try (PrintWriter out = response.getWriter()) {
-                            out.print("{\"success\":true,"
-                                    + "\"idUsuario\":" + idUsuario + ","
-                                    + "\"nombre\":\"" + escapar(nombre) + "\","
-                                    + "\"apellido\":\"" + escapar(apellido) + "\"}");
-                        }
-                        return;
-                    }
-                }
-
+            if (usuarioBD == null || !PasswordUtil.verificarPassword(clave, usuarioBD.getclave())) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-
                 try (PrintWriter out = response.getWriter()) {
                     out.print("{\"success\":false,"
                             + "\"mensaje\":\"Correo o clave incorrectos\"}");
                 }
+                return;
+            }
+
+            java.util.Date hoy = new java.util.Date();
+            java.util.Date fechaCad = usuarioBD.getfecha_cad();
+            if (fechaCad != null && hoy.after(fechaCad)) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                try (PrintWriter out = response.getWriter()) {
+                    out.print("{\"success\":false,"
+                            + "\"mensaje\":\"Tu cuenta ha expirado. Por favor registrate nuevamente.\"}");
+                }
+                return;
+            }
+
+            if (!usuarioBD.ischeckbox()) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                try (PrintWriter out = response.getWriter()) {
+                    out.print("{\"success\":false,"
+                            + "\"mensaje\":\"Tu cuenta esta inactiva. Por favor registrate nuevamente.\"}");
+                }
+                return;
+            }
+
+            try (PrintWriter out = response.getWriter()) {
+                out.print("{\"success\":true,"
+                        + "\"idUsuario\":" + usuarioBD.getidUsuarios() + ","
+                        + "\"nombre\":" + jsonString(usuarioBD.getnombre()) + ","
+                        + "\"apellido\":" + jsonString(usuarioBD.getapellido()) + ","
+                        + "\"correo\":" + jsonString(usuarioBD.getcorreo()) + ","
+                        + "\"idRol\":" + usuarioBD.getRoles_idRoles() + "}");
             }
 
         } catch (Exception e) {
@@ -180,12 +195,21 @@ public class ApiServlet extends HttpServlet {
             List<Historial_estado_solicitud> historial
                     = dao.listarHistorialPorSolicitud(s.getIdSolicitud_adopcion());
 
+            String estadoActualMapeado = mapearEstado(s.getDescripcionEstado_solicitud());
+            Entrevista ultimaEntrevista = new EntrevistaDAO().consultarUltimaEntrevista(s.getIdSolicitud_adopcion());
+
             json.append("{")
                     .append("\"id\":").append(s.getIdSolicitud_adopcion()).append(",")
                     .append("\"nombrePerrito\":").append(jsonString(s.getNombrePerrito())).append(",")
                     .append("\"fotoPerritoUrl\":").append(jsonStringNullable(construirUrlFoto(request, s.getFotoPerrito()))).append(",")
                     .append("\"fechaSolicitud\":").append(jsonString(formatearFecha(s.getFecha_solicitud()))).append(",")
-                    .append("\"estadoActual\":").append(jsonString(mapearEstado(s.getDescripcionEstado_solicitud()))).append(",")
+                    .append("\"estadoActual\":").append(jsonString(estadoActualMapeado)).append(",")
+                    .append("\"entrevista\":").append(construirJsonEntrevista(ultimaEntrevista)).append(",")
+                    .append("\"perritoAdoptado\":").append(
+                            "aprobado".equals(estadoActualMapeado)
+                                    ? construirJsonPerritoAdoptado(request, s.getPerrito_idPerrito())
+                                    : "null"
+                    ).append(",")
                     .append("\"historial\":[");
 
             for (int j = 0; j < historial.size(); j++) {
@@ -210,10 +234,174 @@ public class ApiServlet extends HttpServlet {
         }
     }
 
+    // Misma lógica y validaciones que el servlet web SolicitudAdopcionCliente, pero
+    // recibiendo idUsuario como parámetro (la app no maneja sesión/cookies web).
+    private void handleCrearSolicitud(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+
+        String idUsuarioStr = request.getParameter("idUsuario");
+        String idPerritoStr = request.getParameter("idPerrito");
+        String direccion = request.getParameter("direccion");
+        String departamentoIdStr = request.getParameter("departamentoId");
+        String ubicacionIdStr = request.getParameter("ubicacionId");
+        String tipoDivision = request.getParameter("tipoDivision");
+        String barrio = request.getParameter("barrio");
+        String profesion = request.getParameter("profesion");
+        String viveEnIdStr = request.getParameter("viveEnId");
+        String tipoViviendaIdStr = request.getParameter("tipoViviendaId");
+        String nucleoFamiliar = request.getParameter("nucleo_familiar");
+        String tieneMascotasStr = request.getParameter("tiene_mascotas");
+
+        if (idUsuarioStr == null || idUsuarioStr.trim().isEmpty()
+                || idPerritoStr == null || idPerritoStr.trim().isEmpty()
+                || direccion == null || direccion.trim().isEmpty()
+                || departamentoIdStr == null || departamentoIdStr.trim().isEmpty()
+                || ubicacionIdStr == null || ubicacionIdStr.trim().isEmpty()
+                || tipoDivision == null || tipoDivision.trim().isEmpty()
+                || barrio == null || barrio.trim().isEmpty()
+                || profesion == null || profesion.trim().isEmpty()
+                || viveEnIdStr == null || viveEnIdStr.trim().isEmpty()
+                || tipoViviendaIdStr == null || tipoViviendaIdStr.trim().isEmpty()
+                || nucleoFamiliar == null || nucleoFamiliar.trim().isEmpty()) {
+
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            try (PrintWriter out = response.getWriter()) {
+                out.print("{\"success\":false,\"mensaje\":\"Todos los campos son obligatorios\"}");
+            }
+            return;
+        }
+
+        try {
+            int idUsuario = Integer.parseInt(idUsuarioStr);
+            int idPerrito = Integer.parseInt(idPerritoStr);
+            int departamentoId = Integer.parseInt(departamentoIdStr);
+            int ubicacionId = Integer.parseInt(ubicacionIdStr);
+            int viveEnId = Integer.parseInt(viveEnIdStr);
+            int tipoViviendaId = Integer.parseInt(tipoViviendaIdStr);
+            boolean tieneMascotas = "true".equalsIgnoreCase(tieneMascotasStr)
+                    || "si".equalsIgnoreCase(tieneMascotasStr);
+
+            PerritoDAO perritoDao = new PerritoDAO();
+            Perrito perrito = perritoDao.ConsultarPerrito(idPerrito);
+
+            if (perrito == null) {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                try (PrintWriter out = response.getWriter()) {
+                    out.print("{\"success\":false,\"mensaje\":\"El perrito seleccionado no existe\"}");
+                }
+                return;
+            }
+
+            if (!"Disponible".equals(perrito.getDescripcionEstado_perrito())) {
+                response.setStatus(HttpServletResponse.SC_CONFLICT);
+                try (PrintWriter out = response.getWriter()) {
+                    out.print("{\"success\":false,\"mensaje\":\"Este perrito ya no esta disponible para adopcion\"}");
+                }
+                return;
+            }
+
+            Solicitud_adopcionDAO solicitudDao = new Solicitud_adopcionDAO();
+
+            if (solicitudDao.existeSolicitudActiva(idUsuario, idPerrito)) {
+                response.setStatus(HttpServletResponse.SC_CONFLICT);
+                try (PrintWriter out = response.getWriter()) {
+                    out.print("{\"success\":false,\"mensaje\":\"Ya tienes una solicitud activa para este perrito\"}");
+                }
+                return;
+            }
+
+            Solicitud_adopcion solicitud = new Solicitud_adopcion();
+            solicitud.setDireccion(direccion);
+            solicitud.setDepartamentoId(departamentoId);
+
+            if ("LOCALIDAD".equals(tipoDivision)) {
+                solicitud.setLocalidadId(ubicacionId);
+                solicitud.setMunicipioId(null);
+            } else {
+                solicitud.setMunicipioId(ubicacionId);
+                solicitud.setLocalidadId(null);
+            }
+
+            solicitud.setBarrio(barrio);
+            solicitud.setProfesion(profesion);
+            solicitud.setViveEnId(viveEnId);
+            solicitud.setTipoViviendaId(tipoViviendaId);
+            solicitud.setNucleo_familiar(nucleoFamiliar);
+            solicitud.setTiene_mascotas(tieneMascotas);
+            solicitud.setUsuarios_idUsuarios(idUsuario);
+            solicitud.setPerrito_idPerrito(idPerrito);
+
+            int idSolicitudGenerada = solicitudDao.insertarSolicitud_adopcion(solicitud);
+
+            if (idSolicitudGenerada != -1) {
+                try {
+                    Solicitud_adopcion solicitudCompleta = solicitudDao.ConsultarSolicitud_adopcion(idSolicitudGenerada);
+                    CorreoUtil.enviarCorreoNuevaSolicitud(solicitudCompleta, perrito);
+                    CorreoUtil.enviarCorreoConfirmacionSolicitudUsuario(solicitudCompleta, perrito);
+                } catch (Exception exCorreo) {
+                    System.out.println("Error enviando correos de adopcion: " + exCorreo.getMessage());
+                }
+
+                try (PrintWriter out = response.getWriter()) {
+                    out.print("{\"success\":true,"
+                            + "\"mensaje\":\"Solicitud de adopcion enviada\","
+                            + "\"idSolicitud\":" + idSolicitudGenerada + "}");
+                }
+            } else {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                try (PrintWriter out = response.getWriter()) {
+                    out.print("{\"success\":false,\"mensaje\":\"Error al guardar la solicitud\"}");
+                }
+            }
+
+        } catch (NumberFormatException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            try (PrintWriter out = response.getWriter()) {
+                out.print("{\"success\":false,\"mensaje\":\"Datos invalidos en el formulario\"}");
+            }
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            try (PrintWriter out = response.getWriter()) {
+                out.print("{\"success\":false,\"mensaje\":\"Error inesperado: " + escapar(e.getMessage()) + "\"}");
+            }
+        }
+    }
+
     private void prepararRespuesta(HttpServletResponse response) {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.setHeader("Access-Control-Allow-Origin", "*");
+    }
+
+    // Fecha/hora de la entrevista más reciente de la solicitud, o null si todavía no le han programado ninguna
+    private String construirJsonEntrevista(Entrevista entrevista) {
+        if (entrevista == null) {
+            return "null";
+        }
+        return "{"
+                + "\"fecha\":" + jsonStringNullable(entrevista.getFecha() != null ? entrevista.getFecha().toString() : null) + ","
+                + "\"hora\":" + jsonStringNullable(entrevista.getHora() != null ? entrevista.getHora().toString() : null) + ","
+                + "\"observaciones\":" + jsonStringNullable(entrevista.getObservaciones())
+                + "}";
+    }
+
+    // Ficha completa del perrito, para mostrarla cuando la solicitud ya quedó "Aprobada" (adoptado)
+    private String construirJsonPerritoAdoptado(HttpServletRequest request, int idPerrito) {
+        Perrito perrito = new PerritoDAO().ConsultarPerrito(idPerrito);
+        if (perrito == null) {
+            return "null";
+        }
+        return "{"
+                + "\"nombre\":" + jsonString(perrito.getNombre()) + ","
+                + "\"fotoUrl\":" + jsonStringNullable(construirUrlFoto(request, perrito.getFoto())) + ","
+                + "\"especie\":" + jsonStringNullable(perrito.getDescripcionEspecie()) + ","
+                + "\"raza\":" + jsonStringNullable(perrito.getDescripcionRaza()) + ","
+                + "\"sexo\":" + jsonStringNullable(perrito.getDescripcionSexo()) + ","
+                + "\"etapaMadurez\":" + jsonStringNullable(perrito.getEtapa_madurez()) + ","
+                + "\"especialidad\":" + jsonStringNullable(perrito.getEspecialidad()) + ","
+                + "\"condicionesEspeciales\":" + jsonStringNullable(perrito.getCondiciones_especiales()) + ","
+                + "\"historia\":" + jsonStringNullable(perrito.getHistoria())
+                + "}";
     }
 
     private String construirUrlFoto(HttpServletRequest request, String rutaFoto) {
@@ -232,7 +420,7 @@ public class ApiServlet extends HttpServlet {
                 || ("https".equals(request.getScheme()) && request.getServerPort() == 443);
     }
 
-    
+
     private String obtenerRuta(HttpServletRequest request) {
         String pathInfo = request.getPathInfo();
         return pathInfo == null ? "" : pathInfo;
@@ -253,12 +441,16 @@ public class ApiServlet extends HttpServlet {
         switch (descripcionEstadoBD) {
             case "Pendiente":
                 return "pendiente";
-            case "En proceso":
-                return "enProceso";
+            case "Entrevista":
+                return "entrevista";
             case "Aprobado":
                 return "aprobado";
             case "Rechazado":
                 return "rechazado";
+            case "Cancelada":
+                return "cancelada";
+            case "No seleccionado":
+                return "noSeleccionado";
             default:
                 return "pendiente";
         }
