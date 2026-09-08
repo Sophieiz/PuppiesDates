@@ -206,10 +206,10 @@ public class ApiServlet extends HttpServlet {
                     .append("\"estadoActual\":").append(jsonString(estadoActualMapeado)).append(",")
                     .append("\"entrevista\":").append(construirJsonEntrevista(ultimaEntrevista)).append(",")
                     .append("\"perritoAdoptado\":").append(
-                            "aprobado".equals(estadoActualMapeado)
-                                    ? construirJsonPerritoAdoptado(request, s.getPerrito_idPerrito())
-                                    : "null"
-                    ).append(",")
+                    "aprobado".equals(estadoActualMapeado)
+                    ? construirJsonPerritoAdoptado(request, s.getPerrito_idPerrito())
+                    : "null"
+            ).append(",")
                     .append("\"historial\":[");
 
             for (int j = 0; j < historial.size(); j++) {
@@ -404,22 +404,35 @@ public class ApiServlet extends HttpServlet {
                 + "}";
     }
 
-    private String construirUrlFoto(HttpServletRequest request, String rutaFoto) {
-        if (rutaFoto == null || rutaFoto.trim().isEmpty()) {
-            return null;
+private String construirUrlFoto(HttpServletRequest request, String rutaFoto) {
+    if (rutaFoto == null || rutaFoto.trim().isEmpty()) {
+        return null;
+    }
+
+    if (rutaFoto.startsWith("http://") || rutaFoto.startsWith("https://")) {
+        return rutaFoto;
+    }
+
+  
+    String proto = request.getHeader("X-Forwarded-Proto");
+    if (proto == null || proto.isEmpty()) {
+        proto = request.getScheme();
+    }
+
+    String host = request.getHeader("X-Forwarded-Host");
+    if (host == null || host.isEmpty()) {
+        host = request.getServerName();
+        boolean puertoEstandar = ("http".equals(proto) && request.getServerPort() == 80)
+                || ("https".equals(proto) && request.getServerPort() == 443);
+        if (!puertoEstandar) {
+            host += ":" + request.getServerPort();
         }
-        String base = request.getScheme() + "://" + request.getServerName()
-                + (esPuertoEstandar(request) ? "" : ":" + request.getServerPort())
-                + request.getContextPath();
-        String ruta = rutaFoto.startsWith("/") ? rutaFoto : "/" + rutaFoto;
-        return base + ruta;
     }
 
-    private boolean esPuertoEstandar(HttpServletRequest request) {
-        return ("http".equals(request.getScheme()) && request.getServerPort() == 80)
-                || ("https".equals(request.getScheme()) && request.getServerPort() == 443);
-    }
-
+    String base = proto + "://" + host + request.getContextPath();
+    String ruta = rutaFoto.startsWith("/") ? rutaFoto : "/" + rutaFoto;
+    return base + ruta;
+}
 
     private String obtenerRuta(HttpServletRequest request) {
         String pathInfo = request.getPathInfo();
@@ -432,7 +445,6 @@ public class ApiServlet extends HttpServlet {
             out.print("{\"success\":false,\"mensaje\":\"Ruta de API no encontrada\"}");
         }
     }
-
 
     private String mapearEstado(String descripcionEstadoBD) {
         if (descripcionEstadoBD == null) {
@@ -462,7 +474,6 @@ public class ApiServlet extends HttpServlet {
         }
         return FORMATO_FECHA.format(fecha);
     }
-
 
     private String jsonString(String valor) {
         if (valor == null) {
