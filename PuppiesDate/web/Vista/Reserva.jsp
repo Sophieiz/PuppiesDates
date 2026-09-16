@@ -79,7 +79,10 @@
                     <select id="actividad" name="actividada">
                         <option value="">-- Selecciona una actividad --</option>
                         <c:forEach var="act" items="${actividades}">
-                            <option value="${act.idActividad}" data-precio="${act.precioTexto}">${act.tipoActividadNombre}</option>
+                            <option value="${act.idActividad}" data-precio="${act.precioTexto}"
+                                    ${act.idActividad == actividadSeleccionada ? 'selected' : ''}>
+                                ${act.tipoActividadNombre}
+                            </option>
                         </c:forEach>
                     </select>
                     <span class="error-mensaje" id="error_actividad"></span>
@@ -102,6 +105,6 @@
         <%@ include file="Footer.jsp" %>
         <script src="${ctx}/Vista/JavaScript/interfaz.js"></script>
         <script src="${ctx}/Vista/JavaScript/validarReserva.js"></script>
-        
+
     </body>
 </html>

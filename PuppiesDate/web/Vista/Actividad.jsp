@@ -54,7 +54,7 @@
                                     <c:if test="${not empty act.precioTexto}">
                                         <p class="actividad-precio">${act.precioTexto}</p>
                                     </c:if>
-                                    <a href="${actividadReservaUrl}" class="actividad-cta">Reservar</a>
+                                    <a href="${actividadReservaUrl}${not empty sessionScope.nombreUsuario ? '?actividad='.concat(act.idActividad) : ''}" class="actividad-cta">Reservar</a>
                                 </div>
                             </article>
                         </c:forEach>

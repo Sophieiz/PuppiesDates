@@ -4732,6 +4732,14 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     flex-wrap: wrap;
 }
 
+.acciones-reserva {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 4px 0;
+}
+
 .admin-crud-acciones .admin-crud-btn-primary,
 .admin-crud-acciones .admin-crud-btn-danger {
     width: auto;

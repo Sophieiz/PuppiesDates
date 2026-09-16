@@ -276,7 +276,7 @@ function configurarPrecioActividad() {
         return;
     }
 
-    select.addEventListener('change', function () {
+    function actualizarPrecio() {
         const opcion = select.options[select.selectedIndex];
         const precio = opcion ? opcion.getAttribute('data-precio') : '';
 
@@ -286,9 +286,11 @@ function configurarPrecioActividad() {
         } else {
             textoPrecio.style.display = 'none';
         }
-    });
-}
+    }
 
+    select.addEventListener('change', actualizarPrecio);
+    actualizarPrecio();
+}
 // Modal de fechas disponibles
 function configurarModalFechasDisponibles() {
     const boton = document.getElementById('btnVerFechas');
@@ -473,23 +475,31 @@ function cerrarModalCancelar() {
 // ===== Filtro de estado en "Mis solicitudes de adopción" =====
 document.addEventListener('DOMContentLoaded', function () {
     var filtro = document.getElementById('filtroEstadoSolicitud');
-    if (!filtro)
-        return; // Esta página no tiene el filtro, no hacer nada
+    if (!filtro) return;
 
-    var filas = document.querySelectorAll('#tablaSolicitudes tbody tr');
+    var secciones = document.querySelectorAll('.seccion-solicitudes');
     var mensajeVacio = document.getElementById('sinResultadosFiltro');
 
     filtro.addEventListener('change', function () {
         var valor = filtro.value;
-        var visibles = 0;
+        var totalVisibles = 0;
 
-        filas.forEach(function (fila) {
-            var coincide = (valor === 'todas' || fila.dataset.estado === valor);
-            fila.style.display = coincide ? '' : 'none';
-            if (coincide)
-                visibles++;
+        secciones.forEach(function (seccion) {
+            var filasSeccion = seccion.querySelectorAll('[data-tabla-solicitudes] tbody tr');
+            var visiblesEnSeccion = 0;
+
+            filasSeccion.forEach(function (fila) {
+                var coincide = (valor === 'todas' || fila.dataset.estado === valor);
+                fila.classList.toggle('oculto', !coincide);
+                if (coincide) visiblesEnSeccion++;
+            });
+
+            seccion.classList.toggle('oculto', filasSeccion.length > 0 && visiblesEnSeccion === 0);
+            totalVisibles += visiblesEnSeccion;
         });
 
-        mensajeVacio.style.display = visibles === 0 ? 'block' : 'none';
+        if (mensajeVacio) {
+            mensajeVacio.classList.toggle('oculto', totalVisibles !== 0);
+        }
     });
 });

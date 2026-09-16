@@ -64,7 +64,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet"> 
         <link rel="icon" type="image/png" href="${ctx}/Vista/Imagenes/image.png">
     </head>
-    
+
     <body class="admin-body">
         <aside class="barrainicioadmin" id="sidebarAdmin">
             <div class="logotitulosoftadmin">
@@ -86,10 +86,10 @@
                 <details class="admin-nav-group">
                     <summary>Gestión de Reservas</summary>
                     <a href="${ctx}/Actividad">Actividades</a>
-                    <a href="${ctx}/Tipoactividad">Tipo de actividad</a>
-                    <a href="${ctx}/Listaprecios">Lista de precios</a>
-                    <a href="${ctx}/Disponibilidaad">Disponibilidad</a>
-                    <a href="${ctx}/Horarios">Horario</a>
+                    <a href="${ctx}/Tipoactividad">Categorías de actividad</a>
+                    <a href="${ctx}/Listaprecios">Precios</a>
+                    <a href="${ctx}/Disponibilidaad">Fechas disponibles</a>
+                    <a href="${ctx}/Horarios">Horarios de atención</a>
                     <a href="${ctx}/ReservaAdmi">Reservas</a>
                     <!-- <a href="${ctx}/PagosAdmi">Pagos</a> -->
                     <!-- <a href="${ctx}/EstadoReservaAdmi">Estado reserva</a> -->
@@ -125,7 +125,7 @@
                     <p class="panel-admin-kicker">SOUL PAWS</p>
                     <h3>Resumen del dia</h3>
                     <p>Controla reservas, cupos, actividades y usuarios desde un panel limpio y rapido.</p>
-                  
+
                 </div>
                 <img src="${ctx}/Vista/Imagenes/image.png" alt="Logo SOUL PAWS">
             </section>
@@ -143,7 +143,7 @@
                     <table class="admin-reservas-table admin-solicitudes-table">
                         <thead>
                             <tr>
-                                
+
                                 <th>Mascotas</th>
                                 <th>Solicitante</th>
                                 <th>Fecha</th>
@@ -153,7 +153,7 @@
                         <tbody>
                             <c:forEach var="solicitud" items="${solicitudesPanelAdmin}">
                                 <tr>
-                                    
+
                                     <td>${solicitud.nombrePerrito}</td>
                                     <td>${solicitud.nombreUsuario} ${solicitud.apellidoUsuario}</td>
                                     <td><fmt:formatDate value="${solicitud.fecha_solicitud}" pattern="dd/MM/yyyy HH:mm"/></td>
@@ -208,7 +208,7 @@
                             <table class="admin-reservas-table">
                                 <thead>
                                     <tr>
-                                        
+
                                         <th>Personas</th>
                                         <th>Hora</th>
                                         <th>Fecha</th>
@@ -221,7 +221,7 @@
                                 <tbody>
                                     <c:forEach var="reserva" items="${reservasPanelAdmin}">
                                         <tr>
-                                            
+
                                             <td>${reserva.num_personas}</td>
                                             <td>${reserva.hora}</td>
                                             <td>${reserva.fecha}</td>

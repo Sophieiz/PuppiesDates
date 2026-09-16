@@ -21,6 +21,11 @@ public class ReservaCliente extends HttpServlet {
             throws ServletException, IOException {
         ActividadDAO actividadDao = new ActividadDAO();
         request.setAttribute("actividades", actividadDao.Actividad());
+        String actividadParam = request.getParameter("actividad");
+        if (actividadParam != null && !actividadParam.trim().isEmpty()) {
+            request.setAttribute("actividadSeleccionada", actividadParam);
+        }
+
         request.getRequestDispatcher("/Vista/Reserva.jsp").forward(request, response);
     }
 }
