@@ -7,8 +7,8 @@
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <%
     List<Perrito> listaPerritosInicio = new PerritoDAO().listarPerritoDisponible();
-    if (listaPerritosInicio.size() > 4) {
-        listaPerritosInicio = listaPerritosInicio.subList(0, 4);
+    if (listaPerritosInicio.size() > 3) {
+        listaPerritosInicio = listaPerritosInicio.subList(0, 3);
     }
     request.setAttribute("listaPerritosInicio", listaPerritosInicio);
 %>
