@@ -16,7 +16,7 @@
     if (listaPerritosPanel == null) {
         listaPerritosPanel = new ArrayList<Perrito>();
     } else if (listaPerritosPanel.size() > 3) {
-        listaPerritosPanel = listaPerritosPanel.subList(0, 4);
+        listaPerritosPanel = listaPerritosPanel.subList(0, 3);
     }
     
     request.setAttribute("listaPerritosPanel", listaPerritosPanel);
