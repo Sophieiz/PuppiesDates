@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function () {
             menuToggle.setAttribute('aria-expanded', isOpen);
         });
 
-        
+
         navMenu.querySelectorAll('a').forEach(function (link) {
             link.addEventListener('click', function () {
                 navMenu.classList.remove('is-open');
@@ -415,7 +415,7 @@ document.addEventListener('DOMContentLoaded', function () {
         btn.addEventListener('click', cerrarLogoutModal);
     });
 
-    
+
     logoutModal.querySelectorAll('[data-logout-confirm]').forEach(function (btn) {
         btn.addEventListener('click', function () {
             if (logoutUrl) {
@@ -439,10 +439,10 @@ document.addEventListener('DOMContentLoaded', function () {
     if (menuToggleAdmin && sidebarAdmin) {
         menuToggleAdmin.addEventListener('click', function (e) {
             e.stopPropagation();
-            
+
             // Alternar estado visible del sidebar
             sidebarAdmin.classList.toggle('is-open');
-            
+
             // Actualizar atributo de accesibilidad
             const isOpen = sidebarAdmin.classList.contains('is-open');
             menuToggleAdmin.setAttribute('aria-expanded', isOpen);
@@ -450,9 +450,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Cerrar menú al hacer clic fuera de él en pantallas móviles
         document.addEventListener('click', function (e) {
-            if (window.innerWidth <= 768 && 
-                sidebarAdmin.classList.contains('is-open') && 
-                !sidebarAdmin.contains(e.target)) {
+            if (window.innerWidth <= 768 &&
+                    sidebarAdmin.classList.contains('is-open') &&
+                    !sidebarAdmin.contains(e.target)) {
                 sidebarAdmin.classList.remove('is-open');
                 menuToggleAdmin.setAttribute('aria-expanded', 'false');
             }
@@ -460,10 +460,36 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-      function abrirModalCancelar(idReserva) {
-                document.getElementById('idReservaCancelar').value = idReserva;
-                document.getElementById('modalCancelar').style.display = 'flex';
-            }
-            function cerrarModalCancelar() {
-                document.getElementById('modalCancelar').style.display = 'none';
-            }
+function abrirModalCancelar(idReserva) {
+    document.getElementById('idReservaCancelar').value = idReserva;
+    document.getElementById('modalCancelar').style.display = 'flex';
+}
+function cerrarModalCancelar() {
+    document.getElementById('modalCancelar').style.display = 'none';
+}
+
+
+
+// ===== Filtro de estado en "Mis solicitudes de adopción" =====
+document.addEventListener('DOMContentLoaded', function () {
+    var filtro = document.getElementById('filtroEstadoSolicitud');
+    if (!filtro)
+        return; // Esta página no tiene el filtro, no hacer nada
+
+    var filas = document.querySelectorAll('#tablaSolicitudes tbody tr');
+    var mensajeVacio = document.getElementById('sinResultadosFiltro');
+
+    filtro.addEventListener('change', function () {
+        var valor = filtro.value;
+        var visibles = 0;
+
+        filas.forEach(function (fila) {
+            var coincide = (valor === 'todas' || fila.dataset.estado === valor);
+            fila.style.display = coincide ? '' : 'none';
+            if (coincide)
+                visibles++;
+        });
+
+        mensajeVacio.style.display = visibles === 0 ? 'block' : 'none';
+    });
+});

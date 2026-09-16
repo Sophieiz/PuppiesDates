@@ -11,7 +11,9 @@
         <title>Mis Reservas - SOUL PAWS</title>
         <link rel="stylesheet" href="${ctx}/Vista/Css/style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">    </head>
+        <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">    
+        <link rel="icon" type="image/png" href="${ctx}/Vista/Imagenes/image.png">
+    </head>
     <body>
         <c:set var="activePage" value="reservas" scope="request"/>
         <%@ include file="Header.jsp" %>
@@ -63,11 +65,13 @@
                                             <td data-label="Acciones">
                                                 <c:choose>
                                                     <c:when test="${r.modificable}">
-                                                        <a class="admin-crud-btn-secondary admin-crud-btn-sm" href="${ctx}/GestionarReserva?accion=editar&id=${r.idReserva}">Editar</a>
-                                                        <button type="button" class="admin-crud-btn-danger admin-crud-btn-sm"
-                                                                onclick="abrirModalCancelar(${r.idReserva})">
-                                                            Cancelar
-                                                        </button>
+                                                        <div class="acciones-reserva">
+                                                            <a class="admin-crud-btn-secondary admin-crud-btn-sm" href="${ctx}/GestionarReserva?accion=editar&id=${r.idReserva}">Editar</a>
+                                                            <button type="button" class="admin-crud-btn-danger admin-crud-btn-sm"
+                                                                    onclick="abrirModalCancelar(${r.idReserva})">
+                                                                Cancelar
+                                                            </button>
+                                                        </div>
                                                     </c:when>
                                                     <c:otherwise>
                                                         <span class="texto-bloqueado">No modificable (menos de 7 días)</span>

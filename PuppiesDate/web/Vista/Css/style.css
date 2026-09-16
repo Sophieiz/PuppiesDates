@@ -4783,3 +4783,25 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 #tablaActividades td:nth-child(2) {
     width: 150px;
 }
+
+/*Mis Solicitudes*/
+
+.main-container-padded {
+    padding: 40px 20px;
+}
+
+.oculto {
+    display: none;
+}
+
+.estado-rechazado,
+.estado-rechazada,
+.estado-cancelada,
+.estado-cancelado {
+    background: #6D3A52;
+    color: #fffaf5 !important;
+}
+
+.titulo-historial {
+    margin-top: 40px;
+}
