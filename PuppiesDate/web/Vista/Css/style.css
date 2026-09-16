@@ -2624,7 +2624,8 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 }
 
 .admin-crud-field input,
-.admin-crud-field select{
+.admin-crud-field select,
+.admin-crud-field textarea {
     width: 100%;
     box-sizing: border-box;
     border: 2px solid #e8d7ca;
@@ -2633,14 +2634,21 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     color: #6D3A52;
     font-size: 1rem;
     padding: 12px 13px;
+    font-family: 'Quicksand', sans-serif;
     transition: border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
 .admin-crud-field input:focus,
-.admin-crud-field select:focus {
+.admin-crud-field select:focus,
+.admin-crud-field textarea:focus {
     border-color: #F8B553;
     box-shadow: 0 0 0 4px rgba(223, 125, 69, 0.16);
     outline: none;
+}
+
+.admin-crud-field textarea {
+    min-height: 120px;
+    resize: vertical;
 }
 
 .admin-crud-field input.field-invalid,
@@ -4709,6 +4717,13 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
     white-space: nowrap;
 }
 
+
+.modal-acciones-centradas {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 16px;
+}
 
 /* Botones de acción compactos (una sola palabra, en línea) */
 .admin-crud-acciones {

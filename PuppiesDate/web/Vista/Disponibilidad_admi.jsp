@@ -29,7 +29,7 @@
                     <table class="tabla-lista-admin" id="tablaDisponibilidad">
                         <thead>
                             <tr>
-                                
+
                                 <th>Fecha</th>
                                 <th>Cupo total</th>
                                 <th>Cupo disponible</th>
@@ -49,7 +49,7 @@
                                     data-field-cupoDisponibleDisp="${disp.cupo_disponible}"
                                     data-field-horarioIdDisp="${disp.horarios_idHorarios}">
 
-                                    
+
                                     <td>${disp.fecha}</td>
                                     <td>${disp.cupo_total}</td>
                                     <td>${disp.cupo_disponible}</td>
@@ -130,9 +130,9 @@
                     </div>
 
                     <div class="modal-acciones">
-                        <button type="button" class="btn-admin-peligro solo-edicion" data-open-delete="true">Eliminar</button>
-                        <button type="button" class="btn-admin-secundario" data-cerrar="modal-editar">Cancelar</button>
-                        <button type="submit" class="btn-admin-primario">Guardar</button>
+                        <button type="button" class="admin-crud-btn-danger solo-edicion" data-open-delete="true">Eliminar</button>
+                        <button type="button" class="admin-crud-btn-secondary" data-cerrar="modal-editar">Cancelar</button>
+                        <button type="submit" class="admin-crud-btn-primary">Guardar</button>
                     </div>
                 </form>
             </div>
@@ -143,8 +143,8 @@
             <div class="admin-modal-caja admin-modal-confirmar" role="dialog" aria-modal="true">
                 <h2 class="admin-modal-titulo">¿Está seguro de eliminar este registro?</h2>
                 <div class="modal-acciones">
-                    <button type="button" class="btn-admin-secundario" data-cerrar="modal-confirmar-eliminar">No</button>
-                    <button type="button" class="btn-admin-peligro" data-confirm-delete="true">Sí</button>
+                    <button type="button" class="admin-crud-btn-secondary" data-cerrar="modal-confirmar-eliminar">No</button>
+                    <button type="button" class="admin-crud-btn-danger" data-confirm-delete="true">Sí</button>
                 </div>
             </div>
         </div>

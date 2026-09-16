@@ -79,10 +79,7 @@ public class ApiServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
-    // Misma validación que el servlet web /Iniciar (UsuariosDAO + PasswordUtil), con la misma
-    // estructura simple que handleSolicitudes: usa el DAO, sin manejar conexiones SQL a mano.
-    // Las contraseñas en la BD están encriptadas con BCrypt; PasswordUtil.verificarPassword
-    // ya sabe compararlas correctamente contra el hash guardado.
+   
     private void handleLogin(HttpServletRequest request,
             HttpServletResponse response) throws IOException {
 
@@ -234,8 +231,7 @@ public class ApiServlet extends HttpServlet {
         }
     }
 
-    // Misma lógica y validaciones que el servlet web SolicitudAdopcionCliente, pero
-    // recibiendo idUsuario como parámetro (la app no maneja sesión/cookies web).
+   
     private void handleCrearSolicitud(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 

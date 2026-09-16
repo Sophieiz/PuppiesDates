@@ -10,6 +10,7 @@
         <title>Editar Reserva - SOUL PAWS</title>
         <link rel="stylesheet" href="${ctx}/Vista/Css/style.css">
         <link rel="stylesheet" href="${ctx}/Vista/Css/formulario-reserva-styles.css">
+        <link rel="icon" type="image/png" href="${ctx}/Vista/Imagenes/image.png">
     </head>
     <body class="reserva-page">
         <c:set var="activePage" value="reservas" scope="request"/>

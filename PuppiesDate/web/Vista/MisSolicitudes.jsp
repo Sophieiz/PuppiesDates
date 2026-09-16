@@ -12,7 +12,13 @@
         <title>Mis Solicitudes - SOUL PAWS</title>
         <link rel="stylesheet" href="${ctx}/Vista/Css/style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">    <body>
+        <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">    
+        <link rel="icon" type="image/png" href="${ctx}/Vista/Imagenes/image.png">
+    </head>
+    
+    
+    
+    <body>
         <c:set var="activePage" value="inicio" scope="request"/>
         <%@ include file="Header.jsp" %>
 

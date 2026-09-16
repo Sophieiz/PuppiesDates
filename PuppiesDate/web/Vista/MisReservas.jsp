@@ -63,8 +63,8 @@
                                             <td data-label="Acciones">
                                                 <c:choose>
                                                     <c:when test="${r.modificable}">
-                                                        <a class="btn-mini" href="${ctx}/GestionarReserva?accion=editar&id=${r.idReserva}">Editar</a>
-                                                        <button type="button" class="btn-mini btn-cancelar"
+                                                        <a class="admin-crud-btn-secondary admin-crud-btn-sm" href="${ctx}/GestionarReserva?accion=editar&id=${r.idReserva}">Editar</a>
+                                                        <button type="button" class="admin-crud-btn-danger admin-crud-btn-sm"
                                                                 onclick="abrirModalCancelar(${r.idReserva})">
                                                             Cancelar
                                                         </button>
@@ -136,18 +136,18 @@
                 <button type="button" class="admin-modal-cerrar" onclick="cerrarModalCancelar()">&times;</button>
                 <h3>¿Estás seguro?</h3>
                 <p>Esta acción cancelará tu reserva y no se puede deshacer.</p>
-                <div style="display:flex; gap:10px; justify-content:center; margin-top:16px;">
-                    <button type="button" class="btn-mini" onclick="cerrarModalCancelar()">No, volver</button>
+                <div class="modal-acciones-centradas">
+                    <button type="button" class="admin-crud-btn-secondary" onclick="cerrarModalCancelar()">No, volver</button>
                     <form id="formCancelar" action="${ctx}/GestionarReserva" method="get" style="display:inline;">
                         <input type="hidden" name="accion" value="cancelar">
                         <input type="hidden" name="id" id="idReservaCancelar" value="">
-                        <button type="submit" class="btn-mini btn-cancelar">Sí, cancelar reserva</button>
+                        <button type="submit" class="admin-crud-btn-danger">Sí, cancelar reserva</button>
                     </form>
                 </div>
             </div>
         </div>
 
-        
+
 
         <%@ include file="Footer.jsp" %>
         <script src="${ctx}/Vista/JavaScript/interfaz.js"></script>

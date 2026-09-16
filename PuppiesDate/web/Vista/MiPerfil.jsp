@@ -8,6 +8,7 @@
         <title>Mi Perfil - SOUL PAWS</title>
         <link rel="stylesheet" href="${ctx}/Vista/Css/style.css">
         <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+        <link rel="icon" type="image/png" href="${ctx}/Vista/Imagenes/image.png">
     </head>
     <body class="pagina-formulario">
         <c:set var="activePage" value="perfil" scope="request"/>
