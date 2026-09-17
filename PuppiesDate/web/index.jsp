@@ -44,31 +44,31 @@
             <c:set var="activePage" value="inicio" scope="request"/>
             <%@ include file="Vista/Header.jsp" %>
 
-            <div class="main-container">
-                <main>
-                    <section class="hero-section">
-                        <div class="hero-left">
-                            <h2 class="hero-title">Bienvenidos</h2>
-                            <p class="hero-subtitle">Descubre un concepto único diseñado para interactuar, pasear y conectar con hermosos perritos y gatitos rescatados.</p>
-                            <a href="${ctx}/Iniciar" class="btn-cta-ingresa">Ingresa para Reservar!</a>
-                        </div>
-                        <div class="hero-right">
-                            <div class="carrusel-container">
-                                <div class="carrusel">
-                                    <div class="imagen-contenedor" id="carrusel">
-                                        <img src="${ctx}/Vista/Imagenes/Perrito5.jpg" alt="Perrito 5">
-                                        <img src="${ctx}/Vista/Imagenes/Perrito2.jpg" alt="Perrito 2">
-                                        <img src="${ctx}/Vista/Imagenes/perrito3_1.jpg" alt="perrito 3">
-                                        <img src="${ctx}/Vista/Imagenes/Perrito4.jpg" alt="Perrito 4">
-                                    </div>
-                                    <button type="button" class="btn-carrusel-nav prev" id="left">&#10094;</button>
-                                    <button type="button" class="btn-carrusel-nav next" id="right">&#10095;</button>
-                                </div>
+            <section class="hero-section">
+                <div class="hero-left">
+                    <span class="sello-huella sello-huella-hero icono-paseo" aria-hidden="true"></span>
+                    <h2 class="hero-title">Bienvenidos</h2>
+                    <p class="hero-subtitle">Descubre un concepto único diseñado para interactuar, pasear y conectar con hermosos perritos y gatitos rescatados.</p>
+                    <a href="${ctx}/Iniciar" class="btn-cta-ingresa">
+                        <span class="icono-paseo btn-cta-icono" aria-hidden="true"></span>
+                        Ingresa para Reservar!
+                    </a>
+                </div>
+                <div class="hero-right">
+                    <div class="carrusel-container">
+                        <div class="carrusel">
+                            <div class="imagen-contenedor" id="carrusel">
+                                <img src="${ctx}/Vista/Imagenes/Perrito5.jpg" alt="Perrito 5">
+                                <img src="${ctx}/Vista/Imagenes/Perrito2.jpg" alt="Perrito 2">
+                                <img src="${ctx}/Vista/Imagenes/Gatito2.jpg" alt="Gatito 2">
+                                <img src="${ctx}/Vista/Imagenes/Gatito1.jpg" alt="Gatito 1">
                             </div>
+                            <button type="button" class="btn-carrusel-nav prev" id="left">&#10094;</button>
+                            <button type="button" class="btn-carrusel-nav next" id="right">&#10095;</button>
                         </div>
-                    </section>
-                </main>
-            </div>
+                    </div>
+                </div>
+            </section>
 
             <div class="divisor-nube divisor-a-adopcion"></div>
 
@@ -195,13 +195,16 @@
                         SOUL PAWS nació con un propósito simple: darle una segunda oportunidad a los perritos y gatitos rescatados y crear un espacio donde las personas puedan conocerlos, cuidarlos y, si lo desean, adoptarlos. Desde el primer paseo hasta la primera sesión de yoga con nuestros peluditos, cada actividad está pensada para acercar a las personas al bienestar animal.
                     </p>
                     <div class="grid-actividades">
-                        <div class="bloque-actividad bloque-azul">
-                            <div class="icono-actividad icono-mision"></div>
+                        <div class="bloque-actividad bloque-solida">
+                            <span class="sello-huella icono-paseo" aria-hidden="true"></span>
                             <h3>Nuestra Misión</h3>
                             <p>Conectar a personas y mascotas rescatados a través de actividades y experiencias que promuevan el bienestar animal y faciliten procesos de adopción responsable.</p>
                         </div>
-                        <div class="bloque-actividad bloque-rosa">
-                            <div class="icono-actividad icono-vision"></div>
+                        <div class="rastro-huellas" aria-hidden="true">
+                            <span></span><span></span><span></span>
+                        </div>
+                        <div class="bloque-actividad bloque-contorno">
+                            <span class="sello-huella icono-paseo" aria-hidden="true"></span>
                             <h3>Nuestra Visión</h3>
                             <p>Ser la comunidad de referencia en adopción y cuidado responsable de perritos y gatitos, construyendo un entorno donde cada peludito encuentre un hogar amoroso.</p>
                         </div>
