@@ -155,3 +155,20 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const cortina = document.getElementById('introCortina');
+    const boton = document.getElementById('btnIrSoulPaws');
+
+    if (!cortina || !boton) {
+        return;
+    }
+
+    boton.addEventListener('click', function () {
+        cortina.classList.add('is-hidden');
+        document.body.style.overflow = '';
+    });
+
+    
+    document.body.style.overflow = 'hidden';
+});

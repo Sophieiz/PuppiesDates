@@ -32,6 +32,16 @@
     
     
     <body>   
+        
+        
+    <div class="intro-cortina" id="introCortina">
+        <video id="introVideo" autoplay muted playsinline>
+            <source src="${ctx}/Vista/Video/intro.mp4" type="video/mp4">
+        </video>
+        <button type="button" class="intro-btn-entrar" id="btnIrSoulPaws">Ir a SoulPaws</button>
+    </div>
+
+<div class="page-content-wrapper">
         <c:set var="activePage" value="inicio" scope="request"/>
         <%@ include file="Vista/Header.jsp" %>
 
@@ -214,7 +224,7 @@
         <script>window.ctxApp = "${ctx}";</script>
         <script src="${ctx}/Vista/JavaScript/interfaz.js"></script>
         <script src="${ctx}/Vista/JavaScript/funciones.js"></script>
-
+</div>
 
     </body>
 </html>

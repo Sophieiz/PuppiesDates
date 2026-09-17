@@ -4815,3 +4815,58 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 .titulo-historial {
     margin-top: 40px;
 }
+
+/*INTRO*/
+.intro-cortina {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 9999;
+    overflow: hidden;
+    background-color: #000;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.intro-cortina.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.intro-cortina video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.intro-btn-entrar {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 60px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--white);
+    background-color: var(--plume-green);
+    padding: 16px 38px;
+    border-radius: 30px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+    transition: transform 0.2s ease;
+}
+
+.intro-btn-entrar:hover {
+    transform: translateY(-3px);
+}
+
+.page-content-wrapper {
+    position: relative;
+    background-color: var(--bg-cream);
+}
