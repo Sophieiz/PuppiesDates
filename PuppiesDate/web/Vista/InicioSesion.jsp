@@ -12,8 +12,8 @@
         <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">    
         <link rel="icon" type="image/png" href="${ctx}/Vista/Imagenes/image.png">
     </head>
-    
-    
+
+
     <body class="pagina-formulario">
         <c:set var="activePage" value="inicio" scope="request"/>
         <%@ include file="Header.jsp" %>
@@ -53,6 +53,12 @@
                     <label for="pass">Contraseña</label>
                     <input type="password" name="pass" id="pass" placeholder="Ingresa tu contraseña">
                     <span class="error-mensaje" id="error_pass"></span>
+                </div>
+
+                <div class="intro-cortina" id="introCortina">
+                    <video id="introVideo" autoplay muted playsinline>
+                        <source src="${ctx}/Vista/Video/intro.mp4" type="video/mp4">
+                    </video>
                 </div>
 
                 <a href="${ctx}/RecuperarClave" class="link-olvido-clave">¿Olvidaste tu contraseña?</a>
