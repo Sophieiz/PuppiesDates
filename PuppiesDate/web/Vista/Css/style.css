@@ -435,14 +435,30 @@ body {
 }
 
 /*HERO*/
-.hero-section {
-    display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    align-items: center;
-    gap: 40px;
-    margin-bottom: 60px;
+.carrusel-container {
     position: relative;
-    padding-top: 10px;
+    background: var(--white);
+    padding: 14px;
+    border-radius: 56px 20px 56px 20px;
+    box-shadow: 0 16px 36px rgba(109, 58, 82, 0.14);
+    z-index: 1;
+}
+
+.hero-right::before {
+    content: "";
+    position: absolute;
+    inset: 16px -12px -12px 16px;
+    background-color: var(--sunshine);
+    border-radius: 56px 20px 56px 20px;
+    z-index: 0;
+}
+
+.carrusel {
+    position: relative;
+    width: 100%;
+    height: 380px;
+    border-radius: 44px 12px 44px 12px;
+    overflow: hidden;
 }
 
 /* Textura sutil de huellitas en el fondo del hero */
@@ -513,37 +529,7 @@ body {
     transform: translateY(-2px);
 }
 
-/* MARCO DE FOTO: capas tipo "sticker" en vez de caja con sombra gris */
-.hero-right {
-    position: relative;
-}
 
-.carrusel-container {
-    position: relative;
-    background: var(--white);
-    padding: 14px;
-    border-radius: 40% 60% 55% 45% / 50% 45% 55% 50%;
-    box-shadow: 0 16px 36px rgba(109, 58, 82, 0.14);
-    z-index: 1;
-}
-
-/* Forma de color detrás de la foto, ligeramente desplazada — efecto "sticker" */
-.hero-right::before {
-    content: "";
-    position: absolute;
-    inset: 22px -18px -18px 22px;
-    background-color: var(--sunshine);
-    border-radius: 45% 55% 50% 50% / 55% 45% 55% 45%;
-    z-index: 0;
-}
-
-.carrusel {
-    position: relative;
-    width: 100%;
-    height: 380px;
-    border-radius: 32% 68% 60% 40% / 45% 40% 60% 55%;
-    overflow: hidden;
-}
 
 .btn-carrusel-nav {
     position: absolute;
@@ -4643,7 +4629,7 @@ button[type="button"]:not(.admin-modal-cerrar):not(.admin-crud-close):not(.logou
 }
 
 .icono-paseo {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%239E5A3F"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>');
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%239E5A3F"><circle cx="4.5" cy="9.5" r="2"/><circle cx="9" cy="5.5" r="2.1"/><circle cx="15" cy="5.5" r="2.1"/><circle cx="19.5" cy="9.5" r="2"/><path d="M12 11.5c-3.3 0-6.2 2.2-6.2 5 0 1.9 1.6 3 3.4 3 .9 0 1.6-.4 2.8-.4s1.9.4 2.8.4c1.8 0 3.4-1.1 3.4-3 0-2.8-2.9-5-6.2-5z"/></svg>');
 }
 
 .icono-vision {
