@@ -55,11 +55,6 @@
                     <span class="error-mensaje" id="error_pass"></span>
                 </div>
 
-                <div class="intro-cortina" id="introCortina">
-                    <video id="introVideo" autoplay muted playsinline>
-                        <source src="${ctx}/Vista/Video/intro.mp4" type="video/mp4">
-                    </video>
-                </div>
 
                 <a href="${ctx}/RecuperarClave" class="link-olvido-clave">¿Olvidaste tu contraseña?</a>
                 <button type="submit">Iniciar sesión</button>
