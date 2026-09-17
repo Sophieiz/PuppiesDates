@@ -60,7 +60,7 @@ public class Filtro implements Filter {
             return;
         }
 
-        if (path.endsWith(".css") || path.endsWith(".js") || path.endsWith(".png") || path.endsWith(".jpg")) {
+        if (path.endsWith(".css") || path.endsWith(".js") || path.endsWith(".png") || path.endsWith(".jpg") || path.endsWith(".mp4")) {
             chain.doFilter(request, response);
             return;
         }
