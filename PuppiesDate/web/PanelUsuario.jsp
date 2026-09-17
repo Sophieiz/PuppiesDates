@@ -55,22 +55,18 @@
             <main>
                 <section class="hero-section">
                     <div class="hero-left">
-                        <span class="sello-huella sello-huella-hero icono-paseo" aria-hidden="true"></span>
-                        <h2 class="hero-title">Bienvenidos</h2>
+                        <h2 class="hero-title">Bienvenid@ ${sessionScope.nombreUsuario}</h2>
                         <p class="hero-subtitle">Descubre un concepto único diseñado para interactuar, pasear y conectar con hermosos perritos y gatitos rescatados.</p>
-                        <a href="${ctx}/Iniciar" class="btn-cta-ingresa">
-                            <span class="icono-paseo btn-cta-icono" aria-hidden="true"></span>
-                            Ingresa para Reservar!
-                        </a>
+                        <a href="${ctx}/ReservaCliente" class="btn-cta-ingresa">¡Reserva tu Cita!</a>
                     </div>
                     <div class="hero-right">
                         <div class="carrusel-container">
                             <div class="carrusel">
                                 <div class="imagen-contenedor" id="carrusel">
-                                <img src="${ctx}/Vista/Imagenes/Perrito5.jpg" alt="Perrito 5">
-                                <img src="${ctx}/Vista/Imagenes/Perrito2.jpg" alt="Perrito 2">
-                                <img src="${ctx}/Vista/Imagenes/Gatito2.jpg" alt="Gatito 2">
-                                <img src="${ctx}/Vista/Imagenes/Gatito1.jpg" alt="Gatito 1">
+                                    <img src="${ctx}/Vista/Imagenes/Perrito5.jpg" alt="Perrito 5">
+                                    <img src="${ctx}/Vista/Imagenes/Perrito2.jpg" alt="Perrito 2">
+                                    <img src="${ctx}/Vista/Imagenes/Gatito2.jpg" alt="Gatito 2">
+                                    <img src="${ctx}/Vista/Imagenes/Gatito1.jpg" alt="Gatito 1">
                                 </div>
                                 <button type="button" class="btn-carrusel-nav prev" id="left">&#10094;</button>
                                 <button type="button" class="btn-carrusel-nav next" id="right">&#10095;</button>
@@ -80,6 +76,7 @@
                 </section>
             </main>
         </div>
+
 
         <div class="divisor-nube divisor-a-adopcion"></div>
 

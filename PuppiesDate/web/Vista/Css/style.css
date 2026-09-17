@@ -435,101 +435,90 @@ body {
 }
 
 /*HERO*/
-.carrusel-container {
-    position: relative;
-    background: var(--white);
-    padding: 14px;
-    border-radius: 56px 20px 56px 20px;
-    box-shadow: 0 16px 36px rgba(109, 58, 82, 0.14);
-    z-index: 1;
-}
-
-.hero-right::before {
-    content: "";
-    position: absolute;
-    inset: 16px -12px -12px 16px;
-    background-color: var(--sunshine);
-    border-radius: 56px 20px 56px 20px;
-    z-index: 0;
-}
-
-.carrusel {
-    position: relative;
-    width: 100%;
-    height: 380px;
-    border-radius: 44px 12px 44px 12px;
-    overflow: hidden;
-}
-
-/* Textura sutil de huellitas en el fondo del hero */
-.hero-section::before {
-    content: "";
-    position: absolute;
-    inset: -20px -20px auto -20px;
-    height: 480px;
-    z-index: -1;
-    opacity: 0.06;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" viewBox="0 0 24 24" fill="%236D3A52"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>');
-    background-repeat: space;
-    background-size: 90px 90px;
+.hero-section {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 60px;
 }
 
 .hero-left {
-    position: relative;
-}
-
-.sello-huella-hero {
-    position: static;
-    display: inline-block;
-    width: 46px;
-    height: 46px;
-    background-color: var(--pistachio);
-    border-radius: 50%;
-    background-size: 24px;
-    background-repeat: no-repeat;
-    background-position: center;
-    transform: rotate(-12deg);
-    margin-bottom: 14px;
-    box-shadow: 0 6px 14px rgba(109, 58, 82, 0.16);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .hero-title {
     font-family: 'Fredoka', sans-serif;
-    font-size: clamp(2.4rem, 4vw, 3.5rem);
+    font-size: 3.5rem;
     font-weight: 700;
     color: var(--wild-brown);
     margin-bottom: 15px;
 }
 
+.hero-subtitle {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: var(--text-dark);
+    margin-bottom: 35px;
+    max-width: 480px;
+}
+
+.hero-motivacional {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #DA74A3;
+    margin: 10px 0 18px;
+}
+
 .btn-cta-ingresa {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
+    display: inline-block;
     text-decoration: none;
     font-family: 'Fredoka', sans-serif;
     font-weight: 600;
     font-size: 1.2rem;
     background-color: var(--plume-green);
     color: var(--white);
-    padding: 15px 32px 15px 22px;
+    padding: 15px 35px;
     border-radius: 30px;
     box-shadow: 0 8px 20px rgba(163, 197, 182, 0.4);
     transition: transform 0.2s ease;
-}
-
-.btn-cta-icono {
-    width: 22px;
-    height: 22px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    filter: brightness(0) invert(1);
 }
 
 .btn-cta-ingresa:hover {
     transform: translateY(-2px);
 }
 
+/*CARRUSEL */
+.carrusel-container {
+    background: var(--white);
+    padding: 14px;
+    border-radius: 45px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+}
 
+.carrusel {
+    position: relative;
+    width: 100%;
+    height: 380px;
+    border-radius: 35px;
+    overflow: hidden;
+}
+
+.imagen-contenedor {
+    display: flex;
+    width: 400%;
+    height: 100%;
+    transition: transform 0.4s ease-in-out;
+}
+
+.imagen-contenedor img {
+    width: 25%;
+    height: 100%;
+    object-fit: cover;
+}
 
 .btn-carrusel-nav {
     position: absolute;
@@ -537,46 +526,37 @@ body {
     transform: translateY(-50%);
     background: var(--white);
     border: none;
-    width: 48px !important;
-    height: 48px !important;
-    border-radius: 50% !important;
+    
+    
+    width: 46px !important;
+    height: 46px !important;
+    border-radius: 50% !important; 
+    
+    
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    font-size: 0;
+    
+    
+    font-size: 1.2rem;
+    color: var(--wild-brown);
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
-    z-index: 10;
-    transition: transform 0.2s ease, background-color 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 10; 
+    transition: background-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
 }
 
-.btn-carrusel-nav::before {
-    content: "";
-    width: 20px;
-    height: 20px;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%236D3A52"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>');
-    background-size: contain;
-    background-repeat: no-repeat;
-}
 
-.prev { left: 16px; }
-.prev::before { transform: scaleX(-1); }
-.next { right: 16px; }
+.prev { left: 20px; }
+.next { right: 20px; }
+
 
 .btn-carrusel-nav:hover {
     background-color: var(--plume-green);
+    color: var(--white);
     transform: translateY(-50%) scale(1.1);
 }
 
-.btn-carrusel-nav:hover::before {
-    filter: brightness(0) invert(1);
-}
-
-@media (max-width: 900px) {
-    .hero-right::before {
-        inset: 14px -10px -10px 14px;
-    }
-}
 
 
 
