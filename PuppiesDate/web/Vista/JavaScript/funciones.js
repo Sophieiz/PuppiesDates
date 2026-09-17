@@ -158,17 +158,53 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.addEventListener('DOMContentLoaded', function () {
     const cortina = document.getElementById('introCortina');
-    const boton = document.getElementById('btnIrSoulPaws');
+    const video = document.getElementById('introVideo');
 
-    if (!cortina || !boton) {
+    if (!cortina || !video) {
         return;
     }
 
-    boton.addEventListener('click', function () {
+    const TIEMPO_INACTIVIDAD = 5 * 60 * 1000; // 5 minutos
+    let timeoutInactividad = null;
+    let timeoutTransicion = null;
+
+    function ocultarCortina() {
         cortina.classList.add('is-hidden');
         document.body.style.overflow = '';
+    }
+
+    function mostrarCortina() {
+        cortina.classList.remove('is-hidden');
+        document.body.style.overflow = 'hidden';
+        video.currentTime = 0;
+        video.play().catch(function () {});
+        programarTransicion();
+    }
+
+    function programarTransicion() {
+        clearTimeout(timeoutTransicion);
+    
+        const duracionMs = video.duration && isFinite(video.duration)
+            ? video.duration * 1000
+            : 8000;
+        timeoutTransicion = setTimeout(ocultarCortina, duracionMs);
+    }
+
+    function reiniciarTemporizadorInactividad() {
+        clearTimeout(timeoutInactividad);
+        timeoutInactividad = setTimeout(mostrarCortina, TIEMPO_INACTIVIDAD);
+    }
+
+    video.addEventListener('error', ocultarCortina);
+
+    video.addEventListener('loadedmetadata', programarTransicion);
+
+    document.body.style.overflow = 'hidden';
+    programarTransicion();
+
+    ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart'].forEach(function (evento) {
+        document.addEventListener(evento, reiniciarTemporizadorInactividad, { passive: true });
     });
 
-    
-    document.body.style.overflow = 'hidden';
+    reiniciarTemporizadorInactividad();
 });

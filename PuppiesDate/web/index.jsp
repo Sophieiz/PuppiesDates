@@ -38,7 +38,6 @@
         <video id="introVideo" autoplay muted playsinline>
             <source src="${ctx}/Vista/Video/intro.mp4" type="video/mp4">
         </video>
-        <button type="button" class="intro-btn-entrar" id="btnIrSoulPaws">Ir a SoulPaws</button>
     </div>
 
 <div class="page-content-wrapper">
