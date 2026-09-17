@@ -44,89 +44,43 @@
                 <p class="sin-perritos">Por ahora no hay perritos disponibles para adopción. ¡Vuelve pronto!</p>
             </c:when>
             <c:otherwise>
-
-                <h2 class="titulo-seccion">🐶 Perritos en adopción</h2>
-                <div class="grid-adopcion grid-adopcion-catalogo" id="gridPerros">
+                <div class="grid-adopcion grid-adopcion-catalogo" id="gridPerritos">
                     <c:forEach var="perrito" items="${listaPerritos}" varStatus="i">
-                        <c:if test="${fn:toLowerCase(perrito.descripcionEspecie) == 'perro'}">
-                            <c:set var="colorBorde" value="${i.index % 3 == 0 ? 'card-borde-rosa' : (i.index % 3 == 1 ? 'card-borde-azul' : 'card-borde-mostaza')}"/>
-                            <c:set var="colorTag" value="${i.index % 3 == 0 ? 'bg-tag-rosa' : (i.index % 3 == 1 ? 'bg-tag-azul' : 'bg-tag-mostaza')}"/>
-                            <div class="tarjeta-perrito ${colorBorde}" data-raza="${fn:toLowerCase(perrito.descripcionRaza)}" data-especie="${fn:toLowerCase(perrito.descripcionEspecie)}">
+                        <c:set var="colorBorde" value="${i.index % 3 == 0 ? 'card-borde-rosa' : (i.index % 3 == 1 ? 'card-borde-azul' : 'card-borde-mostaza')}"/>
+                        <c:set var="colorTag" value="${i.index % 3 == 0 ? 'bg-tag-rosa' : (i.index % 3 == 1 ? 'bg-tag-azul' : 'bg-tag-mostaza')}"/>
+                        <div class="tarjeta-perrito ${colorBorde}" data-raza="${fn:toLowerCase(perrito.descripcionRaza)}" data-especie="${fn:toLowerCase(perrito.descripcionEspecie)}">
 
-                                <div class="contenedor-foto-catalogo">
-                                    <c:choose>
-                                        <c:when test="${not empty perrito.foto}">
-                                            <img src="${fn:startsWith(perrito.foto, 'http') ? perrito.foto : ctx.concat('/').concat(perrito.foto)}"
-                                                 alt="Foto de ${perrito.nombre}"
-                                                 onerror="this.onerror=null; this.src='${ctx}/Vista/Imagenes/Perrito1.jpg';" />
-                                        </c:when>
-                                        <c:otherwise>
-                                            <div class="avatar-perrito"></div>
-                                        </c:otherwise>
-                                    </c:choose>
+                            <div class="contenedor-foto-catalogo">
+                                <c:choose>
+                                    <c:when test="${not empty perrito.foto}">
+                                        <img src="${fn:startsWith(perrito.foto, 'http') ? perrito.foto : ctx.concat('/').concat(perrito.foto)}"
+                                             alt="Foto de ${perrito.nombre}"
+                                             onerror="this.onerror=null; this.src='${ctx}/Vista/Imagenes/Perrito1.jpg';" />
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="avatar-perrito"></div>
+                                    </c:otherwise>
+                                </c:choose>
 
-                                    <c:if test="${not empty perrito.etapa_madurez}">
-                                        <span class="tag-edad ${colorTag}">${perrito.etapa_madurez}</span>
-                                    </c:if>
-                                </div>
-
-                                <div class="info-card-body">
-                                    <h3>${perrito.nombre}</h3>
-                                    <p>${perrito.descripcionRaza}${not empty perrito.descripcionRaza ? ' · ' : ''}${perrito.descripcionSexo}</p>
-
-                                    <a href="${ctx}/SolicitudAdopcionCliente?idPerrito=${perrito.idPerrito}"
-                                       class="estado-adopcion js-adoption-modal-link"
-                                       data-id="${perrito.idPerrito}">
-                                        Quiero adoptarlo
-                                    </a>
-                                </div>
-
+                                <c:if test="${not empty perrito.etapa_madurez}">
+                                    <span class="tag-edad ${colorTag}">${perrito.etapa_madurez}</span>
+                                </c:if>
                             </div>
-                        </c:if>
+
+                            <div class="info-card-body">
+                                <h3>${perrito.nombre}</h3>
+                                <p>${perrito.descripcionRaza}${not empty perrito.descripcionRaza ? ' · ' : ''}${perrito.descripcionSexo}</p>
+
+                                <a href="${ctx}/SolicitudAdopcionCliente?idPerrito=${perrito.idPerrito}" 
+                                   class="estado-adopcion js-adoption-modal-link"
+                                   data-id="${perrito.idPerrito}">
+                                    Quiero adoptarlo
+                                </a>
+                            </div>
+
+                        </div>
                     </c:forEach>
                 </div>
-
-                <h2 class="titulo-seccion">🐱 Gatitos en adopción</h2>
-                <div class="grid-adopcion grid-adopcion-catalogo" id="gridGatos">
-                    <c:forEach var="perrito" items="${listaPerritos}" varStatus="i">
-                        <c:if test="${fn:toLowerCase(perrito.descripcionEspecie) == 'gato'}">
-                            <c:set var="colorBorde" value="${i.index % 3 == 0 ? 'card-borde-rosa' : (i.index % 3 == 1 ? 'card-borde-azul' : 'card-borde-mostaza')}"/>
-                            <c:set var="colorTag" value="${i.index % 3 == 0 ? 'bg-tag-rosa' : (i.index % 3 == 1 ? 'bg-tag-azul' : 'bg-tag-mostaza')}"/>
-                            <div class="tarjeta-perrito ${colorBorde}" data-raza="${fn:toLowerCase(perrito.descripcionRaza)}" data-especie="${fn:toLowerCase(perrito.descripcionEspecie)}">
-
-                                <div class="contenedor-foto-catalogo">
-                                    <c:choose>
-                                        <c:when test="${not empty perrito.foto}">
-                                            <img src="${fn:startsWith(perrito.foto, 'http') ? perrito.foto : ctx.concat('/').concat(perrito.foto)}"
-                                                 alt="Foto de ${perrito.nombre}"
-                                                 onerror="this.onerror=null; this.src='${ctx}/Vista/Imagenes/Perrito1.jpg';" />
-                                        </c:when>
-                                        <c:otherwise>
-                                            <div class="avatar-perrito"></div>
-                                        </c:otherwise>
-                                    </c:choose>
-
-                                    <c:if test="${not empty perrito.etapa_madurez}">
-                                        <span class="tag-edad ${colorTag}">${perrito.etapa_madurez}</span>
-                                    </c:if>
-                                </div>
-
-                                <div class="info-card-body">
-                                    <h3>${perrito.nombre}</h3>
-                                    <p>${perrito.descripcionRaza}${not empty perrito.descripcionRaza ? ' · ' : ''}${perrito.descripcionSexo}</p>
-
-                                    <a href="${ctx}/SolicitudAdopcionCliente?idPerrito=${perrito.idPerrito}"
-                                       class="estado-adopcion js-adoption-modal-link"
-                                       data-id="${perrito.idPerrito}">
-                                        Quiero adoptarlo
-                                    </a>
-                                </div>
-
-                            </div>
-                        </c:if>
-                    </c:forEach>
-                </div>
-
                 <p class="sin-perritos sin-resultados-filtro" id="sinResultadosFiltro" style="display:none;">
                     No encontramos perritos de esa raza. Prueba con otra.
                 </p>
