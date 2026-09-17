@@ -164,47 +164,38 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
-    const TIEMPO_INACTIVIDAD = 5 * 60 * 1000; // 5 minutos
-    let timeoutInactividad = null;
-    let timeoutTransicion = null;
+    const TIEMPO_INACTIVIDAD = 5 * 60 * 1000; 
 
-    function ocultarCortina() {
-        cortina.classList.add('is-hidden');
-        document.body.style.overflow = '';
-    }
+    let timeoutInactividad = null;
 
     function mostrarCortina() {
         cortina.classList.remove('is-hidden');
         document.body.style.overflow = 'hidden';
         video.currentTime = 0;
         video.play().catch(function () {});
-        programarTransicion();
     }
 
-    function programarTransicion() {
-        clearTimeout(timeoutTransicion);
-    
-        const duracionMs = video.duration && isFinite(video.duration)
-            ? video.duration * 1000
-            : 8000;
-        timeoutTransicion = setTimeout(ocultarCortina, duracionMs);
+    function ocultarCortina() {
+        cortina.classList.add('is-hidden');
+        document.body.style.overflow = '';
+        video.pause();
     }
 
     function reiniciarTemporizadorInactividad() {
         clearTimeout(timeoutInactividad);
+
+        
+        if (!cortina.classList.contains('is-hidden')) {
+            ocultarCortina();
+        }
+
         timeoutInactividad = setTimeout(mostrarCortina, TIEMPO_INACTIVIDAD);
     }
-
-    video.addEventListener('error', ocultarCortina);
-
-    video.addEventListener('loadedmetadata', programarTransicion);
-
-    document.body.style.overflow = 'hidden';
-    programarTransicion();
 
     ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart'].forEach(function (evento) {
         document.addEventListener(evento, reiniciarTemporizadorInactividad, { passive: true });
     });
 
+    
     reiniciarTemporizadorInactividad();
 });
