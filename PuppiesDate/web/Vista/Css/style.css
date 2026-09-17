@@ -661,6 +661,8 @@ body {
 .card-borde-rosa { border-color: var(--plume-pink); }
 .card-borde-azul { border-color: var(--pistachio); }
 .card-borde-mostaza { border-color: var(--wild-mustard); }
+.card-borde-verde { border-color: var(--succulent); }
+.bg-tag-verde { background-color: var(--succulent); }
 
 .tag-edad {
     position: absolute;

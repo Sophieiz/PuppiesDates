@@ -86,6 +86,7 @@ public class Filtro implements Filter {
                 || path.contains("RecuperarClave")
                 || path.contains("RestablecerClave")
                 || path.contains("CatalogoPerritos")
+                || path.contains("Actividades")
                 || path.contains("SolicitudAdopcionCliente")) {
             chain.doFilter(request, response);
             return;
