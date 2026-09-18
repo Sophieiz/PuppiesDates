@@ -55,7 +55,7 @@
             <main>
                 <section class="hero-section">
                     <div class="hero-left">
-                        <h2 class="hero-title">Bienvenid@ ${sessionScope.nombreUsuario}</h2>
+                        <h2 class="hero-title">Bienvenid🐾 ${sessionScope.nombreUsuario}</h2>
                         <p class="hero-subtitle">Descubre un concepto único diseñado para interactuar, pasear y conectar con hermosos perritos y gatitos rescatados.</p>
                         <a href="${ctx}/ReservaCliente" class="btn-cta-ingresa">¡Reserva tu Cita!</a>
                     </div>
