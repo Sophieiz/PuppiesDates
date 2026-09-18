@@ -14,11 +14,11 @@
         <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">    
         <link rel="icon" type="image/png" href="${ctx}/Vista/Imagenes/image.png">
     </head>
-    
-    
-    
+
+
+
     <body class="reserva-page">
-            
+
         <c:set var="activePage" value="reservas" scope="request"/>
         <%@ include file="Header.jsp" %>
 
@@ -79,7 +79,7 @@
             </c:choose>
 
         </div>
-
+        <script src="${ctx}/Vista/JavaScript/interfaz.js"></script>
         <%@ include file="Footer.jsp" %>
     </body>
 </html>
