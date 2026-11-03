@@ -10,8 +10,6 @@ public class Recuperacion_claveDAO {
 
     private final Conexion conexion = new Conexion();
 
-    // Ahora es MySQL (con NOW()) quien calcula fecha_creacion y fecha_expiracion,
-    // así nunca hay desfase de zona horaria entre el servidor Java y la base de datos.
     public boolean insertarToken(String token, int idUsuario, int minutosValidez) {
         boolean insertado = false;
         String sql = "INSERT INTO recuperacion_clave (token, fecha_creacion, fecha_expiracion, usado, Usuarios_idUsuarios) "
@@ -33,7 +31,7 @@ public class Recuperacion_claveDAO {
         return insertado;
     }
 
-    // Devuelve el token solo si existe, no ha sido usado, y no ha expirado. Si no, devuelve null.
+    // Devuelve el token solo si existe, no ha sido usado, y no ha expirado. Si no, devuelve null
     public Recuperacion_clave buscarTokenValido(String token) {
         Recuperacion_clave recuperacion = null;
         String sql = "SELECT r.idRecuperacion_clave, r.token, r.fecha_creacion, r.fecha_expiracion, r.usado, "

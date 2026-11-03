@@ -12,7 +12,7 @@ public class RazaDAO {
 
     private final Conexion conexion = new Conexion();
 
-    // Trae todas las razas activas, sin importar la especie
+    
     public List<Raza> listarRaza() {
         List<Raza> lista = new ArrayList<>();
         String sql = "SELECT idRaza, nombre, Especie_idEspecie FROM raza WHERE activo = 1";
@@ -30,7 +30,7 @@ public class RazaDAO {
         return lista;
     }
 
-    // Útil para cuando el formulario filtra razas dependiendo de la especie elegida (ej. con AJAX)
+    
     public List<Raza> listarRazaPorEspecie(int idEspecie) {
         List<Raza> lista = new ArrayList<>();
         String sql = "SELECT idRaza, nombre, Especie_idEspecie FROM raza WHERE activo = 1 AND Especie_idEspecie = ?";

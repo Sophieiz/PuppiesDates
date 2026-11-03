@@ -278,9 +278,7 @@ public class UsuariosDAO {
         return existe;
     }
 
-    // ======================================================================
-    // MÉTODOS AGREGADOS PARA LA RECUPERACIÓN DE CONTRASEÑA
-    // ======================================================================
+    
 
     public Usuarios ConsultarUsuarioPorCorreo(String correo) {
         Usuarios usuario = null;

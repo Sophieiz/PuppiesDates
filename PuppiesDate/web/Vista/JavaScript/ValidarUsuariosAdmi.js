@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
         nombre: /^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]{2,}$/,
         documento: /^[A-Za-z0-9]{6,15}$/,
         telefono: /^[0-9]{10}$/,
-        correo: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        correo: /^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/
     };
 
     const MENSAJES = {

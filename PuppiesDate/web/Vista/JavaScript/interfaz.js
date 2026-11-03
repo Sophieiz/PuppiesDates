@@ -83,9 +83,7 @@ function configurarModalAdopcion() {
         });
     });
 
-    // Interceptar el envío del formulario de adopción para que no navegue
-    // fuera del modal (el form se inyecta dinámicamente, por eso usamos
-    // delegación de eventos sobre "content" en vez de buscar el form directo).
+   
     content.addEventListener("submit", async (event) => {
         const form = event.target;
         if (!form.matches('form[action*="SolicitudAdopcionCliente"]')) {
@@ -203,9 +201,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-// Inicializa el modal de adopción (sin esta llamada, los links
-// "Quiero adoptarlo" nunca reciben preventDefault() y el navegador navega
-// directo al servlet en vez de abrir el modal).
+
 document.addEventListener('DOMContentLoaded', function () {
     configurarModalAdopcion();
 });

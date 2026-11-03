@@ -1086,7 +1086,8 @@ body {
     opacity: 0.5;
 }
 
-.Formulario label {
+.Formulario label,
+.Formulario .etiqueta-reserva {
     display: block;
     font-weight: 700;
     font-size: 0.92rem;

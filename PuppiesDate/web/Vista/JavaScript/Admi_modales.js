@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (input.tagName === 'SELECT') {
                 valid = value !== '';
             } else if (input.type === 'email') {
-                valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+                valid = /^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/.test(value);
                 message = 'El correo no tiene un formato válido.';
             } else if (input.type === 'number') {
                 const numberValue = Number(value);
